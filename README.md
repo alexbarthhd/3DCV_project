@@ -4,13 +4,13 @@ self driving toy car
 
 ## orga
 
-* **Deadline**: 02.10.2020
+* next meeting: **Tuesday, 11.08.2020, 11.00**
+* **deadline: 02.10.2020**
 * report
   * min. 8 pages
   * explain taken steps
   * experiments and results
 * supervisor: raphael.baumgartner@stud.uni-heidelberg.de
-* [ ] weekly or bi-weekly meeting?
 
 ## Tasks
 
