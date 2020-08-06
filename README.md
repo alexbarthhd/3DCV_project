@@ -7,6 +7,7 @@ self driving toy car
 * next meeting: **Tuesday, 11.08.2020, 11.00**
 * **deadline: 02.10.2020**
 * report
+  * Introduction, Related Work, Method, Experiments, Conclusion
   * min. 8 pages
   * explain taken steps
   * experiments and results
