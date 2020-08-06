@@ -7,7 +7,8 @@ self driving toy car
 * next meeting: **Tuesday, 11.08.2020, 11.00**
 * **deadline: 02.10.2020**
 * report
-  * Introduction, Related Work, Method, Experiments, Conclusion
+  * introduction, related work, method, experiments, conclusion
+  * template: https://www.ieee.org/conferences/publishing/templates.html
   * min. 8 pages
   * explain taken steps
   * experiments and results
