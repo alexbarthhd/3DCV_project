@@ -36,3 +36,18 @@ self driving toy car
 * Website: https://www.donkeycar.com/
 * Documentation: http://docs.donkeycar.com/
 * Hardware: https://www.robocarstore.com/products/donkey-car-starter-kit
+
+## Notes
+
+* kein RGB notwendig
+* Strecke bisher: weiß / nicht-farbig, Rand schwarz markiert, Maße etwa 4 x 4 &rarr; Ränder erkennen und Räder entsprechend einstellen, Begrenzung erkennen
+* ROS möglich
+* Containerisieren ?
+* mehr Richtung Deep Learning statt Visualisierung
+* OpenCV Ansatz vs Image-processing Netz &rarr; Analyse, Zeit pro Runde, Genauigkeit 
+* Wettbewerb gegen andere Gruppen? &rarr; Raphael klärt Interesse, gegebenenfalls Mathematikon Innenhof oder nacheinander in Gruppenlabor
+* an sich auch über Laptop statt Raspberry Pi möglich
+* Reinforcement Learning auch mit PyTorch möglich
+* Raphael klingt begeistert von Reinforcement mit Dagger &rarr; schneller, weniger Daten
+* eigenes Betriebssystem? &rarr; Doku, bei Problemen schickt er uns Projektbericht von letztem Jahr
+
