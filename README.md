@@ -44,7 +44,7 @@ self driving toy car
 * ROS möglich
 * Containerisieren ?
 * mehr Richtung Deep Learning statt Visualisierung
- - Verschiedene Netzwerke mit einander vergleichen
+* Verschiedene Neuronale Netzwerke mit einander vergleichen
 * OpenCV Ansatz vs Image-processing Netz &rarr; Analyse, Zeit pro Runde, Genauigkeit 
 * Wettbewerb gegen andere Gruppen? &rarr; Raphael klärt Interesse, gegebenenfalls Mathematikon Innenhof oder nacheinander in Gruppenlabor
 * an sich auch über Laptop statt Raspberry Pi möglich
