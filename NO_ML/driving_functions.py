@@ -2,7 +2,7 @@ import Adafruit_PCA9685
 
 
 def steering(angle):
-    ''' converts steeringangle into pwm-singnal '''
+    ''' converts steeringangle into pwm-signal '''
     pwm = Adafruit_PCA9685.PCA9685()
     pwm.set_pwm_freq(60)
 
