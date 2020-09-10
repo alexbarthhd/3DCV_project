@@ -4,6 +4,7 @@ import Adafruit_PCA9685
 def steering(angle):
     ''' converts steeringangle into pwm-singnal '''
     pwm = Adafruit_PCA9685.PCA9685()
+    pwm.set_pwm_freq(60)
 
     if -25 <= angle <= 25:
         # left:
@@ -18,6 +19,10 @@ def steering(angle):
         elif angle == 0:
             pulse_length = 380
 
-        pwm.set_pwm(1, 0, pulse_length)
+        pwm.set_pwm(1, 0, int(pulse_length))
     else:
         print("angle out of range")
+
+
+def motor_ctrl():
+    pass
