@@ -11,10 +11,16 @@ if __name__ == "__main__":
     # max left:
     steering(-25)
     time.sleep(3)
+    steering(-25)
+    time.sleep(3)
 
     # "medium" right:
+    steering(25)
+    time.sleep(3)
     steering(12.5)
     time.sleep(3)
 
     # "medium" left:
+    steering(-25)
+    time.sleep(3)
     steering(-12.5)
