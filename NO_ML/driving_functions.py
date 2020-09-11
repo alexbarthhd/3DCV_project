@@ -9,11 +9,11 @@ def steering(angle):
     if -25 <= angle <= 25:
         # left:
         if angle < 0:
-            pulse_length = (-5/22) * angle + (950/11)
+            pulse_length = (-5/22) * angle + 380
 
         # right:
         elif angle > 0:
-            pulse_length = (-5/18) * angle + (950/9)
+            pulse_length = (-18/5) * angle + 380
 
         # center:
         elif angle == 0:
