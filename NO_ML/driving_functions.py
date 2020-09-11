@@ -13,7 +13,7 @@ def steering(angle, pwm):
     if -25 <= angle <= 25:
         # left:
         if angle < 0:
-            pulse_length = (-5/22) * angle + 380
+            pulse_length = (-22/5) * angle + 380
 
         # right:
         elif angle > 0:
