@@ -2,7 +2,7 @@ import Adafruit_PCA9685
 
 
 def steering(angle):
-    ''' converts steeringangle into pwm-signal '''
+    ''' converts steeringangle in degrees into pwm-signal '''
     pwm = Adafruit_PCA9685.PCA9685()
     pwm.set_pwm_freq(60)
 
@@ -24,5 +24,22 @@ def steering(angle):
         print("angle out of range")
 
 
-def motor_ctrl():
-    pass
+def motor_ctrl(acceleration):
+    ''' converts acceleration in % into pwm-signal '''
+    pwm = Adafruit_PCA9685.PCA9685()
+    pwm.set_pwm_freq(60)
+
+    if -100 <= acceleration <= 100:
+        # forwards:
+        if acceleration > 0:
+            pass
+
+        # backwards:
+        elif acceleration < 0:
+            pass
+
+        # stop:
+        elif acceleration == 0:
+            pass
+    else:
+        print("acceleration out of range")
