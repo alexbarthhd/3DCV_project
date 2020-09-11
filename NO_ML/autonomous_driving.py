@@ -21,6 +21,6 @@ if __name__ == "__main__":
     time.sleep(3)
 
     # "medium" left:
-    steering(-25)
+    steering(-12.5)
     time.sleep(3)
     steering(-12.5)
