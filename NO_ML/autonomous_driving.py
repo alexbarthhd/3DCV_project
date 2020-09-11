@@ -3,7 +3,7 @@ import time
 from driving_functions import steering, motor_ctrl
 
 
-if "__name__" == "__main__":
+if __name__ == "__main__":
     # max right:
     steering(25)
     time.sleep(3)
