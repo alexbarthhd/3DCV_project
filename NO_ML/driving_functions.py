@@ -13,11 +13,11 @@ def steering(angle, pwm):
     if -25 <= angle <= 25:
         # left:
         if angle < 0:
-            pulse_length = (-22/5) * angle + 380
+            pulse_length = -4.4 * angle + 380
 
         # right:
         elif angle > 0:
-            pulse_length = (-18/5) * angle + 380
+            pulse_length = -3.6 * angle + 380
 
         # center:
         elif angle == 0:
@@ -33,14 +33,14 @@ def motor_ctrl(acceleration, pwm):
     if -100 <= acceleration <= 100:
         # forwards:
         if acceleration > 0:
-            pass
+            pulse_length = 1.4 * acceleration + 360
 
         # backwards:
         elif acceleration < 0:
-            pass
+            pulse_length = 0.6 * acceleration + 360
 
         # stop:
         elif acceleration == 0:
-            pass
+            pulse_length = 360
     else:
         print("acceleration out of range")
