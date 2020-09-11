@@ -42,5 +42,7 @@ def motor_ctrl(acceleration, pwm):
         # stop:
         elif acceleration == 0:
             pulse_length = 360
+            
+        pwm.set_pwm(0, 0, int(pulse_length))
     else:
         print("acceleration out of range")
