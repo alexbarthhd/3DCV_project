@@ -4,6 +4,16 @@ import numpy as np
 from dataclasses import dataclass, field
 
 
+def lane_detection(func):
+    ''' decorator to detect lanes in video frame '''
+    def func_wrapper(*args, **kwargs):
+        frame = func(*args, **kwargs)
+
+        return frame
+
+    return func_wrapper
+
+
 @dataclass
 class Video:
     '''
@@ -25,16 +35,6 @@ class Video:
         ret, frame = self.cap.read()
         if ret:
             return frame
-
-
-def lane_detection(func):
-    ''' decorator to detect lanes in video frame '''
-    def func_wrapper(*args, **kwargs):
-        frame = func(*args, **kwargs)
-
-        return frame
-
-    return func_wrapper
 
 
 if __name__ == "__main__":
