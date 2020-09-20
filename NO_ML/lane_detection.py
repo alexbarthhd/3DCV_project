@@ -13,7 +13,7 @@ def lane_detection(func):
 
         # TODO: to grayscale and tresholding
         frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        ret, frame_tresh = cv2.threshold(frame_gray, 130, 145, cv2.THRESH_BINARY)
+        ret, frame_tresh = cv2.threshold(frame_gray, 127, 255, cv2.THRESH_BINARY)
 
         # TODO: Hough line transformation
 
