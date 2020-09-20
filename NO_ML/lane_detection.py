@@ -10,14 +10,15 @@ def lane_detection(func):
         frame = func(*args, **kwargs)
 
         # TODO: detect ROI
+        black = np.zeros((288, 352, 1), dtype=np.uint8)
 
         # TODO: to grayscale and tresholding
         frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        ret, frame_tresh = cv2.threshold(frame_gray, 80, 255, cv2.THRESH_BINARY)
+        frame_binary = cv2.threshold(frame_gray, 80, 255, cv2.THRESH_BINARY)[1]
 
         # TODO: Hough line transformation
 
-        return frame_tresh
+        return frame_binary, black
 
     return func_wrapper
 
@@ -49,8 +50,9 @@ if __name__ == "__main__":
     video = Video(0, 352, 288)
 
     while True:
-        frame = video.get_frame()
+        frame, stencil = video.get_frame()
         cv2.imshow("frame", frame)
+        cv2.imshow("black", stencil)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
