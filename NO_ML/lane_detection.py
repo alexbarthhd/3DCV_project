@@ -27,7 +27,7 @@ class Video:
 
 
 if __name__ == "__main__":
-    video = Video(cv2.CAP_DSHOW, 352, 288)
+    video = Video(0, 352, 288)
 
     while True:
         frame = video.get_frame()
