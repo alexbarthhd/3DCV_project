@@ -14,7 +14,7 @@ def lane_detection(func):
         roi = np.array([[0, 288], [0, 230], [88, 130], [264, 130], [352, 230],
                         [352, 288]])
 
-        stencil = cv2.fillConvexPoly(black, roi, 1)
+        stencil = cv2.fillConvexPoly(black, roi, 255)
 
         # TODO: to grayscale and tresholding
         frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
