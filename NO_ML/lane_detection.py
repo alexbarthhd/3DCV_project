@@ -18,7 +18,7 @@ def lane_detection(func):
         # roi_frame = cv2.bitwise_and(frame, frame, mask=stencil)
 
         # TODO: to grayscale and tresholding
-        frame_gray = cv2.cvtColor(roi_frame, cv2.COLOR_BGR2GRAY)
+        frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         frame_binary = cv2.threshold(frame_gray, 80, 255, cv2.THRESH_BINARY)[1]
         roi_frame = cv2.add(frame_binary, stencil)
 
