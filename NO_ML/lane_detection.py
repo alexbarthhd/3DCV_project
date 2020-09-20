@@ -10,11 +10,11 @@ def lane_detection(func):
         frame = func(*args, **kwargs)
 
         # TODO: detect ROI
-        black = np.zeros((288, 352, 1), dtype=np.uint8)
+        white = np.ones((288, 352, 1), dtype=np.uint8) * 255
         roi = np.array([[0, 288], [0, 230], [88, 130], [264, 130], [352, 230],
                         [352, 288]])
 
-        stencil = cv2.fillConvexPoly(black, roi, 1)
+        stencil = cv2.fillConvexPoly(white, roi, 1)
         roi_frame = cv2.bitwise_and(frame, frame, mask=stencil)
 
         # TODO: to grayscale and tresholding
