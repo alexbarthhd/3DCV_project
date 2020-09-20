@@ -20,10 +20,21 @@ class Video:
         self.cap.set(3, self.width)
         self.cap.set(4, self.height)
 
+    @lane_detection
     def get_frame(self):
         ret, frame = self.cap.read()
         if ret:
             return frame
+
+
+def lane_detection(func):
+    ''' decorator to detect lanes in video frame '''
+    def func_wrapper(*args, **kwargs):
+        frame = func(*args, **kwargs)
+
+        return frame
+
+    return func_wrapper
 
 
 if __name__ == "__main__":
