@@ -21,15 +21,16 @@ def lane_detection(func):
         # TODO: to grayscale and tresholding
         frame_gray = cv2.cvtColor(roi_frame, cv2.COLOR_BGR2GRAY)
         frame_binary = cv2.threshold(frame_gray, 80, 255, cv2.THRESH_BINARY)[1]
+        roi_frame = cv2.add(frame_binary, stencil)
 
         # TODO: Hough line transformation
-        lines = cv2.HoughLinesP(cv2.bitwise_not(frame_binary), 1, np.pi/180, 30, maxLineGap=200)
+        lines = cv2.HoughLinesP(cv2.bitwise_not(roi_frame), 1, np.pi/180, 30, maxLineGap=200)
 
         for line in lines:
             x1, y1, x2, y2 = line[0]
             cv2.line(frame, (x1, y1), (x2, y2), (255, 0, 0), 3)
 
-        return frame_binary, frame
+        return roi_frame, frame
 
     return func_wrapper
 
