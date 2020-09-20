@@ -9,7 +9,15 @@ def lane_detection(func):
     def func_wrapper(*args, **kwargs):
         frame = func(*args, **kwargs)
 
-        return frame
+        # TODO: detect ROI
+
+        # TODO: to grayscale and tresholding
+        frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        frame_tresh = cv2.threshold(frame_gray, 130, 145, cv2.THRESH_BINARY)
+
+        # TODO: Hough line transformation
+
+        return frame_tresh
 
     return func_wrapper
 
