@@ -22,7 +22,7 @@ def lane_detection(func):
         frame_binary = cv2.threshold(frame_gray, 80, 255, cv2.THRESH_BINARY)[1]
 
         # TODO: Hough line transformation
-        lines = cv2.HoughLinesP(frame_binary, 1, np.pi/180, 30, maxLineGap=200)
+        lines = cv2.HoughLinesP(cv2.bitwise_not(frame_binary), 1, np.pi/180, 30, maxLineGap=200)
 
         for line in lines:
             x1, y1, x2, y2 = line[0]
