@@ -124,13 +124,7 @@ class Dagger:
         Load each record and pass the image associated with the record to the expert.
         Save the record with the adjusted labels.
         '''
-        dataset = DriveDataset(
-            self.data_path,
-            transform = transforms.Compose([
-                transforms.ToTensor(),
-                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
-            ])
-        )
+        dataset = DriveDataset(self.data_path)
         dataloader = DataLoader(dataset, batch_size = 1, num_workers = 1)
         for image, _, record_path, record in dataloader:
             record['steering'], record['throttle'] = self.expert(image)
