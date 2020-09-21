@@ -1,3 +1,5 @@
+import datetime
+
 from drive_model import DriveModel
 
 from early_stopping import EarlyStopping
@@ -56,8 +58,36 @@ class DriveDataset(Dataset):
         return img, (steering, throttle), record_path, record
 
 
+class DataWriter:
+    def __init__(self, data_path = 'data'):
+        '''
+        Initialize tub for new image record pairs.
+        '''
+        today = datetime.datetime.today().strftime("%Y-%m-%d")
+        todays_tubs = list(Path(data_path).glob(f'*{today}*'))
+        tub_nr = max({int(str(tub)[-1]) for tub in todays_tubs}) + 1
+        self.tub_path = Path(data_path)/f'tub-{today}-{tub_nr}'
+        self.record_nr = 0
+
+    def save(self, image, steering, throttle):
+        '''
+        Save an image record pair.
+        '''
+        image_path = self.tub_path/f'image_{self.record_nr}.jpg'
+        im = Image.fromarray(image)
+        im.save(image_path)
+        record = {
+            'image': str(image_path),
+            'steering': steering,
+            'throttle': throttle
+        }
+        record_path = self.tub_path/f'record_{self.record_nr}.json'
+        record_path.write_text(json.dumps(record))
+        self.record_nr += 1
+
+
 class Dagger:
-    def __init__(self, expert, model_path, data_path, validation_split = .2, batch_size = 1, num_workers = 1, epochs = 10):
+    def __init__(self, expert, model_path = 'models/dagger.h5', data_path = 'data', validation_split = .2, batch_size = 1, num_workers = 1, epochs = 10):
         '''
         Dagger class used to drive the car.
         '''
@@ -79,7 +109,6 @@ class Dagger:
         
         self.epochs = epochs
 
-
     def load_model(self):
         '''
         Load a self.model from file.
@@ -87,13 +116,11 @@ class Dagger:
         if self.model_path.exists():
             self.model.load_state_dict(torch.load(str(self.model_path)))
 
-
     def save_model(self):
         '''
         Save a self.model to a file.
         '''
         torch.save(self.model.state_dict(), str(self.model_path))
-
 
     def prepare_train_and_val_loader(self):
         '''
@@ -118,7 +145,6 @@ class Dagger:
         val_loader = DataLoader(dataset, batch_size = self.batch_size, num_workers = self.num_workers, sampler=val_sampler)
         return train_loader, val_loader
 
-
     def query_expert(self):
         '''
         Load each record and pass the image associated with the record to the expert.
@@ -129,7 +155,6 @@ class Dagger:
         for image, _, record_path, record in dataloader:
             record['steering'], record['throttle'] = self.expert(image)
             record_path.write_text(json.dumps(record))
-
 
     def train_model(self):
         '''
