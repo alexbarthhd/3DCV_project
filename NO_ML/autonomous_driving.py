@@ -1,3 +1,4 @@
+import cv2
 import time
 import numpy as np
 
@@ -8,6 +9,7 @@ from lane_detection import Video, get_laneangle
 if __name__ == "__main__":
     pwm = config_pwm(hz=60)
     video = Video(0, 352, 288)
+    steeringangle = 0
 
     while True:
         frame, roi_frame, lanes = video.get_frame()
@@ -20,7 +22,9 @@ if __name__ == "__main__":
         if right_laneangle > 50:
             steeringangle = right_laneangle - 45
 
-        steering(steeringangle, pwm)
+        #steering(steeringangle, pwm)
+        print(steeringangle)
+        sleep(1)
 
         cv2.imshow("frame", frame)
 
