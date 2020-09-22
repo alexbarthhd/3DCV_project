@@ -12,7 +12,16 @@ def split_lines(array):
 
     return np.array(left_lines), np.array(right_lines)
 
-if __name__ == "__main__":
+
+def get_laneangle(lane):
+    x1, y1, x2, y2 = lane[0]
+    m = (y2 - y1) / (x2 - x1)
+    angle = np.arctan(m)
+
+    return np.degrees(angle)
+
+
+def main():
     frame = cv2.imread("lane_frame.jpg")
     frame = cv2.resize(frame, (352, 288))
 
@@ -38,18 +47,24 @@ if __name__ == "__main__":
     left_lines, right_lines = split_lines(lines)
     left_lane = np.mean(left_lines, axis=0, dtype=np.int32)
     right_lane = np.mean(right_lines, axis=0, dtype=np.int32)
-    print(left_lane[0, 0], right_lane[0, 0])
 
     x1, y1, x2, y2 = left_lane[0]
-    cv2.line(frame, (x1, y1), (x2, y2), (255, 0, 0), 6)
+    cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 0), 6)
 
     x1, y1, x2, y2 = right_lane[0]
     cv2.line(frame, (x1, y1), (x2, y2), (0, 0, 255), 6)
 
+    left_laneangle = get_laneangle(left_lane)
+    right_laneangle = get_laneangle(right_lane)
 
+    print(left_laneangle, right_laneangle)
 
     cv2.imshow("frame", frame)
     cv2.imshow("stencil", stencil)
     cv2.imshow("roi_frame", roi_frame)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
+
+
+if __name__ == "__main__":
+    main()
