@@ -54,7 +54,7 @@ def lane_detection(func):
             cv2.line(frame, (x1, y1), (x2, y2), (0, 0, 255), 6)
             lanes.append(right_lane)
 
-        return frame, lanes
+        return frame, roi_frame, lanes
 
     return func_wrapper
 
@@ -86,8 +86,9 @@ if __name__ == "__main__":
     video = Video(0, 352, 288)
 
     while True:
-        frame, lanes = video.get_frame()
+        frame, roi_frame, lanes = video.get_frame()
         cv2.imshow("frame", frame)
+        cv2.imshow("ROI frame", roi_frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
