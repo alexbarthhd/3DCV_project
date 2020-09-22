@@ -1,10 +1,20 @@
 import cv2
 import numpy as np
 
+def split_lines(array):
+    left_lines, right_lines = [], []
+
+    for _, item in enumerate(array):
+        if ((item[0, 0] == 0) and (item[0, 1] > item[0, 3])):
+            left_lines.append(item)
+        else:
+            right_lines.append(item)
+
+    return np.array(left_lines), np.array(right_lines)
 
 if __name__ == "__main__":
     frame = cv2.imread("lane_frame.jpg")
-    frame = cv2.resize(frame, (352, 288)) 
+    frame = cv2.resize(frame, (352, 288))
 
     # TODO: detect ROI
     white = np.ones((288, 352, 1), dtype=np.uint8) * 255
@@ -18,13 +28,28 @@ if __name__ == "__main__":
     frame_binary = cv2.threshold(frame_gray, 80, 255, cv2.THRESH_BINARY)[1]
     roi_frame = cv2.add(frame_binary, stencil)
 
-    # TODO: Hough line transformation
-    lines = cv2.HoughLinesP(cv2.bitwise_not(roi_frame), 1, np.pi/180, 30, maxLineGap=200)
+    # TODO: Probabilistic Hough line transformation
+    # minLineLength to filter out lines over front wheel
+    # cv2.bitwise_not(roi_frame) to invert frame to mimic the output of a canny edge-detector
+    lines = cv2.HoughLinesP(cv2.bitwise_not(roi_frame), 1, np.pi/180, 30,
+                            minLineLength=80, maxLineGap=200)
 
-    for line in lines:
-        x1, y1, x2, y2 = line[0]
-        cv2.line(frame, (x1, y1), (x2, y2), (255, 0, 0), 3)
+    # TODO: filter to get one line for each lane
+    left_lines, right_lines = split_lines(lines)
+    left_lane = np.mean(left_lines, axis=0, dtype=np.int32)
+    right_lane = np.mean(right_lines, axis=0, dtype=np.int32)
+    print(left_lane[0, 0], right_lane[0, 0])
+
+    x1, y1, x2, y2 = left_lane[0]
+    cv2.line(frame, (x1, y1), (x2, y2), (255, 0, 0), 6)
+
+    x1, y1, x2, y2 = right_lane[0]
+    cv2.line(frame, (x1, y1), (x2, y2), (0, 0, 255), 6)
+
+
 
     cv2.imshow("frame", frame)
+    cv2.imshow("stencil", stencil)
+    cv2.imshow("roi_frame", roi_frame)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
