@@ -50,20 +50,21 @@ def lane_detection(func):
 
         # get lanes
         left_lines, right_lines = split_lines(lines)
+        frame_lines = np.copy(frame)
 
         if left_lines.size != 0:
             left_lane = np.mean(left_lines, axis=0, dtype=np.int32)
             x1, y1, x2, y2 = left_lane[0]
-            cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 0), 6)
+            cv2.line(frame_lines, (x1, y1), (x2, y2), (0, 255, 0), 6)
             lanes.append(left_lane)
 
         if right_lines.size != 0:
             right_lane = np.mean(right_lines, axis=0, dtype=np.int32)
             x1, y1, x2, y2 = right_lane[0]
-            cv2.line(frame, (x1, y1), (x2, y2), (0, 0, 255), 6)
+            cv2.line(frame_lines, (x1, y1), (x2, y2), (0, 0, 255), 6)
             lanes.append(right_lane)
 
-        return frame, roi_frame, lanes
+        return frame, frame_lines, roi_frame, lanes
 
     return func_wrapper
 
@@ -95,8 +96,9 @@ if __name__ == "__main__":
     video = Video(0, 352, 288)
 
     while True:
-        frame, roi_frame, lanes = video.get_frame()
+        frame, frame_lines, roi_frame, lanes = video.get_frame()
         cv2.imshow("frame", frame)
+        cv2.imshow("frame w/ lines", frame_lines)
         cv2.imshow("ROI frame", roi_frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
