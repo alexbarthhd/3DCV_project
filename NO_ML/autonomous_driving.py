@@ -24,7 +24,7 @@ if __name__ == "__main__":
 
         #steering(steeringangle, pwm)
         print(steeringangle)
-        sleep(1)
+        time.sleep(1)
 
         cv2.imshow("frame", frame)
 
