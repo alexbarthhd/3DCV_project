@@ -10,17 +10,21 @@ if __name__ == "__main__":
     pwm = config_pwm(hz=60)
     video = Video(0, 352, 288)
     steeringangle = 0
+    left_laneangle = 0
+    right_laneangle = 0
 
     while True:
         frame, roi_frame, lanes = video.get_frame()
         left_laneangle = get_laneangle(lanes[0])
-        right_laneangle = get_laneangle(lanes[1])
+
+        if len(lanes) > 1:
+            right_laneangle = get_laneangle(lanes[1])
 
         if left_laneangle < -50:
             steeringangle = -45 - left_laneangle
 
         if right_laneangle > 50:
-            steeringangle = right_laneangle - 45
+            steeringangle = -(right_laneangle - 45)
 
         #steering(steeringangle, pwm)
         print(steeringangle)
