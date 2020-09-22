@@ -15,7 +15,7 @@ if __name__ == "__main__":
         right_laneangle = get_laneangle(lanes[1])
 
         if left_laneangle < -50:
-            steeringangle = -45 - leftangle
+            steeringangle = -45 - left_laneangle
 
         if right_laneangle > 50:
             steeringangle = right_laneangle - 45
