@@ -17,6 +17,15 @@ def split_lines(array):
     return np.array(left_lines), np.array(right_lines)
 
 
+def get_laneangle(lane):
+    ''' helper func to calc langeangle in degrees '''
+    x1, y1, x2, y2 = lane[0]
+    m = (y2 - y1) / (x2 - x1)
+    angle = np.arctan(m)
+
+    return np.degrees(angle)
+
+
 def lane_detection(func):
     ''' decorator to detect lanes in video frame '''
     def func_wrapper(*args, **kwargs):
