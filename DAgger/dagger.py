@@ -67,11 +67,12 @@ class DataWriter:
         todays_tubs = list(Path(data_path).glob(f'*{today}*'))
         tub_nr = max({int(str(tub)[-1]) for tub in todays_tubs}) + 1
         self.tub_path = Path(data_path)/f'tub-{today}-{tub_nr}'
+        self.tub_path.mkdir()
         self.record_nr = 0
 
     def save(self, image, steering, throttle):
         '''
-        Save an image record pair.
+        Save an image record pair to the tub.
         '''
         image_path = self.tub_path/f'image_{self.record_nr}.jpg'
         im = Image.fromarray(image)
@@ -116,34 +117,15 @@ class Dagger:
         if self.model_path.exists():
             self.model.load_state_dict(torch.load(str(self.model_path)))
 
-    def save_model(self):
-        '''
-        Save a self.model to a file.
-        '''
-        torch.save(self.model.state_dict(), str(self.model_path))
-
-    def prepare_train_and_val_loader(self):
-        '''
-        Return a train and validation loaders for training.
-        '''
-        dataset = DriveDataset(
-            self.data_path,
-            transform = transforms.Compose([
-                transforms.ToTensor(),
-                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
-            ])
-        )
-        dataset_size = len(dataset)
-        indices = list(range(dataset_size))
-        split = int(np.floor(self.validation_split * dataset_size))
-        np.random.shuffle(indices)
-        train_indices, val_indices = indices[split:], indices[:split]
-
-        train_sampler = SubsetRandomSampler(train_indices)
-        val_sampler = SubsetRandomSampler(val_indices)
-        train_loader = DataLoader(dataset, batch_size = self.batch_size, num_workers = self.num_workers, sampler=train_sampler)
-        val_loader = DataLoader(dataset, batch_size = self.batch_size, num_workers = self.num_workers, sampler=val_sampler)
-        return train_loader, val_loader
+    def run(self):
+        for episode in range(10):
+            if episode == 0:
+                # expert drives for one or two laps
+                pass
+            else:
+                # model drives until failure
+                self.query_expert()
+            self.train_model()
 
     def query_expert(self):
         '''
@@ -197,12 +179,31 @@ class Dagger:
                 if es.step(val_loss):
                     break
 
-    def run(self):
-        for episode in range(10):
-            if episode == 0:
-                # expert drives for one or two laps
-                pass
-            else:
-                # model drives until failure
-                self.query_expert()
-            self.train_model()
+    def prepare_train_and_val_loader(self):
+        '''
+        Return a train and validation loaders for training.
+        '''
+        dataset = DriveDataset(
+            self.data_path,
+            transform = transforms.Compose([
+                transforms.ToTensor(),
+                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+            ])
+        )
+        dataset_size = len(dataset)
+        indices = list(range(dataset_size))
+        split = int(np.floor(self.validation_split * dataset_size))
+        np.random.shuffle(indices)
+        train_indices, val_indices = indices[split:], indices[:split]
+
+        train_sampler = SubsetRandomSampler(train_indices)
+        val_sampler = SubsetRandomSampler(val_indices)
+        train_loader = DataLoader(dataset, batch_size = self.batch_size, num_workers = self.num_workers, sampler=train_sampler)
+        val_loader = DataLoader(dataset, batch_size = self.batch_size, num_workers = self.num_workers, sampler=val_sampler)
+        return train_loader, val_loader
+
+    def save_model(self):
+        '''
+        Save a self.model to a file.
+        '''
+        torch.save(self.model.state_dict(), str(self.model_path))
