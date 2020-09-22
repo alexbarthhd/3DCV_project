@@ -62,7 +62,7 @@ if __name__ == "__main__":
     while True:
         frame = video.get_frame()
         cv2.imshow("frame", frame)
-        cv2.imshow("stencil", stencil)
+        #cv2.imshow("stencil", stencil)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
