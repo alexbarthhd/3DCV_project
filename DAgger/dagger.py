@@ -1,4 +1,4 @@
-import datetime
+from drive_dataset import DriveDataset
 
 from drive_model import DriveModel
 
@@ -10,82 +10,15 @@ import numpy as np
 
 from pathlib import Path
 
-from PIL import Image
-
 import time
 
 import torch
 import torch.nn.functional as F
 from torch.optim import Adam
-from torch.optim.lr_scheduler import LambdaLR
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import DataLoader
 from torch.utils.data.sampler import SubsetRandomSampler
 
 from torchvision import transforms
-
-
-class DriveDataset(Dataset):
-    '''
-    TODO: specify record format.
-    Currently 'record_<number>.json' should contain
-    {
-        "image": "image_<number>.ext",
-        "steering": number in [-1.0, 1.0],
-        "throttle": number in [-1.0, 1.0]
-    }
-    and with their corresponding images be located in folders named tub<some id>
-    which themselves are in the root_dir.
-    '''
-    def __init__(self, root_dir, transform=None):
-        self.records = []
-        for tub in root_dir.glob('tub*'):
-            self.records += list(tub.glob('*record*[0-9]*'))
-        self.transform = transform
-    
-    def __len__(self):
-        return len(self.records)
-
-    def __getitem__(self, i):
-        record_path = self.records[i]
-        record = json.loads(record_path.read_text())
-        img = Image.open(record_path.parent/record['image'])
-
-        if self.transform:
-            img = self.transform(img)
-
-        steering = torch.tensor(record['steering']).unsqueeze(-1)
-        throttle = torch.tensor(record['throttle']).unsqueeze(-1)
-        return img, (steering, throttle), record_path, record
-
-
-class DataWriter:
-    def __init__(self, data_path = 'data'):
-        '''
-        Initialize tub for new image record pairs.
-        '''
-        today = datetime.datetime.today().strftime("%Y-%m-%d")
-        todays_tubs = list(Path(data_path).glob(f'*{today}*'))
-        tub_nr = max({int(str(tub)[-1]) for tub in todays_tubs}) + 1
-        self.tub_path = Path(data_path)/f'tub-{today}-{tub_nr}'
-        self.tub_path.mkdir()
-        self.record_nr = 0
-
-    def save(self, image, steering, throttle):
-        '''
-        Save an image record pair to the tub.
-        '''
-        image_path = self.tub_path/f'image_{self.record_nr}.jpg'
-        im = Image.fromarray(image)
-        im.save(image_path)
-        record = {
-            'image': str(image_path),
-            'steering': steering,
-            'throttle': throttle
-        }
-        record_path = self.tub_path/f'record_{self.record_nr}.json'
-        record_path.write_text(json.dumps(record))
-        self.record_nr += 1
-
 
 class Dagger:
     def __init__(self, expert, model_path = 'models/dagger.h5', data_path = 'data', validation_split = .2, batch_size = 1, num_workers = 1, epochs = 10):
