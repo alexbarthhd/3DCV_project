@@ -52,28 +52,27 @@ def lane_detection(func):
                                 minLineLength=80, maxLineGap=50)
 
         # get lanes
-        left_lines, right_lines = split_left_right(lines, 352, 288)
-        frame_lines = np.copy(frame)
+        if lines.size != 0:
+            left_lines, right_lines = split_left_right(lines, 352, 288)
+            frame_lines = np.copy(frame)
 
-        if left_lines.size != 0:
-            for line in left_lines:
-                x1, y1, x2, y2 = line[0]
-                cv2.line(frame_lines, (x1, y1), (x2, y2), (0, 255, 0), 3)
+            if left_lines.size != 0:
+                for line in left_lines:
+                    x1, y1, x2, y2 = line[0]
+                    cv2.line(frame_lines, (x1, y1), (x2, y2), (0, 255, 0), 3)
 
-            left_lane = np.mean(left_lines, axis=0, dtype=np.int32)
-            x1, y1, x2, y2 = left_lane[0]
-            cv2.line(frame_lines, (x1, y1), (x2, y2), (0, 0, 255), 6)
-            lanes.append(left_lane)
+                left_lane = np.mean(left_lines, axis=0, dtype=np.int32)
+                x1, y1, x2, y2 = left_lane[0]
+                cv2.line(frame_lines, (x1, y1), (x2, y2), (0, 0, 255), 6)
 
-        if right_lines.size != 0:
-            for line in right_lines:
-                x1, y1, x2, y2 = line[0]
-                cv2.line(frame_lines, (x1, y1), (x2, y2), (255, 0, 0), 3)
+            if right_lines.size != 0:
+                for line in right_lines:
+                    x1, y1, x2, y2 = line[0]
+                    cv2.line(frame_lines, (x1, y1), (x2, y2), (255, 0, 0), 3)
 
-            right_lane = np.mean(right_lines, axis=0, dtype=np.int32)
-            x1, y1, x2, y2 = right_lane[0]
-            cv2.line(frame_lines, (x1, y1), (x2, y2), (0, 0, 255), 6)
-            lanes.append(right_lane)
+                right_lane = np.mean(right_lines, axis=0, dtype=np.int32)
+                x1, y1, x2, y2 = right_lane[0]
+                cv2.line(frame_lines, (x1, y1), (x2, y2), (0, 0, 255), 6)
 
         return frame, frame_lines, roi_frame, left_lane, right_lane
 
