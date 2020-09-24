@@ -18,11 +18,11 @@ def split_left_right(array, frame_width, frame_height):
 
     for _, item in enumerate(array):
         if (0 <= item[0, 0] <= (1/5) * frame_width) and \
-           (0 <= item[0, 3] <= (2/3) * frame_width):
+           (0 <= item[0, 2] <= (2/3) * frame_width):
             left_lines.append(item)
 
         elif ((1/3) * frame_width <= item[0, 0] <= frame_width) and \
-             ((3/5) * frame_width <= item[0, 3] <= frame_width):
+             ((3/5) * frame_width <= item[0, 2] <= frame_width):
             right_lines.append(item)
 
     return np.array(left_lines), np.array(right_lines)
@@ -37,7 +37,7 @@ def get_laneangle(lane):
 
 
 def main():
-    frame = cv2.imread("frame2.jpg")
+    frame = cv2.imread("frame3.png")
     #frame = cv2.imread("lane_frame.jpg")
     frame = cv2.resize(frame, (352, 288))
 
@@ -70,6 +70,7 @@ def main():
     # color left lines in green
     for line in left_lines:
         x1, y1, x2, y2 = line[0]
+        print(line[0], line[0, 0], line[0, 1], line[0, 2], line[0, 3])
         cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 0), 3)
 
     for line in right_lines:
