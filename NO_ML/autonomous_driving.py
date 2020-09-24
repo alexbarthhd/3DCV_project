@@ -19,10 +19,10 @@ def get_desired_direction(left_lane, right_lane, frame_width, frame_height):
         x1 = 0.5 * (right_lane[0, 0] + left_lane[0, 2])
         y1 = 0.5 * (right_lane[0, 1] + left_lane[0, 3])
     elif left_lane.size != 0:
-        x1 = left_lane[0, 2]
+        x1 = left_lane[0, 2] + 0.5 * frame_width
         y1 = left_lane[0, 3]
     elif right_lane.size != 0:
-        x1 = right_lane[0, 0]
+        x1 = right_lane[0, 0] - 0.5 * frame_width
         y1 = right_lane[0, 1]
 
     x2 = 0.5 * frame_width
