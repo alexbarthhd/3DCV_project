@@ -17,6 +17,21 @@ def split_lines(array):
     return np.array(left_lines), np.array(right_lines)
 
 
+def split_left_right(array, frame_width, frame_height):
+    left_lines, right_lines = [], []
+
+    for _, item in enumerate(array):
+        if (0 <= item[0, 0] <= (1/5) * frame_width) and \
+           (0 <= item[0, 3] <= (2/3) * frame_width):
+            left_lines.append(item)
+
+        elif ((1/3) * frame_width <= item[0, 0] <= frame_width) and \
+             ((3/5) * frame_width <= item[0, 3] <= frame_width):
+            right_lines.append(item)
+
+    return np.array(left_lines), np.array(right_lines)
+
+
 def get_laneangle(lane):
     ''' helper func to calc langeangle in degrees '''
     x1, y1, x2, y2 = lane[0]
@@ -49,20 +64,30 @@ def lane_detection(func):
                                 minLineLength=80, maxLineGap=200)
 
         # get lanes
-        left_lines, right_lines = split_lines(lines)
+        left_lines, right_lines = split_left_right(lines, 352, 288)
         frame_lines = np.copy(frame)
 
         if left_lines.size != 0:
+            for line in left_lines:
+                x1, y1, x2, y2 = line[0]
+                cv2.line(frame_lines, (x1, y1), (x2, y2), (0, 255, 0), 3)
+            '''
             left_lane = np.mean(left_lines, axis=0, dtype=np.int32)
             x1, y1, x2, y2 = left_lane[0]
             cv2.line(frame_lines, (x1, y1), (x2, y2), (0, 255, 0), 6)
             lanes.append(left_lane)
+            '''
 
         if right_lines.size != 0:
+            for line in right_lines:
+                x1, y1, x2, y2 = line[0]
+                cv2.line(frame_lines, (x1, y1), (x2, y2), (255, 0, 0), 3)
+            '''
             right_lane = np.mean(right_lines, axis=0, dtype=np.int32)
             x1, y1, x2, y2 = right_lane[0]
             cv2.line(frame_lines, (x1, y1), (x2, y2), (0, 0, 255), 6)
             lanes.append(right_lane)
+            '''
 
         return frame, frame_lines, roi_frame, lanes
 
