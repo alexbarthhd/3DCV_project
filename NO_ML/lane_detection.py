@@ -21,8 +21,8 @@ def split_left_right(array, frame_width, frame_height):
     left_lines, right_lines = [], []
 
     for _, item in enumerate(array):
-        if (0 <= item[0, 0] <= (1/5) * frame_width) and \
-           (0 <= item[0, 3] <= (3/5) * frame_width):
+        if ((0 <= item[0, 0] <= (0.2 * frame_width)) and
+           (0 <= item[0, 3] <= (0.6 * frame_width))):
             left_lines.append(item)
 
         elif ((2/5) * frame_width <= item[0, 0] <= frame_width) and \
