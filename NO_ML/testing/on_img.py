@@ -28,6 +28,11 @@ def split_left_right(array, frame_width, frame_height):
     return np.array(left_lines), np.array(right_lines)
 
 
+def lines2lane_fast(lines):
+
+    return lane
+
+
 def get_laneangle(lane):
     x1, y1, x2, y2 = lane[0]
     m = (y2 - y1) / (x2 - x1)
@@ -37,7 +42,7 @@ def get_laneangle(lane):
 
 
 def main():
-    frame = cv2.imread("frame3.png")
+    frame = cv2.imread("frame2.png")
     #frame = cv2.imread("lane_frame.jpg")
     frame = cv2.resize(frame, (352, 288))
 
@@ -57,7 +62,7 @@ def main():
     # minLineLength to filter out lines over front wheel
     # cv2.bitwise_not(roi_frame) to invert frame to mimic the output of a canny edge-detector
     lines = cv2.HoughLinesP(cv2.bitwise_not(roi_frame), 1, np.pi/180, 30,
-                            minLineLength=80, maxLineGap=200)
+                            minLineLength=80, maxLineGap=50)
 
 
     for line in lines:
@@ -73,9 +78,17 @@ def main():
         print(line[0], line[0, 0], line[0, 1], line[0, 2], line[0, 3])
         cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 0), 3)
 
+        left_lane = np.mean(left_lines, axis=0, dtype=np.int32)
+        x1, y1, x2, y2 = left_lane[0]
+        cv2.line(frame, (x1, y1), (x2, y2), (0, 0, 255), 6)
+
     for line in right_lines:
       x1, y1, x2, y2 = line[0]
       cv2.line(frame, (x1, y1), (x2, y2), (255, 0, 0), 3)
+
+      right_lane = np.mean(right_lines, axis=0, dtype=np.int32)
+      x1, y1, x2, y2 = right_lane[0]
+      cv2.line(frame, (x1, y1), (x2, y2), (0, 0, 255), 6)
 
     #print(left_laneangle, right_laneangle)
 

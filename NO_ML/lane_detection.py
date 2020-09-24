@@ -71,23 +71,22 @@ def lane_detection(func):
             for line in left_lines:
                 x1, y1, x2, y2 = line[0]
                 cv2.line(frame_lines, (x1, y1), (x2, y2), (0, 255, 0), 3)
-            '''
+
             left_lane = np.mean(left_lines, axis=0, dtype=np.int32)
             x1, y1, x2, y2 = left_lane[0]
             cv2.line(frame_lines, (x1, y1), (x2, y2), (0, 255, 0), 6)
             lanes.append(left_lane)
-            '''
 
         if right_lines.size != 0:
             for line in right_lines:
                 x1, y1, x2, y2 = line[0]
                 cv2.line(frame_lines, (x1, y1), (x2, y2), (255, 0, 0), 3)
-            '''
+
             right_lane = np.mean(right_lines, axis=0, dtype=np.int32)
             x1, y1, x2, y2 = right_lane[0]
             cv2.line(frame_lines, (x1, y1), (x2, y2), (0, 0, 255), 6)
             lanes.append(right_lane)
-            '''
+            
 
         return frame, frame_lines, roi_frame, lanes
 
