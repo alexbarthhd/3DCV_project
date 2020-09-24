@@ -61,7 +61,7 @@ def lane_detection(func):
 
         # TODO: Hough line transformation
         lines = cv2.HoughLinesP(cv2.bitwise_not(roi_frame), 1, np.pi/180, 30,
-                                minLineLength=80, maxLineGap=200)
+                                minLineLength=80, maxLineGap=50)
 
         # get lanes
         left_lines, right_lines = split_left_right(lines, 352, 288)
