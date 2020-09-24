@@ -4,20 +4,8 @@ import numpy as np
 from dataclasses import dataclass, field
 
 
-def split_lines(array):
-    ''' helper func to distinguish lines marking left and right lanes '''
-    left_lines, right_lines = [], []
-
-    for _, item in enumerate(array):
-        if ((item[0, 0] == 0) and (item[0, 1] > item[0, 3])):
-            left_lines.append(item)
-        else:
-            right_lines.append(item)
-
-    return np.array(left_lines), np.array(right_lines)
-
-
 def split_left_right(array, frame_width, frame_height):
+    ''' helper func to distinguish lines marking left and right lanes '''
     left_lines, right_lines = [], []
 
     for _, item in enumerate(array):
@@ -45,7 +33,7 @@ def lane_detection(func):
     ''' decorator to detect lanes in video frame '''
     def func_wrapper(*args, **kwargs):
         frame = func(*args, **kwargs)
-        lanes = []
+        lines, left_lane, right_lane = np.array([]), np.array([]), np.array([])
 
         # TODO: detect ROI
         white = np.ones((288, 352, 1), dtype=np.uint8) * 255
@@ -87,8 +75,7 @@ def lane_detection(func):
             cv2.line(frame_lines, (x1, y1), (x2, y2), (0, 0, 255), 6)
             lanes.append(right_lane)
 
-
-        return frame, frame_lines, roi_frame, lanes
+        return frame, frame_lines, roi_frame, left_lane, right_lane
 
     return func_wrapper
 
@@ -120,7 +107,7 @@ if __name__ == "__main__":
     video = Video(0, 352, 288)
 
     while True:
-        frame, frame_lines, roi_frame, lanes = video.get_frame()
+        frame, frame_lines, roi_frame, left_lane, right_lane = video.get_frame()
         cv2.imshow("frame", frame)
         cv2.imshow("frame w/ lines", frame_lines)
         cv2.imshow("ROI frame", roi_frame)

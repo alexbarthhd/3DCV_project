@@ -33,6 +33,23 @@ def lines2lane_fast(lines):
     return lane
 
 
+def get_desired_direction(left_lane, right_lane, frame_width, frame_height):
+    if left_lane.size != 0 and right_lane.size != 0:
+        x1 = 0.5 * (right_lane[0, 0] + left_lane[0, 2])
+        y1 = 0.5 * (right_lane[0, 1] + left_lane[0, 3])
+    elif left_lane.size != 0:
+        x1 = left_lane[0, 2]
+        y1 = left_lane[0, 3]
+    elif right_lane.size != 0:
+        x1 = right_lane[0, 0]
+        y1 = right_lane[0, 1]
+
+    x2 = 0.5 * frame_width
+    y2 = frame_height
+
+    return np.array([[x1, y1, x2, y2]], dtype=np.int32)
+
+
 def get_laneangle(lane):
     x1, y1, x2, y2 = lane[0]
     m = (y2 - y1) / (x2 - x1)
@@ -42,7 +59,7 @@ def get_laneangle(lane):
 
 
 def main():
-    frame = cv2.imread("frame2.png")
+    frame = cv2.imread("frame2.jpg")
     #frame = cv2.imread("lane_frame.jpg")
     frame = cv2.resize(frame, (352, 288))
 
@@ -75,7 +92,6 @@ def main():
     # color left lines in green
     for line in left_lines:
         x1, y1, x2, y2 = line[0]
-        print(line[0], line[0, 0], line[0, 1], line[0, 2], line[0, 3])
         cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 0), 3)
 
         left_lane = np.mean(left_lines, axis=0, dtype=np.int32)
@@ -90,7 +106,13 @@ def main():
       x1, y1, x2, y2 = right_lane[0]
       cv2.line(frame, (x1, y1), (x2, y2), (0, 0, 255), 6)
 
-    #print(left_laneangle, right_laneangle)
+    direction = get_desired_direction(left_lane, right_lane, 352, 288)
+    print(f"left_lane: {left_lane}, right_lane: {right_lane}")
+    print(f"direction: {direction}")
+
+    x1, y1, x2, y2 = direction[0]
+    cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 255), 3)
+
 
     cv2.imshow("frame", frame)
     cv2.imshow("stencil", stencil)
