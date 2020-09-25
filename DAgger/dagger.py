@@ -77,6 +77,10 @@ class Dagger:
         '''
         train_loader, val_loader = self.prepare_train_and_val_loader()
 
+        self.model = DriveModel()
+        if self.has_cuda:
+            self.model = self.model.cuda()
+            
         optimizer = Adam(self.model.parameters())
 
         es = EarlyStopping()
