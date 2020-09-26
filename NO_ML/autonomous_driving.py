@@ -14,6 +14,15 @@ def steering_warmup():
     steering(0, pwm)
 
 
+def motor_test():
+    pwm = config_pwm(hz=60)
+
+    motor_ctrl(10)
+    time.sleep(3)
+
+    pass
+
+
 def get_desired_direction(left_lane, right_lane, frame_width, frame_height):
     if left_lane.size != 0 and right_lane.size != 0:
         x1 = 0.5 * (right_lane[0, 0] + left_lane[0, 2])
@@ -85,4 +94,5 @@ def main():
     pass
 
 if __name__ == "__main__":
+    steering_warmup()
     main()
