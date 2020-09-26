@@ -17,7 +17,7 @@ def steering_warmup():
 def motor_test():
     pwm = config_pwm(hz=60)
 
-    motor_ctrl(10)
+    motor_ctrl(10, pwm)
     time.sleep(3)
 
     pass
