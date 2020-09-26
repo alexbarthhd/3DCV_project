@@ -4,9 +4,9 @@
 1. Start Conda: ```conda activate donkey```
 2. Record Data: ```python manage.py drive```
 3.
-  - Move myconfig.py to /mysim/
-  - Move rojin.py to donkeycar/donkeycar/parts/
-  - Move utils.py to donkeycar/donkeycar/
+  - Settings: Move myconfig.py to /mysim/
+  - **ModellArchitektur**: Move rojin.py to donkeycar/donkeycar/parts/
+  - utils: Move utils.py to donkeycar/donkeycar/
 
 4. Train a model: ```python /home/mg7/3DCV_project/mysim/manage.py train --tub ./data/slow_and_precise/ --model ./models/slow_and_precise_rojin.h5```
 
