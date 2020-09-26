@@ -34,8 +34,24 @@ def get_desired_direction(left_lane, right_lane, frame_width, frame_height):
 def get_steeringangle(direction):
     ''' helper func to calc steeringangle in degrees '''
     x1, y1, x2, y2 = direction[0]
-    m = (y2 - y1) / (x2 - x1)
-    angle = np.arctan(m)
+
+    if x1 - x2 > 4:
+        m = (y2 - y1) / (x2 - x1)
+        angle = np.arctan(m)
+    else:
+        angle = 0.5 * np.pi
+
+    # left [0, -25]
+    if 0 < angle < 0.5 * np.pi:
+        angle = angle - 0.5 * np.pi
+
+    # right [0, 25]
+    elif angle < 0:
+        angle = 0.5 * np.pi + angle
+
+    # center
+    else:
+        angle = 0
 
     return np.degrees(angle)
 
