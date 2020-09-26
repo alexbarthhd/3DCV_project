@@ -1,9 +1,6 @@
 import torch.nn as nn
 
 class DriveModel(nn.Module):
-    '''
-    TODO: 
-    '''
     def __init__(self, width, height, channels=3):
         super().__init__()
         self.width = width
