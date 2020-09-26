@@ -31,6 +31,31 @@ def get_desired_direction(left_lane, right_lane, frame_width, frame_height):
     return np.array([[x1, y1, x2, y2]], dtype=np.int32)
 
 
+def get_steeringangle(direction):
+    ''' helper func to calc steeringangle in degrees '''
+    x1, y1, x2, y2 = direction[0]
+
+    if x1 - x2 > 4:
+        m = (y2 - y1) / (x2 - x1)
+        angle = np.arctan(m)
+    else:
+        angle = 0.5 * np.pi
+
+    # left [0, -25]
+    if 0 < angle < 0.5 * np.pi:
+        angle = angle - 0.5 * np.pi
+
+    # right [0, 25]
+    elif angle < 0:
+        angle = 0.5 * np.pi + angle
+
+    # center
+    else:
+        angle = 0
+
+    return np.degrees(angle)
+
+
 def main():
     pwm = config_pwm(hz=60)
     video = Video(0, 352, 288)
@@ -38,9 +63,12 @@ def main():
     while True:
         frame, frame_lines, roi_frame, left_lane, right_lane = video.get_frame()
         direction = get_desired_direction(left_lane, right_lane, 352, 288)
+        steeringangle = get_steeringangle(direction)
 
         x1, y1, x2, y2 = direction[0]
         cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 255), 3)
+        cv2.putText(frame, f"steeringangle: {steeringangle}", (20, 20),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, 255)
 
         cv2.imshow("frame", frame)
         cv2.imshow("frame w/ lines", frame_lines)
