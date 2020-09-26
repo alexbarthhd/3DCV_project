@@ -30,7 +30,7 @@ class Dagger:
         self.has_cuda = torch.cuda.is_available()
 
         self.model_path = Path(model_path)
-        self.model = DriveModel()
+        self.model = DriveModel(70,160)
         self.load_model()
         if self.has_cuda:
             self.model = self.model.cuda()
@@ -77,7 +77,7 @@ class Dagger:
         '''
         train_loader, val_loader = self.prepare_train_and_val_loader()
 
-        self.model = DriveModel()
+        self.model = DriveModel(70,160)
         if self.has_cuda:
             self.model = self.model.cuda()
             
