@@ -125,5 +125,5 @@ Training completed in 0:19:16.
 - --> sehr schlecht auf andere Strecken
 
 ## Summary:
-Sehr gut auf der lernstrecke funktioniert am besten. **Dense without Dropouts; 16 --> 16 --> MaxPool --> 32 --> 32 --> MaxPool --> 64 --> 64** (Durchlauf 7 und 11).
+Sehr gut auf der lernstrecke funktioniert am besten. **Dense without Dropouts; 16 --> 16 --> MaxPool --> 32 --> 32 --> MaxPool --> 64 --> 64** (Durchlauf 7).
 Was aber sowohl solide Leistung auf der lernstrecke als auch auf der andere Strecken ist: **Dense without Dropouts; 16 --> 16 --> MaxPool --> 32 ---> 32 --> MaxPool --> 64** (Durchlauf 6 und 16).
