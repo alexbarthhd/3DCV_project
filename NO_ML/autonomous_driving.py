@@ -71,8 +71,11 @@ def get_steeringangle(direction):
 
 
 def main():
+    out = cv2.VideoWriter(f"testing/testrun{time.asctime()}.avi", -1, 20.0, (352, 288))
     pwm = config_pwm(hz=60)
     video = Video(0, 352, 288)
+    motor_ctrl(0, pwm)
+    time.sleep(1)
     motor_ctrl(18.5, pwm)
 
     while True:
@@ -90,6 +93,8 @@ def main():
         cv2.imshow("frame", frame)
         cv2.imshow("frame w/ lines", frame_lines)
         cv2.imshow("ROI frame", roi_frame)
+
+        out.write(frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
