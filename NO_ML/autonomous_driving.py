@@ -71,7 +71,8 @@ def get_steeringangle(direction):
 
 
 def main():
-    out = cv2.VideoWriter(f"testing/testrun{time.asctime()}.avi", -1, 20.0, (352, 288))
+    fourcc = cv2.VideoWriter_fourcc(*'XVID')
+    out = cv2.VideoWriter(f"testing/testrun{time.asctime()}.avi", fourcc, 20.0, (352, 288))
     pwm = config_pwm(hz=60)
     video = Video(0, 352, 288)
     motor_ctrl(0, pwm)
