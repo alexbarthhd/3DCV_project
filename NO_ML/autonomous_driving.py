@@ -93,6 +93,8 @@ def main():
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
+    motor_ctrl(0, pwm)
+    steering(0, pwm)
     pass
 
 if __name__ == "__main__":
