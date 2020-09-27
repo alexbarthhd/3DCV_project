@@ -33,16 +33,16 @@ def motor_ctrl(acceleration, pwm):
     if -100 <= acceleration <= 100:
         # forwards:
         if acceleration > 0:
-            pulse_length = 1.4 * acceleration + 360
+            pulse_length = 1.4 * acceleration + 370
 
         # backwards:
         elif acceleration < 0:
-            pulse_length = 0.6 * acceleration + 360
+            pulse_length = 0.6 * acceleration + 370
 
         # stop:
         elif acceleration == 0:
-            pulse_length = 360
-            
+            pulse_length = 370
+
         pwm.set_pwm(0, 0, int(pulse_length))
     else:
         print("acceleration out of range")
