@@ -7,6 +7,7 @@
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{xcolor}
+\usepackage{siunitx}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
@@ -44,21 +45,67 @@ The goal is to train neural networks so that the given car can drive autonomousl
 \end{abstract}
 
 \begin{IEEEkeywords}
-computer vision, autonomous driving, neural networks
+autonomous driving, computer vision, image processing, neural networks
 \end{IEEEkeywords}
 
 \section{Getting started}
 For getting started an operating system needs to be flashed onto the Raspberry Pi 3 B+ which is mounted into the car.
 Through the Raspberry Pi Imager the Pi OS 32-bit in release 2020-05-27 was flashed onto the SD card.
 The OS is a port of Debian with the Raspberry Pi Desktop and comes with an integrated configurator to enable SSH, VNC, the camera, SPI and I2C.
-To start we follow two different approaches.
-The first approach uses OpenCV.
-The second one is using machine learning algorithms.
+During our project several different approaches are used.
+Roughly divided into an approach with and without machine learning.
+The first approach is classical image processing without machine learning by using OpenCV.
 
-\section{OpenCV}
+\section{Image Processing without ML}
 
-OpenCV is an open computer vision library.
+The goal of this approach is to let the car drive autonomously on the track without using machine learning.
+Therefore the approach can be roughly divided into two subtasks, the image processing with OpenCV and the driving.
+OpenCV is an open library for computer vision and machine learning of which the first part is used.
 
+\subsection{Driving}
+
+Once again the driving task can be divided into the following two subtasks, steering and throttle.
+The Raspberry is mounted on the vehicle together with a servo and an Arduino PCA9685 controller.
+The donkeycar application is steering through the PCA9685.
+This can be observed while following the donkeycar user guide in the step of calibrating the car.
+Calibrating the donkeycar takes the plugged in channel and the bus, which are the same required options using the \textit{Adafruit\_9685} library.
+Every time the calibrate function is executed a new donkeycar instance is initiated.
+Therefore our driving function writes directly to the controller without the donkeycar instance.
+Nevertheless the donkeycar calibrate function is helpful for getting the PWM values at which the steering is full left, straight and full right.
+Using the other channel the same procedure can be used to get the PWM values for full throttle, zero and full throttle backwards.
+\ref{tab:pwmval} shows the different PWM values observed while using the calibrate function.
+
+\begin{table}[!t]
+	\renewcommand{\arraystretch}{1.3}
+	\caption{PWM values}
+	\centering
+	\begin{tabular}{r|l}
+		mode&value\\
+		\hline
+		left & 460\\
+		center & 380\\
+		right & 290\\
+		forwards & 500\\
+		stop & 370\\
+		backwards & 220\\
+	\end{tabular}
+	\label{tab:pwmval}
+\end{table}
+
+By using the boundary values each with the null value a respective linear equation can be set up.
+\begin{description}[\IEEEsetlabelwidth{Full throttle}]
+\setlength\itemsep{.25em}
+\item[Left] $ pulse\_length = -4.4 * angle + 380 $
+\item[Right] $ pulse\_length = -3.6 * angle + 380 $
+\item[Forwards] $ pulse\_length = 1.4 * acceleration + 360 $
+\item[Backwards] $ pulse\_length = 0.6 * acceleration + 360 $
+\end{description}
+These resulting equations are used in \textit{driving\_functions.py}.
+It can be used for steering and controlling the motor directly and is later used inside the python script for autonomous driving.
+The input for the steering function are steering angles reaching from \numrange{-25}{25} which are converted into degrees and into PWM signals.
+Using steering angles is easier for the human because they do not need to be abstracted.
+Similiar way is used for the motor control.
+Input values to the motor control function are percentages of the acceleration reaching from \numrange{-100}{100} which are again converted into PWM signals.
 
 \section{Donkeycar Autopilot}
 
@@ -68,11 +115,16 @@ Donkeycar 2.5.8 comes with the ability to collect data and train a neural networ
 
 \subsection{Data Collection}
 
-At each step the gym environment returns the image that the virtual car sees. The steering angle and throttle value are passed to the gym as a numpy array of length two by the donkeycar application. When recording drive footage, json files containing an image file name, steering angle, throttle value and other miscellaneous information are saved with the associated images in a folder. These folders can be used to train a model.
+At each step the gym environment returns the image that the virtual car sees. 
+The steering angle and throttle value are passed to the gym as a numpy array of length two by the donkeycar application. 
+When recording drive footage, \textit{json} files containing an image file name, steering angle, throttle value and other miscellaneous information are saved with the associated images in a folder. 
+These folders can be used to train a model.
 
 \subsection{Training}
 
-Different model types are available under the donkeycar.parts.keras module. As the name indicates these model types are built with the Keras API on top of TensorFlow. The available types are:
+Different model types are available under the \textit{donkeycar.parts.keras module}.
+As the name indicates these model types are built with the Keras API on top of TensorFlow.
+The available types are:
 \begin{description}[\IEEEsetlabelwidth{Categorical}]
 \setlength\itemsep{.25em}
 \item[Categorical] takes an image as input and and has two categorical outputs for steering and throttle. The input is passed to a network with the following layers:
@@ -209,16 +261,6 @@ iteration&distance travelled\\
 \section*{References}
 
 \begin{thebibliography}{00}
-
-	\iffalse	
-	Ich (Alex) hab schon mit der Art von Quellenangaben gearbeitet, finde ich persönlich relativ praktisch. Kann mich gerne ums ordnen kümmern.
-	Angabe: 
-	
-		\bibitem{AuthorYear}
-		
-	Ordnen muss man manuell, das kann ich machen. 
-	Am besten im gleichen Stil angeben wie das Beispiel, zur Not korrigiere ich das dann einfach, damit es einheitlich ist.
-	\fi
 	
 \bibitem{Abadi2016} M. Abadi et al. ``Tensorflow: Large-scale machine learning on heterogeneous distributed systems,'' arXiv preprint, 2016.
 \bibitem{Ross2011} S. Ross et al. ``A Reduction of Imitation Learning and Structured Prediction to No-Regret Online Learning'', Proceedings of the Fourteenth International Conference on Artificial Intelligence and Statistics, {AISTATS} 2011, Fort Lauderdale, USA, April 11-13, 2011
