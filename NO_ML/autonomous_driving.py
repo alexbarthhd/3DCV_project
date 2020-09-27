@@ -79,7 +79,7 @@ def main():
         frame, frame_lines, roi_frame, left_lane, right_lane = video.get_frame()
         direction = get_desired_direction(left_lane, right_lane, 352, 288)
         steeringangle = get_steeringangle(direction)
-        steeringangle(steeringangle, pwm)
+        steering(steeringangle, pwm)
 
         x1, y1, x2, y2 = direction[0]
         cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 255), 3)
