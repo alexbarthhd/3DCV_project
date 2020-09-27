@@ -26,7 +26,7 @@ dl248@stud.uni-heidelberg.de}
 g.hassan@stud.uni-heidelberg.de}
 \and
 \IEEEauthorblockN{Denis Münch}
-\IEEEauthorblockA{\textit{M. Sc. student} \\
+\IEEEauthorblockA{\textit{M. Sc. student applied computer science} \\
 \textit{Heidelberg University}\\
 denis.muench@stud.uni-heidelberg.de}
 \and
@@ -52,16 +52,157 @@ For getting started an operating system needs to be flashed onto the Raspberry P
 Through the Raspberry Pi Imager the Pi OS 32-bit in release 2020-05-27 was flashed onto the SD card.
 The OS is a port of Debian with the Raspberry Pi Desktop and comes with an integrated configurator to enable SSH, VNC, the camera, SPI and I2C.
 To start we follow two different approaches.
-The first approach uses OpenCV for classical image processing.
+The first approach uses OpenCV.
 The second one is using machine learning algorithms.
 
 \section{OpenCV}
 
 OpenCV is an open computer vision library.
-Controller Arduino PCA9685
 
 
-\subsection{Evaluation}
+\section{Donkeycar Autopilot}
+
+Although we decided against using the donkeycar library \textbf{•TODO:} (forgot why), we did experiment with it in an OpenAI gym environment called gym-donkeycar, which simulates a car that a donkeycar application can run on.
+
+Donkeycar 2.5.8 comes with the ability to collect data and train a neural network built-in.
+
+\subsection{Data Collection}
+
+At each step the gym environment returns the image that the virtual car sees. The steering angle and throttle value are passed to the gym as a numpy array of length two by the donkeycar application. When recording drive footage, json files containing an image file name, steering angle, throttle value and other miscellaneous information are saved with the associated images in a folder. These folders can be used to train a model.
+
+\subsection{Training}
+
+Different model types are available under the donkeycar.parts.keras module. As the name indicates these model types are built with the Keras API on top of TensorFlow. The available types are:
+\begin{description}[\IEEEsetlabelwidth{Categorical}]
+\setlength\itemsep{.25em}
+\item[Categorical] takes an image as input and and has two categorical outputs for steering and throttle. The input is passed to a network with the following layers:
+\begin{enumerate}
+\item
+5x5 Conv-ReLU, 24 filters, stride 2
+\item
+5x5 Conv-ReLU, 32 filters, stride 2
+\item
+5x5 Conv-ReLU, 64 filters, stride 2 or 3x3 Conv-ReLU, 64 filters, stride 1
+\item
+3x3 Conv-ReLU with 64 filters and stride 2 or 3x3 Conv-ReLU, 64 filters, stride 1
+\item
+3x3 Conv-ReLU, 64 filters, stride 1
+\item
+Dense-ReLU, 100 outputs
+\item
+Dense-ReLU, 50 outputs
+\item
+Dense-Softmax, 15 outputs for steering and Dense-Softmax, 20 outputs for throttle
+\end{enumerate}
+\item[Linear] takes an image as input and has two scalar outputs for steering and throttle. The input is passed to a network with the following layers:
+\begin{enumerate}
+\item
+5x5 Conv-ReLU, 24 filters, stride 2
+\item
+5x5 Conv-ReLU, 32 filters, stride 2
+\item
+5x5 Conv-ReLU, 64 filters, stride 2
+\item
+3x3 Conv-ReLU, 64 filters, stride 1
+\item
+3x3 Conv-ReLU, 64 filters, stride 1
+\item
+Dense-ReLU, 100 outputs
+\item
+Dense-ReLU, 50 outputs
+\item
+Dense-Linear, 1 output for steering and Dense-Linear, 1 output for throttle
+\end{enumerate}
+\item[IMU] takes an image and an IMU vector as input and has two scalar outputs for steering and throttle. The image is passed to a Linear network without layers 7 and 8, while the IMU vector is passed to a network with 3 Dense-ReLU layers with 14 outputs each. The outputs of both networks are concatenated and passed to a network with 2 Dense-ReLU layers with 50 outputs each and two separate Dense-Linear layers with 1 output for steering and throttle respectively.
+\item[Latent] takes an image as input and has two scalar outputs and an image output. This experimental model type uses convolutional layers to learn a latent vector and transposed convolutional layers to reconstruct an image from the latent vector as well as dense layers to produce the steering and throttle outputs from the same latent vector.
+\item[RNN] takes a sequence of images as input and has one 2D output for steering and throttle. The images are passed to a Linear network whose last Conv-ReLU layer is replaced with a 2x2 MaxPooling layer and the Dense-ReLU layer with 50 outputs is removed entirely. To make use of the sequence of images, each layer is wrapped inside a TimeDistributed layer, which applies the wrapped layers to each input. Two Long Short-Term Memory layers with 128 outputs followed by four Dense-ReLU layers with 128, 64, 10, and 2 outputs respectively complete the network.
+\item[3D] takes a sequence of images as input and has one 2D output for steering and throttle. The input is passed to a network with the following layers:
+\begin{enumerate}
+\item
+3x3x3 3D Conv-ReLU, 16 filters, stride (1,3,3)
+\item
+1x2x2 3D MaxPooling, stride (1,2,2)
+\item
+3x3x3 3D Conv-ReLU, 32 filters, stride (1,1,1)
+\item
+1x2x2 MaxPooling, stride (1,2,2)
+\item
+3x3x3 3D Conv-ReLU, 64 filters, stride (1,1,1)
+\item
+1x2x2 3D MaxPooling, stride (1,2,2)
+\item
+3x3x3 3D Conv-ReLU, 128 filters, stride (1,1,1)
+\item
+1x2x2 3D MaxPooling, stride (1,2,2)
+\item
+Dense-BatchNorm-ReLU, 256 outputs
+\item
+Dense-BatchNorm-ReLU, 256 outputs
+\item
+Dense, 2 outputs
+\end{enumerate}
+\item[Behaviour] takes an image and a behaviour vector as input and has two categorical outputs. The image is passed to a Linear network without layers 7 and 8, while the Behaviour vector is passed to a network with 3 Dense-ReLU layers with each layers outputs twice its inputs. The outputs of both networks are concatenated and passed to a network with a Dense-ReLU layers with 100 outputs followed by one with 50 outputs and two separate Dense-Linear layers with 15 outputs for steering and 20 outputs for throttle.
+\item[Localizer] takes an image as input and has two scalar outputs for steering and throttle and one categorical output for location. The image is passed to a Linear network which has an additional Dense-ReLU output layer for a location output with the number of outputs specified by the user.
+\end{description}
+
+
+\section{DAgger}
+
+\subsection{Description}
+
+DA\textsc{gger} (Dataset Aggregation), developed by Ross et al. \cite{Ross2011}, is an iterative algorithm, which in each iteration \( i \) uses policy \( \pi_i \) to collect in dataset \( \mathcal{D}_i \) state-action pairs \( (s,\pi^*(s)) \), where \( s \) is the state visited by the policy \( \pi_i \) and \( \pi^*(s) \) is the associated action returned by an expert policy \( \pi^* \). A classifier \( \hat{ \pi}_{i+1} \) is then trained on \( \mathcal{D} = \mathcal{D}_1 \cup \dotsm \cup \mathcal{D}_i \) (see Figure \ref{fig:dagger}).
+
+In practice this means an expert, in our case \textbf{•TODO:} (lane follower), takes control of the autonomous car and collects image-action pairs, where the action is a steering angle and a throttle value. A classifier is trained on the available data and used to collect new images, all of which are then labeled by the expert. Those new image-action pairs are combined with the old and used to train the next classifier. The process of data collection, expert labelling, and training is repeated until a satisfactory classifier has been trained.
+
+\begin{figure}[h]
+\begin{algorithmic}[1]
+\STATE Initialize \(\mathcal{D}\gets \emptyset\)
+\FOR{ \( i=1 \) \TO \( N \)}
+\STATE Let \( \pi_i = \beta_i \pi^* + \left( 1- \beta_i\right)\hat{ \pi}_i \).
+\STATE Sample \textit{T}-step trajectories using \( \pi_i \).
+\STATE Get dataset \( \mathcal{D}_i = \left\{ \left( s, \pi^*(s)\right)\right\} \) of visited states by \( \pi_i \) and actions given by expert.
+\STATE Aggregate datasets: \( \mathcal{D}\gets \mathcal{D} \cup \mathcal{D}_i \).
+\STATE Train classifier \( \hat{ \pi}_{i+1} \) on \( \mathcal{D} \).
+\ENDFOR
+\RETURN best \( \hat{ \pi}_i \) on validation.
+\end{algorithmic}
+\caption{DA\textsc{gger} algorithm}
+\label{fig:dagger}
+\end{figure}
+
+Note, that due to the lack of data and therefore policies in the first iteration, we usually set
+\[
+\beta_i = \begin{cases}
+1,\quad\text{if }i=1\\
+0,\quad\text{else}
+\end{cases}
+\]
+or
+\[
+\beta_i = \begin{cases}
+1,\quad\text{if }i=1\\
+p^{i-1},\quad\text{else}
+\end{cases}
+\]
+where \( p \) is some probability, to directly utilize the expert as our first policy. Subsequent policies \( \hat{ \pi}_{i+1} \) are trained on expert labeled states visited by the current policy \( \pi_i \) or a combination of the current policy and the expert policy.
+
+\subsection{Implementation}
+We used a neural network, implemented in PyTorch, similar to the Linear network used by donkeycar to train the next policy on the expert labeled dataset. For details on the expert implementation see section \textbf{•TODO:} (no ml). We set \( \beta_1 = 1 \) utilizing the expert in the first iteration and \( \beta_{2:n} = 0 \) utilizing the trained policy in the remaining iterations.
+
+\subsection{Results}
+We measure distance travelled by the trained policy until the car veers off track. See table \ref{tab:results} for results.
+
+\begin{table}[!t]
+\renewcommand{\arraystretch}{1.3}
+\caption{Results}
+\centering
+\begin{tabular}{r|l}
+iteration&distance travelled\\
+\hline
+1&x laps\\
+\end{tabular}
+\label{tab:results}
+\end{table}
 
 \section{Conclusion}
 
@@ -80,6 +221,7 @@ Controller Arduino PCA9685
 	\fi
 	
 \bibitem{Abadi2016} M. Abadi et al. ``Tensorflow: Large-scale machine learning on heterogeneous distributed systems,'' arXiv preprint, 2016.
+\bibitem{Ross2011} S. Ross et al. ``A Reduction of Imitation Learning and Structured Prediction to No-Regret Online Learning'', Proceedings of the Fourteenth International Conference on Artificial Intelligence and Statistics, {AISTATS} 2011, Fort Lauderdale, USA, April 11-13, 2011
 \end{thebibliography}
 
 \end{document}

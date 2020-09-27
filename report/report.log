@@ -1,23 +1,26 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.7) (preloaded format=pdflatex 2020.9.10)  10 SEP 2020 23:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.6.6)  27 SEP 2020 15:26
 entering extended mode
-**./report.tex
-(report.tex
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**report.tex
+(./report.tex
 LaTeX2e <2020-02-02> patch level 5
-L3 programming layer <2020-08-07>
-("C:\Program Files\MiKTeX\tex/latex/ieeetran\IEEEtran.cls"
+L3 programming layer <2020-03-06>
+(/usr/local/texlive/2020/texmf-dist/tex/latex/IEEEtran/IEEEtran.cls
 Document Class: IEEEtran 2015/08/26 V1.8b by Michael Shell
 -- See the "IEEEtran_HOWTO" manual for usage information.
 -- http://www.michaelshell.org/tex/ieeetran/
 \@IEEEtrantmpdimenA=\dimen134
 \@IEEEtrantmpdimenB=\dimen135
 \@IEEEtrantmpdimenC=\dimen136
-\@IEEEtrantmpcountA=\count168
-\@IEEEtrantmpcountB=\count169
-\@IEEEtrantmpcountC=\count170
+\@IEEEtrantmpcountA=\count167
+\@IEEEtrantmpcountB=\count168
+\@IEEEtrantmpcountC=\count169
 \@IEEEtrantmptoksA=\toks15
 LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 5
 03.
-(C:\Users\alexb\AppData\Roaming\MiKTeX\tex/latex/psnfss\ot1ptm.fd
+(/usr/local/texlive/2020/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 -- Using 8.5in x 11in (letter) paper.
@@ -89,62 +92,62 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <24> not available
 \IEEEiednormlabelsep=\dimen150
 \IEEEiedmathlabelsep=\dimen151
 \IEEEiedtopsep=\skip47
-\c@section=\count171
-\c@subsection=\count172
-\c@subsubsection=\count173
-\c@paragraph=\count174
-\c@IEEEsubequation=\count175
+\c@section=\count170
+\c@subsection=\count171
+\c@subsubsection=\count172
+\c@paragraph=\count173
+\c@IEEEsubequation=\count174
 \abovecaptionskip=\skip48
 \belowcaptionskip=\skip49
-\c@figure=\count176
-\c@table=\count177
-\@IEEEeqnnumcols=\count178
-\@IEEEeqncolcnt=\count179
-\@IEEEsubeqnnumrollback=\count180
+\c@figure=\count175
+\c@table=\count176
+\@IEEEeqnnumcols=\count177
+\@IEEEeqncolcnt=\count178
+\@IEEEsubeqnnumrollback=\count179
 \@IEEEquantizeheightA=\dimen152
 \@IEEEquantizeheightB=\dimen153
 \@IEEEquantizeheightC=\dimen154
 \@IEEEquantizeprevdepth=\dimen155
-\@IEEEquantizemultiple=\count181
+\@IEEEquantizemultiple=\count180
 \@IEEEquantizeboxA=\box45
 \@IEEEtmpitemindent=\dimen156
 \IEEEPARstartletwidth=\dimen157
-\c@IEEEbiography=\count182
+\c@IEEEbiography=\count181
 \@IEEEtranrubishbin=\box46
 )
 ** ATTENTION: Overriding command lockouts (line 2).
-("C:\Program Files\MiKTeX\tex/latex/cite\cite.sty"
+(/usr/local/texlive/2020/texmf-dist/tex/latex/cite/cite.sty
 LaTeX Info: Redefining \cite on input line 302.
 LaTeX Info: Redefining \nocite on input line 332.
 Package: cite 2015/02/27  v 5.5
 )
-("C:\Program Files\MiKTeX\tex/latex/amsmath\amsmath.sty"
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2020/01/20 v2.17e AMS math features
 \@mathmargin=\skip50
 
 For additional information on amsmath, use the `?' option.
-("C:\Program Files\MiKTeX\tex/latex/amsmath\amstext.sty"
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2000/06/29 v2.01 AMS text
 
-("C:\Program Files\MiKTeX\tex/latex/amsmath\amsgen.sty"
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks16
 \ex@=\dimen158
 ))
-("C:\Program Files\MiKTeX\tex/latex/amsmath\amsbsy.sty"
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen159
 )
-("C:\Program Files\MiKTeX\tex/latex/amsmath\amsopn.sty"
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2016/03/08 v2.02 operator names
 )
-\inf@bad=\count183
+\inf@bad=\count182
 LaTeX Info: Redefining \frac on input line 227.
-\uproot@=\count184
-\leftroot@=\count185
+\uproot@=\count183
+\leftroot@=\count184
 LaTeX Info: Redefining \overline on input line 389.
-\classnum@=\count186
-\DOTSCASE@=\count187
+\classnum@=\count185
+\DOTSCASE@=\count186
 LaTeX Info: Redefining \ldots on input line 486.
 LaTeX Info: Redefining \dots on input line 489.
 LaTeX Info: Redefining \cdots on input line 610.
@@ -153,15 +156,15 @@ LaTeX Info: Redefining \cdots on input line 610.
 \big@size=\dimen160
 LaTeX Font Info:    Redeclaring font encoding OML on input line 733.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 734.
-\macc@depth=\count188
-\c@MaxMatrixCols=\count189
+\macc@depth=\count187
+\c@MaxMatrixCols=\count188
 \dotsspace@=\muskip16
-\c@parentequation=\count190
-\dspbrk@lvl=\count191
+\c@parentequation=\count189
+\dspbrk@lvl=\count190
 \tag@help=\toks17
-\row@=\count192
-\column@=\count193
-\maxfields@=\count194
+\row@=\count191
+\column@=\count192
+\maxfields@=\count193
 \andhelp@=\toks18
 \eqnshift@=\dimen161
 \alignsep@=\dimen162
@@ -176,10 +179,10 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 734.
 LaTeX Info: Redefining \[ on input line 2859.
 LaTeX Info: Redefining \] on input line 2860.
 )
-("C:\Program Files\MiKTeX\tex/latex/amsfonts\amssymb.sty"
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
 
-("C:\Program Files\MiKTeX\tex/latex/amsfonts\amsfonts.sty"
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
@@ -187,50 +190,50 @@ LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 ))
-("C:\Program Files\MiKTeX\tex/latex/algorithms\algorithmic.sty"
+(/usr/local/texlive/2020/texmf-dist/tex/latex/algorithms/algorithmic.sty
 Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
 
-("C:\Program Files\MiKTeX\tex/latex/base\ifthen.sty"
+(/usr/local/texlive/2020/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 )
-("C:\Program Files\MiKTeX\tex/latex/graphics\keyval.sty"
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks21
 )
-\c@ALC@unique=\count195
-\c@ALC@line=\count196
-\c@ALC@rem=\count197
-\c@ALC@depth=\count198
+\c@ALC@unique=\count194
+\c@ALC@line=\count195
+\c@ALC@rem=\count196
+\c@ALC@depth=\count197
 \ALC@tlm=\skip53
 \algorithmicindent=\skip54
 )
-("C:\Program Files\MiKTeX\tex/latex/graphics\graphicx.sty"
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2019/11/30 v1.2a Enhanced LaTeX Graphics (DPC,SPQR)
 
-("C:\Program Files\MiKTeX\tex/latex/graphics\graphics.sty"
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2019/11/30 v1.4a Standard LaTeX Graphics (DPC,SPQR)
 
-("C:\Program Files\MiKTeX\tex/latex/graphics\trig.sty"
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
 )
-("C:\Program Files\MiKTeX\tex/latex/graphics-cfg\graphics.cfg"
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 105.
 
-("C:\Program Files\MiKTeX\tex/latex/graphics-def\pdftex.def"
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics-def/pdftex.def
 File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen167
 \Gin@req@width=\dimen168
 )
-("C:\Program Files\MiKTeX\tex/latex/base\textcomp.sty"
+(/usr/local/texlive/2020/texmf-dist/tex/latex/base/textcomp.sty
 Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
 )
-("C:\Program Files\MiKTeX\tex/latex/xcolor\xcolor.sty"
+(/usr/local/texlive/2020/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
 
-("C:\Program Files\MiKTeX\tex/latex/graphics-cfg\color.cfg"
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 225.
@@ -244,12 +247,12 @@ Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 )
-("C:\Program Files\MiKTeX\tex/latex/l3backend\l3backend-pdfmode.def"
-File: l3backend-pdfmode.def 2020-08-07 L3 backend support: PDF mode
-\l__kernel_color_stack_int=\count199
+(/usr/local/texlive/2020/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
+File: l3backend-pdfmode.def 2020-03-12 L3 backend support: PDF mode
+\l__kernel_color_stack_int=\count198
 \l__pdf_internal_box=\box49
 )
-(report.aux)
+(./report.aux)
 \openout1 = `report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 12.
@@ -268,24 +271,58 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 12.
 LaTeX Font Info:    ... okay on input line 12.
 
 -- Lines per column: 56 (exact).
-("C:\Program Files\MiKTeX\tex/context/base/mkii\supp-pdf.mkii"
+(/usr/local/texlive/2020/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count266
+\scratchcounter=\count199
 \scratchdimen=\dimen169
 \scratchbox=\box50
-\nofMPsegments=\count267
-\nofMParguments=\count268
+\nofMPsegments=\count266
+\nofMParguments=\count267
 \everyMPshowfont=\toks22
-\MPscratchCnt=\count269
+\MPscratchCnt=\count268
 \MPscratchDim=\dimen170
-\MPnumerator=\count270
-\makeMPintoPDFobject=\count271
+\MPnumerator=\count269
+\makeMPintoPDFobject=\count270
 \everyMPtoPDFconversion=\toks23
-) ("C:\Program Files\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty"
+) (/usr/local/texlive/2020/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 85.
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 6
+5.
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+) [1{/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+
+
+]
+
+LaTeX Warning: Citation `Ross2011' on page 2 undefined on input line 153.
+
+LaTeX Font Info:    Trying to load font information for U+msa on input line 153
+.
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
+LaTeX Font Info:    Trying to load font information for U+msb on input line 153
+.
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+
+LaTeX Warning: Reference `fig:dagger' on page 2 undefined on input line 153.
+
+[2]
+
+LaTeX Warning: Reference `tab:results' on page 3 undefined on input line 193.
+
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -297,26 +334,40 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[1{C:/Users/alexb/AppData/Local/MiKTeX/pdftex/config/pdftex.map}
+[3
+
+] (./report.aux)
+
+LaTeX Warning: There were undefined references.
 
 
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-] (report.aux) ) 
+ ) 
 Here is how much of TeX's memory you used:
- 3774 strings out of 481212
- 53732 string characters out of 2915727
- 302379 words of memory out of 3000000
- 19359 multiletter control sequences out of 15000+200000
- 564455 words of font info for 77 fonts, out of 3000000 for 9000
+ 3884 strings out of 480608
+ 55663 string characters out of 5903631
+ 307107 words of memory out of 5000000
+ 19744 multiletter control sequences out of 15000+600000
+ 569646 words of font info for 96 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,8n,37p,232b,252s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Program Files/MiKTeX/fonts/enc/dvips/base/8r.enc}<C:/Progra
-m Files/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/
-type1/urw/times/utmbi8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmr
-8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (1 page, 54035 bytes).
+ 30i,9n,37p,626b,387s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
+exlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
+xlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/tex
+live/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texli
+ve/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive
+/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/20
+20/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/202
+0/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2020/
+texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2020/texmf-dist
+/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2020/texmf-dist/fonts/ty
+pe1/urw/times/utmr8a.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/urw/ti
+mes/utmri8a.pfb>
+Output written on report.pdf (3 pages, 115577 bytes).
 PDF statistics:
- 23 PDF objects out of 1000 (max. 8388607)
+ 59 PDF objects out of 1000 (max. 8388607)
+ 42 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
