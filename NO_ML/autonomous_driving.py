@@ -76,6 +76,7 @@ def main():
     motor_ctrl(18.5, pwm)
 
     while True:
+        motor_ctrl(19, pwm)
         frame, frame_lines, roi_frame, left_lane, right_lane = video.get_frame()
         direction = get_desired_direction(left_lane, right_lane, 352, 288)
         steeringangle = get_steeringangle(direction)
