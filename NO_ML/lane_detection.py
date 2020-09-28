@@ -33,7 +33,7 @@ def lane_detection(func):
     ''' decorator to detect lanes in video frame '''
     def func_wrapper(*args, **kwargs):
         frame = func(*args, **kwargs)
-        lines, left_lane, right_lane = np.array([]), np.array([]), np.array([])
+        left_lane, right_lane = np.array([]), np.array([])
 
         # TODO: detect ROI
         white = np.ones((288, 352, 1), dtype=np.uint8) * 255
