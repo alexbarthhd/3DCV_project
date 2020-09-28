@@ -8,7 +8,11 @@
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{siunitx}
+\usepackage{float}
 \usepackage{media9}
+\usepackage{subcaption}
+\newfloat{video}{!t}{ext}
+\floatname{video}{Video}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
@@ -108,20 +112,61 @@ Using steering angles is easier for the human because they do not need to be abs
 Similiar way is used for the motor control.
 Input values to the motor control function are percentages of the acceleration reaching from \numrange{-100}{100} which are again converted into PWM signals.
 
-\includemedia[
-width=0.9\linewidth,
-height=0.5\linewidth,
-addresource=steering.mp4,
-transparent, %transparent player background
-activate=pageopen,
-flashvars={source=steering.mp4
-	&hideBar=false
-	&loop=true % loop video
-	&controlBarMode=floating
-	&controlBarAutoHide=false
-	&scaleMode=letterbox % preserve aspect ratio while scaling the video
-}
-]{}{VPlayer.swf}
+\subsection{Lane Detection}
+
+Second subtask for driving autonomously is to detect the track lanes.
+
+\begin{figure*}
+	\centering
+	\begin{subfigure}[c]{0.24\textwidth}
+		
+		\centerline{\includegraphics[height=3cm]{media/lane_frame}}
+		\subcaption{Lane frame.}
+		
+	\end{subfigure}
+	\begin{subfigure}[c]{0.24\textwidth}
+		
+		\centerline{\includegraphics[height=3cm]{media/stencil}}
+		\subcaption{Stencil.}
+		
+	\end{subfigure}
+	\begin{subfigure}[c]{0.24\textwidth}
+		\centerline{\includegraphics[height=3cm]{media/roi_frame}}
+		\subcaption{ROI frame.}
+	\end{subfigure}
+	\begin{subfigure}[c]{0.24\textwidth}
+		\centerline{\includegraphics[height=3cm]{media/frame}}
+		\subcaption{Frame.}
+	\end{subfigure}
+	\caption{Lane detection.}
+	\label{fig:lanedet}
+\end{figure*}
+
+\subsection{Autonomous Driving}
+
+Both subtasks merged together result in autonomous driving.
+
+\begin{video}[!t]
+	\includemedia[
+	width=0.9\linewidth,
+	height=0.5\linewidth,
+	addresource=media/steering.mp4,
+	transparent, %transparent player background
+	deactivate=onclick,
+	activate=onclick,
+	flashvars={source=media/steering.mp4
+		&hideBar=false
+		&autoplay=true
+		&loop=true % loop video
+		&controlBarMode=floating
+		&controlBarAutoHide=false
+		&scaleMode=letterbox % preserve aspect ratio while scaling the video
+	}
+	]{}{VPlayer.swf}
+	\caption{Steering angle while driving.}
+	\label{vid:autodrive}
+\end{video}
+
 
 \section{Donkeycar Autopilot}
 
