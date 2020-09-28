@@ -45,7 +45,6 @@ def get_desired_direction(left_lane, right_lane, frame_width, frame_height):
     return np.array([[x1, y1, x2, y2]], dtype=np.int32)
 
 
-@stabilize_steeringangle
 def get_steeringangle(direction):
     ''' helper func to calc steeringangle in degrees [-25°, 25°] '''
     x1, y1, x2, y2 = direction[0]
