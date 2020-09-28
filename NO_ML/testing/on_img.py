@@ -146,6 +146,13 @@ def main():
 
     x1, y1, x2, y2 = direction[0]
     cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 255), 3)
+    stencil2 = np.repeat(stencil[...], 3, -1)
+    stencil3 = cv2.bitwise_not(stencil)
+    print(frame.shape, stencil.shape, stencil2.shape)
+
+    frame =  cv2.add(frame, stencil2)
+
+    # frame = cv2.add(frame,)
 
     image_path = "img" + str(time.asctime()) + '-' + str(steeringangle) + ".jpg"
     time_now = time.asctime().replace(' ', '-').replace(":", "-")
