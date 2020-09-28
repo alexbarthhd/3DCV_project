@@ -112,46 +112,46 @@ def main():
     lines = cv2.HoughLinesP(cv2.bitwise_not(roi_frame), 1, np.pi/180, 30,
                             minLineLength=80, maxLineGap=50)
 
+    try:
+        for line in lines:
+          x1, y1, x2, y2 = line[0]
+          cv2.line(frame, (x1, y1), (x2, y2), (0, 0, 255), 3)
 
-    for line in lines:
-      x1, y1, x2, y2 = line[0]
-      cv2.line(frame, (x1, y1), (x2, y2), (0, 0, 255), 3)
+        # TODO: filter to get one line for each lane
+        left_lines, right_lines = split_left_right(lines, 352, 288)
 
-    # TODO: filter to get one line for each lane
-    left_lines, right_lines = split_left_right(lines, 352, 288)
+        # color left lines in green
+        for line in left_lines:
+            x1, y1, x2, y2 = line[0]
+            cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 0), 3)
 
-    # color left lines in green
-    for line in left_lines:
-        x1, y1, x2, y2 = line[0]
-        cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 0), 3)
+            left_lane = np.mean(left_lines, axis=0, dtype=np.int32)
+            x1, y1, x2, y2 = left_lane[0]
+            cv2.line(frame, (x1, y1), (x2, y2), (0, 0, 255), 6)
 
-        left_lane = np.mean(left_lines, axis=0, dtype=np.int32)
-        x1, y1, x2, y2 = left_lane[0]
-        cv2.line(frame, (x1, y1), (x2, y2), (0, 0, 255), 6)
+        for line in right_lines:
+          x1, y1, x2, y2 = line[0]
+          cv2.line(frame, (x1, y1), (x2, y2), (255, 0, 0), 3)
 
-    for line in right_lines:
-      x1, y1, x2, y2 = line[0]
-      cv2.line(frame, (x1, y1), (x2, y2), (255, 0, 0), 3)
+          right_lane = np.mean(right_lines, axis=0, dtype=np.int32)
+          x1, y1, x2, y2 = right_lane[0]
+          cv2.line(frame, (x1, y1), (x2, y2), (0, 0, 255), 6)
 
-      right_lane = np.mean(right_lines, axis=0, dtype=np.int32)
-      x1, y1, x2, y2 = right_lane[0]
-      cv2.line(frame, (x1, y1), (x2, y2), (0, 0, 255), 6)
+        direction = get_desired_direction(left_lane, right_lane, 352, 288)
+        steeringangle = get_steeringangle(direction)
+        print(f"steeringangle: {steeringangle}")
+        print(f"left_lane: {left_lane}, right_lane: {right_lane}")
+        print(f"direction: {direction}")
 
-    direction = get_desired_direction(left_lane, right_lane, 352, 288)
-    steeringangle = get_steeringangle(direction)
-    print(f"steeringangle: {steeringangle}")
-    print(f"left_lane: {left_lane}, right_lane: {right_lane}")
-    print(f"direction: {direction}")
-
-    x1, y1, x2, y2 = direction[0]
-    cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 255), 3)
+        x1, y1, x2, y2 = direction[0]
+        cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 255), 3)
 
 
-    cv2.imshow("frame", frame)
-    cv2.imshow("stencil", stencil)
-    cv2.imshow("roi_frame", roi_frame)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+        cv2.imshow("frame", frame)
+        cv2.imshow("stencil", stencil)
+        cv2.imshow("roi_frame", roi_frame)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
 
 
 if __name__ == "__main__":

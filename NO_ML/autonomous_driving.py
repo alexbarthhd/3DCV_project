@@ -84,29 +84,33 @@ def main():
     time.sleep(1)
     motor_ctrl(18.5, pwm)
 
-    while True:
-        motor_ctrl(19, pwm)
-        frame, frame_lines, roi_frame, left_lane, right_lane = video.get_frame()
-        direction = get_desired_direction(left_lane, right_lane, 352, 288)
-        steeringangle = get_steeringangle(direction)
-        steering(steeringangle, pwm)
+    try:
+        while True:
+            motor_ctrl(19, pwm)
+            frame, frame_lines, roi_frame, left_lane, right_lane = video.get_frame()
+            direction = get_desired_direction(left_lane, right_lane, 352, 288)
+            steeringangle = get_steeringangle(direction)
+            steering(steeringangle, pwm)
 
-        x1, y1, x2, y2 = direction[0]
-        cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 255), 3)
-        cv2.putText(frame, f"steeringangle: {steeringangle}", (20, 20),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, 255)
+            x1, y1, x2, y2 = direction[0]
+            cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 255), 3)
+            cv2.putText(frame, f"steeringangle: {steeringangle}", (20, 20),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, 255)
 
-        cv2.imshow("frame", frame)
-        cv2.imshow("frame w/ lines", frame_lines)
-        cv2.imshow("ROI frame", roi_frame)
+            cv2.imshow("frame", frame)
+            cv2.imshow("frame w/ lines", frame_lines)
+            cv2.imshow("ROI frame", roi_frame)
 
-        out.write(frame)
+            out.write(frame)
 
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+    except Exception as e:
+        print(e)
+    finally:
+        motor_ctrl(0, pwm)
+        steering(0, pwm)
 
-    motor_ctrl(0, pwm)
-    steering(0, pwm)
     pass
 
 if __name__ == "__main__":
