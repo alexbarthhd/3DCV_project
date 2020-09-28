@@ -45,6 +45,7 @@ def get_desired_direction(left_lane, right_lane, frame_width, frame_height):
     return np.array([[x1, y1, x2, y2]], dtype=np.int32)
 
 
+@stabilize_steeringangle
 def get_steeringangle(direction):
     ''' helper func to calc steeringangle in degrees [-25°, 25°] '''
     x1, y1, x2, y2 = direction[0]
@@ -75,22 +76,39 @@ def get_steeringangle(direction):
     return np.degrees(angle)
 
 
+def stabilize_steeringangle(steeringangle, last_steeringangle, max_deviation):
+    deviation = abs(abs(steeringangle) - abs(last_steeringangle))
+
+    if deviation > max_deviation:
+        if steeringangle > 0:
+            steeringangle = last_steeringangle + max_deviation
+        elif steeringangle < 0:
+            steeringangle = last_steeringangle - max_deviation
+
+    return steeringangle
+
+
 def main():
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
     out = cv2.VideoWriter(f"testing/testrun{time.asctime()}.avi", fourcc, 20.0, (352, 288))
     pwm = config_pwm(hz=60)
     video = Video(0, 352, 288)
+    last_steeringangle = 0
+
     motor_ctrl(0, pwm)
     time.sleep(1)
     motor_ctrl(18.5, pwm)
 
     try:
         while True:
-            # motor_ctrl(19, pwm)
             frame, frame_lines, roi_frame, left_lane, right_lane = video.get_frame()
             direction = get_desired_direction(left_lane, right_lane, 352, 288)
+
             steeringangle = get_steeringangle(direction)
+            steeringangle = stabilize_steeringangle(steeringangle,
+                                                    last_steeringangle, 5)
             steering(steeringangle, pwm)
+            last_steeringangle = steeringangle
 
             x1, y1, x2, y2 = direction[0]
             cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 255), 3)
