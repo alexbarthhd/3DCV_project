@@ -115,11 +115,14 @@ def main():
             cv2.putText(frame_direction, f"steeringangle: {steeringangle}", (20, 20),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, 255)
 
-            cv2.imwrite(f"testing/dataset/img-{time.asctime()}-{steeringangle}.jpg", frame)
-            cv2.imwrite(f"testing/dataset/img-ctrl-{time.asctime()}-{steeringangle}.jpg", frame_direction)
+            time_now = time.asctime().replace(' ', '-').replace(":", "-")
+            cv2.imwrite("testing/dataset/img-{}-{:.1f}.png".format(time_now, steeringangle), frame)
+            cv2.imwrite("testing/dataset/img-ctrl-{}-{:.1f}.png".format(time_now, steeringangle), frame_direction)
+
             cv2.imshow("frame", frame)
+            cv2.imshow("frame-direction", frame_direction)
             cv2.imshow("frame w/ lines", frame_lines)
-            cv2.imshow("ROI frame", roi_frame)
+            #cv2.imshow("ROI frame", roi_frame)
 
             #out.write(frame)
 
