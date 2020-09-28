@@ -75,38 +75,59 @@ def get_steeringangle(direction):
     return np.degrees(angle)
 
 
+def stabilize_steeringangle(steeringangle, last_steeringangle, max_deviation):
+    deviation = steeringangle - last_steeringangle
+
+    if abs(deviation) > max_deviation:
+        if steeringangle > last_steeringangle:
+            steeringangle = last_steeringangle + max_deviation
+        else:
+            steeringangle = last_steeringangle - max_deviation
+
+    return steeringangle
+
+
 def main():
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
     out = cv2.VideoWriter(f"testing/testrun{time.asctime()}.avi", fourcc, 20.0, (352, 288))
     pwm = config_pwm(hz=60)
     video = Video(0, 352, 288)
+    last_steeringangle = 0
+
     motor_ctrl(0, pwm)
     time.sleep(1)
     motor_ctrl(18.5, pwm)
 
-    while True:
-        motor_ctrl(19, pwm)
-        frame, frame_lines, roi_frame, left_lane, right_lane = video.get_frame()
-        direction = get_desired_direction(left_lane, right_lane, 352, 288)
-        steeringangle = get_steeringangle(direction)
-        steering(steeringangle, pwm)
+    try:
+        while True:
+            frame, frame_lines, roi_frame, left_lane, right_lane = video.get_frame()
+            direction = get_desired_direction(left_lane, right_lane, 352, 288)
 
-        x1, y1, x2, y2 = direction[0]
-        cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 255), 3)
-        cv2.putText(frame, f"steeringangle: {steeringangle}", (20, 20),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, 255)
+            steeringangle = get_steeringangle(direction)
+            steeringangle = stabilize_steeringangle(steeringangle,
+                                                    last_steeringangle, 5)
+            steering(steeringangle, pwm)
+            last_steeringangle = steeringangle
 
-        cv2.imshow("frame", frame)
-        cv2.imshow("frame w/ lines", frame_lines)
-        cv2.imshow("ROI frame", roi_frame)
+            x1, y1, x2, y2 = direction[0]
+            cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 255), 3)
+            cv2.putText(frame, f"steeringangle: {steeringangle}", (20, 20),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, 255)
 
-        out.write(frame)
+            cv2.imshow("frame", frame)
+            cv2.imshow("frame w/ lines", frame_lines)
+            cv2.imshow("ROI frame", roi_frame)
 
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+            out.write(frame)
 
-    motor_ctrl(0, pwm)
-    steering(0, pwm)
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+    except Exception as e:
+        print(e)
+    finally:
+        motor_ctrl(0, pwm)
+        steering(0, pwm)
+
     pass
 
 if __name__ == "__main__":
