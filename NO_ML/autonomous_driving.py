@@ -110,10 +110,14 @@ def main():
             last_steeringangle = steeringangle
 
             x1, y1, x2, y2 = direction[0]
+            white = np.ones((288, 352, 1), dtype=np.uint8) * 255
+            roi = np.array([[0, 288], [0, 230], [88, 130], [264, 130], [352, 230],
+                            [352, 288]])
+            stencil = cv2.fillConvexPoly(white, roi, 0)
             stencil2 = np.repeat(stencil[...], 3, -1)
             frame =  cv2.add(frame, stencil2)
             frame_direction = np.copy(frame)
-            
+
             cv2.line(frame_direction, (x1, y1), (x2, y2), (0, 255, 255), 3)
             cv2.putText(frame_direction, f"steeringangle: {steeringangle}", (20, 20),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, 255)
