@@ -8,6 +8,7 @@
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{siunitx}
+\usepackage{media9}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
@@ -106,6 +107,21 @@ The input for the steering function are steering angles reaching from \numrange{
 Using steering angles is easier for the human because they do not need to be abstracted.
 Similiar way is used for the motor control.
 Input values to the motor control function are percentages of the acceleration reaching from \numrange{-100}{100} which are again converted into PWM signals.
+
+\includemedia[
+width=0.9\linewidth,
+height=0.5\linewidth,
+addresource=steering.mp4,
+transparent, %transparent player background
+activate=pageopen,
+flashvars={source=steering.mp4
+	&hideBar=false
+	&loop=true % loop video
+	&controlBarMode=floating
+	&controlBarAutoHide=false
+	&scaleMode=letterbox % preserve aspect ratio while scaling the video
+}
+]{}{VPlayer.swf}
 
 \section{Donkeycar Autopilot}
 
