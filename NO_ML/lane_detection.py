@@ -52,7 +52,7 @@ def lane_detection(func):
                                 minLineLength=80, maxLineGap=50)
 
         # get lanes
-        if lines.size != 0:
+        if lines:
             left_lines, right_lines = split_left_right(lines, 352, 288)
             frame_lines = np.copy(frame)
 
