@@ -34,6 +34,11 @@ def get_desired_direction(left_lane, right_lane, frame_width, frame_height):
         x1 = right_lane[0, 0] - 0.25 * frame_width
         y1 = right_lane[0, 1]
 
+    # steer straight ahead if nothing is detected
+    else:
+        x1 = 0.5 * frame_width
+        y1 = 0.5 * frame_height
+
     x2 = 0.5 * frame_width
     y2 = frame_height
 
