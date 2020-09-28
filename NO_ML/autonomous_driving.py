@@ -89,7 +89,7 @@ def stabilize_steeringangle(steeringangle, last_steeringangle, max_deviation):
 
 def main():
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
-    out = cv2.VideoWriter(f"testing/testrun{time.asctime()}.avi", fourcc, 20.0, (352, 288))
+    #out = cv2.VideoWriter(f"testing/testrun{time.asctime()}.avi", fourcc, 20.0, (352, 288))
     pwm = config_pwm(hz=60)
     video = Video(0, 352, 288)
     last_steeringangle = 0
@@ -104,21 +104,24 @@ def main():
             direction = get_desired_direction(left_lane, right_lane, 352, 288)
 
             steeringangle = get_steeringangle(direction)
-            steeringangle = stabilize_steeringangle(steeringangle,
-                                                    last_steeringangle, 5)
+            #steeringangle = stabilize_steeringangle(steeringangle,
+            #                                        last_steeringangle, 5)
             steering(steeringangle, pwm)
             last_steeringangle = steeringangle
 
             x1, y1, x2, y2 = direction[0]
-            cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 255), 3)
-            cv2.putText(frame, f"steeringangle: {steeringangle}", (20, 20),
+            frame_direction = np.copy(frame)
+            cv2.line(frame_direction, (x1, y1), (x2, y2), (0, 255, 255), 3)
+            cv2.putText(frame_direction, f"steeringangle: {steeringangle}", (20, 20),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, 255)
 
+            cv2.imwrite(f"testing/dataset/img-{time.asctime()}-{steeringangle}.jpg", frame)
+            cv2.imwrite(f"testing/dataset/img-ctrl-{time.asctime()}-{steeringangle}.jpg", frame_direction)
             cv2.imshow("frame", frame)
             cv2.imshow("frame w/ lines", frame_lines)
             cv2.imshow("ROI frame", roi_frame)
 
-            out.write(frame)
+            #out.write(frame)
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
