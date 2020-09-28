@@ -77,12 +77,12 @@ def get_steeringangle(direction):
 
 
 def stabilize_steeringangle(steeringangle, last_steeringangle, max_deviation):
-    deviation = abs(abs(steeringangle) - abs(last_steeringangle))
+    deviation = steeringangle - last_steeringangle
 
-    if deviation > max_deviation:
-        if steeringangle > 0:
+    if abs(deviation) > max_deviation:
+        if steeringangle > last_steeringangle:
             steeringangle = last_steeringangle + max_deviation
-        elif steeringangle < 0:
+        else:
             steeringangle = last_steeringangle - max_deviation
 
     return steeringangle
