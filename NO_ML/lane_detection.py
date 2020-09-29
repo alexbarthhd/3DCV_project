@@ -107,7 +107,7 @@ class Video:
         self.cap.set(3, self.width)
         self.cap.set(4, self.height)
 
-    @lane_detection
+    @lane_detection("square")
     def get_frame(self):
         ret, frame = self.cap.read()
         if ret:
