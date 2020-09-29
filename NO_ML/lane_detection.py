@@ -33,7 +33,7 @@ def lane_detection(func):
     ''' decorator to detect lanes in video frame '''
     def func_wrapper(*args, **kwargs):
         frame = func(*args, **kwargs)
-        lines, left_lane, right_lane = np.array([]), np.array([]), np.array([])
+        left_lane, right_lane = np.array([]), np.array([])
 
         # TODO: detect ROI
         white = np.ones((288, 352, 1), dtype=np.uint8) * 255
@@ -48,11 +48,12 @@ def lane_detection(func):
         roi_frame = cv2.add(frame_binary, stencil)
 
         # TODO: Hough line transformation
-        lines = cv2.HoughLinesP(cv2.bitwise_not(roi_frame), 1, np.pi/180, 30,
-                                minLineLength=80, maxLineGap=50)
+        lines = cv2.HoughLinesP(cv2.bitwise_not(roi_frame), 1, theta=np.pi/180,
+                                threshold=30, minLineLength=80, maxLineGap=50)
 
         # get lanes
-        if lines.size != 0:
+        # if-clause b/c cv2.HoughLineP(...) returns None if nothing is detected
+        if str(type(lines)) == "<class 'numpy.ndarray'>":
             left_lines, right_lines = split_left_right(lines, 352, 288)
             frame_lines = np.copy(frame)
 
