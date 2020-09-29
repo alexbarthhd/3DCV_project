@@ -5,6 +5,8 @@ import numpy as np
 from driving_functions import config_pwm, steering, motor_ctrl
 from lane_detection import Video, get_laneangle
 
+import torch
+from drive_model import DriveModel
 
 def steering_warmup():
     pwm = config_pwm(hz=60)
@@ -98,16 +100,20 @@ def main():
     time.sleep(1)
     motor_ctrl(18.5, pwm)
 
+    model = DriveModel(288, 352, 3)
+    model.load_state_dict(torch.load('dagger.h5'))
+    model.eval()
+
     try:
         while True:
             frame, frame_lines, roi_frame, left_lane, right_lane = video.get_frame()
             direction = get_desired_direction(left_lane, right_lane, 352, 288)
 
-            steeringangle = get_steeringangle(direction)
+            #steeringangle = get_steeringangle(direction)
             #steeringangle = stabilize_steeringangle(steeringangle,
             #                                        last_steeringangle, 5)
-            steering(steeringangle, pwm)
-            last_steeringangle = steeringangle
+            #steering(steeringangle, pwm)
+            #last_steeringangle = steeringangle
 
             x1, y1, x2, y2 = direction[0]
             white = np.ones((288, 352, 1), dtype=np.uint8) * 255
@@ -117,6 +123,10 @@ def main():
             stencil2 = np.repeat(stencil[...], 3, -1)
             frame =  cv2.add(frame, stencil2)
             frame_direction = np.copy(frame)
+
+            # model call
+            steeringangle, _ = model(frame)
+            steeringangle = steeringangle.squeeze().item()
 
             cv2.line(frame_direction, (x1, y1), (x2, y2), (0, 255, 255), 3)
             cv2.putText(frame_direction, f"steeringangle: {steeringangle}", (20, 20),
