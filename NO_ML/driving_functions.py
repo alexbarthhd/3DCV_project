@@ -1,4 +1,5 @@
 import Adafruit_PCA9685
+import time
 
 
 def config_pwm(hz):
@@ -46,3 +47,12 @@ def motor_ctrl(acceleration, pwm):
         pwm.set_pwm(0, 0, int(pulse_length))
     else:
         print("acceleration out of range")
+
+
+def go_slow(pwm, max_acc, sleep_time):
+    ''' pwm inception '''
+    while(1):
+        time.sleep(sleep_time)
+        motor_ctrl(0, pwm)
+        time.sleep(sleep_time)
+        motor_ctrl(max_acc, pwm)
