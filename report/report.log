@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.7) (preloaded format=pdflatex 2020.9.28)  29 SEP 2020 12:29
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.7) (preloaded format=pdflatex 2020.9.28)  29 SEP 2020 12:32
 entering extended mode
 **./report.tex
 (report.tex
@@ -749,17 +749,18 @@ Package pdftex.def Info: media/frame.png  used on input line 138.
 ftex/config/pdftex.map}
 
 
-]<<media/dataset_ctrl.mp4>><<media/dataset.mp4>>
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 2
-15.
+]
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
+75.
 
 (C:\Users\alexb\AppData\Roaming\MiKTeX\tex/latex/psnfss\ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [2 <./media/lane_frame.jpg> <./media/stencil.png (PNG copy)> <./media/roi_fra
-me.png (PNG copy)> <./media/frame.png (PNG copy)>]
-Underfull \vbox (badness 1226) has occurred while \output is active []
+)
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [3]
+ [2 <./media/lane_frame.jpg> <./media/stencil.png (PNG copy)> <./media/roi_fram
+e.png (PNG copy)> <./media/frame.png (PNG copy)>]<<media/dataset_ctrl.mp4>> [3]
+<<media/dataset.mp4>>
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -775,10 +776,10 @@ Before submitting the final camera ready copy, remember to:
 
 ] (report.aux) ) 
 Here is how much of TeX's memory you used:
- 19154 strings out of 481171
- 403808 string characters out of 2914264
- 608536 words of memory out of 3000000
- 34446 multiletter control sequences out of 15000+200000
+ 19155 strings out of 481171
+ 403819 string characters out of 2914264
+ 609008 words of memory out of 3000000
+ 34447 multiletter control sequences out of 15000+200000
  574095 words of font info for 110 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  61i,9n,60p,590b,671s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -792,7 +793,7 @@ gram Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files/Mi
 KTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/
 times/utmbi8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:
 /Program Files/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (4 pages, 1909449 bytes).
+Output written on report.pdf (4 pages, 1909615 bytes).
 PDF statistics:
  118 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
