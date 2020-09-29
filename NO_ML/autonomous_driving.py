@@ -1,7 +1,7 @@
 import cv2
 import time
 import numpy as np
-import _threads
+import multiprocessing
 
 from driving_functions import config_pwm, steering, motor_ctrl, go_slow_multistep
 from lane_detection import Video, get_laneangle
@@ -152,12 +152,19 @@ def main(generate_dataset=False, stabilize=False):
 def turtle_mode():
     try:
         pwm = config_pwm(hz=60)
-        lane_detection_thread = _thread.start_new_thread(main)
+        lane_detection_proc = multiprocessing.Process(target=main, args=())
+        lane_detection_proc.start()
         time.sleep(1)
-        motor_thread = _thread.start_new_thread(go_slow_multistep, (pwm, 22, 0.15, 2,))
+        motor_proc = multiprocessing.Process(target=go_slow_multistep,
+                                             args=(pwm, 22, 0.15, 2,))
+        motor_proc.start()
     except KeyboardInterrupt:
-        lane_detection_thread.exit()
-        motor_thread.exit()
+        lane_detection_proc.terminate()
+        lane_detection_proc.join()
+
+        motor_proc.terminate()
+        motor_proc.join()
+
         motor_ctrl(0, pwm)
         steering(0, pwm)
 
