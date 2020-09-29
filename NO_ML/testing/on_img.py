@@ -113,6 +113,7 @@ def main():
     lines = cv2.HoughLinesP(cv2.bitwise_not(roi_frame), 1, np.pi/180, 30,
                             minLineLength=80, maxLineGap=50)
     print(type(lines))
+    print(frame.shape, frame.shape[0])
 
     if str(type(lines)) == "<class 'numpy.ndarray'>":
         for line in lines:
