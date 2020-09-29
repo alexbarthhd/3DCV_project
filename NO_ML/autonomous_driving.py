@@ -24,6 +24,7 @@ def motor_test():
 
 
 def get_desired_direction(left_lane, right_lane, frame_width, frame_height):
+    ''' helper func to calc desired direction based on given lanes '''
     if left_lane.size != 0 and right_lane.size != 0:
         x1 = 0.5 * (right_lane[0, 0] + left_lane[0, 2])
         y1 = 0.5 * (right_lane[0, 1] + left_lane[0, 3])
@@ -76,6 +77,8 @@ def get_steeringangle(direction):
 
 
 def stabilize_steeringangle(steeringangle, last_steeringangle, max_deviation):
+    ''' helper func to stabilze steeringangle by comparing it to the previous
+        steeringangle '''
     deviation = steeringangle - last_steeringangle
 
     if abs(deviation) > max_deviation:
@@ -87,13 +90,12 @@ def stabilize_steeringangle(steeringangle, last_steeringangle, max_deviation):
     return steeringangle
 
 
-def main():
-    fourcc = cv2.VideoWriter_fourcc(*'XVID')
-    #out = cv2.VideoWriter(f"testing/testrun{time.asctime()}.avi", fourcc, 20.0, (352, 288))
+def main(generate_dataset=False, stabilize=False):
     pwm = config_pwm(hz=60)
     video = Video(0, 352, 288)
     last_steeringangle = 0
 
+    # init motor
     motor_ctrl(0, pwm)
     time.sleep(1)
     motor_ctrl(18.5, pwm)
@@ -102,36 +104,40 @@ def main():
         while True:
             frame, frame_lines, roi_frame, left_lane, right_lane = video.get_frame()
             direction = get_desired_direction(left_lane, right_lane, 352, 288)
+            x1, y1, x2, y2 = direction[0]
 
             steeringangle = get_steeringangle(direction)
-            #steeringangle = stabilize_steeringangle(steeringangle,
-            #                                        last_steeringangle, 5)
+
+            if stabilize:
+                steeringangle = stabilize_steeringangle(steeringangle,
+                                                        last_steeringangle, 5)
+                last_steeringangle = steeringangle
+
             steering(steeringangle, pwm)
-            last_steeringangle = steeringangle
 
-            x1, y1, x2, y2 = direction[0]
-            white = np.ones((288, 352, 1), dtype=np.uint8) * 255
-            roi = np.array([[0, 288], [0, 230], [88, 130], [264, 130], [352, 230],
-                            [352, 288]])
-            stencil = cv2.fillConvexPoly(white, roi, 0)
-            stencil2 = np.repeat(stencil[...], 3, -1)
-            frame =  cv2.add(frame, stencil2)
-            frame_direction = np.copy(frame)
+            if generate_dataset:
+                white = np.ones((288, 352, 1), dtype=np.uint8) * 255
+                roi = np.array([[0, 288], [0, 230], [88, 130], [264, 130],
+                                [352, 230], [352, 288]])
+                stencil = cv2.fillConvexPoly(white, roi, 0)
+                stencil2 = np.repeat(stencil[...], 3, -1)
+                frame =  cv2.add(frame, stencil2)
+                frame_direction = np.copy(frame)
 
-            cv2.line(frame_direction, (x1, y1), (x2, y2), (0, 255, 255), 3)
-            cv2.putText(frame_direction, f"steeringangle: {steeringangle}", (20, 20),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, 255)
+                cv2.line(frame_direction, (x1, y1), (x2, y2), (0, 255, 255), 3)
+                cv2.putText(frame_direction, f"steeringangle: {steeringangle}",
+                            (20, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, 255)
 
-            time_now = time.asctime().replace(' ', '-').replace(":", "-")
-            cv2.imwrite("testing/dataset/img-{}-{:.1f}.png".format(time_now, steeringangle), frame)
-            cv2.imwrite("testing/dataset/img-ctrl-{}-{:.1f}.png".format(time_now, steeringangle), frame_direction)
+                time_now = time.asctime().replace(' ', '-').replace(":", "-")
+                cv2.imwrite("testing/dataset/img-{}-{:.1f}.png".format(time_now, steeringangle), frame)
+                cv2.imwrite("testing/dataset/img-ctrl-{}-{:.1f}.png".format(time_now, steeringangle), frame_direction)
+                cv2.imshow("frame-direction", frame_direction)
+            else:
+                cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 255), 3)
 
             cv2.imshow("frame", frame)
-            cv2.imshow("frame-direction", frame_direction)
             cv2.imshow("frame w/ lines", frame_lines)
-            #cv2.imshow("ROI frame", roi_frame)
-
-            #out.write(frame)
+            cv2.imshow("ROI frame", roi_frame)
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
@@ -141,7 +147,6 @@ def main():
         motor_ctrl(0, pwm)
         steering(0, pwm)
 
-    pass
 
 if __name__ == "__main__":
     steering_warmup()
