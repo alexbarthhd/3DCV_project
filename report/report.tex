@@ -8,7 +8,11 @@
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{siunitx}
+\usepackage{float}
 \usepackage{media9}
+\usepackage{subcaption}
+\newfloat{video}{!t}{ext}
+\floatname{video}{Video}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
@@ -108,20 +112,60 @@ Using steering angles is easier for the human because they do not need to be abs
 Similiar way is used for the motor control.
 Input values to the motor control function are percentages of the acceleration reaching from \numrange{-100}{100} which are again converted into PWM signals.
 
-\includemedia[
-width=0.9\linewidth,
-height=0.5\linewidth,
-addresource=steering.mp4,
-transparent, %transparent player background
-activate=pageopen,
-flashvars={source=steering.mp4
-	&hideBar=false
-	&loop=true % loop video
-	&controlBarMode=floating
-	&controlBarAutoHide=false
-	&scaleMode=letterbox % preserve aspect ratio while scaling the video
-}
-]{}{VPlayer.swf}
+\subsection{Lane Detection}
+
+Second subtask for driving autonomously is to detect the track lanes.
+
+\begin{figure*}
+	\centering
+	\begin{subfigure}[c]{0.24\textwidth}
+		
+		\centerline{\includegraphics[height=3cm]{media/lane_frame}}
+		\subcaption{Lane frame.}
+		
+	\end{subfigure}
+	\begin{subfigure}[c]{0.24\textwidth}
+		
+		\centerline{\includegraphics[height=3cm]{media/stencil}}
+		\subcaption{Stencil.}
+		
+	\end{subfigure}
+	\begin{subfigure}[c]{0.24\textwidth}
+		\centerline{\includegraphics[height=3cm]{media/roi_frame}}
+		\subcaption{ROI frame.}
+	\end{subfigure}
+	\begin{subfigure}[c]{0.24\textwidth}
+		\centerline{\includegraphics[height=3cm]{media/frame}}
+		\subcaption{Frame.}
+	\end{subfigure}
+	\caption{Lane detection.}
+	\label{fig:lanedet}
+\end{figure*}
+
+\subsection{Autonomous Driving}
+
+Both subtasks merged together result in autonomous driving.
+
+\begin{video}[!t]
+	\includemedia[
+	width=0.9\linewidth,
+	height=0.5\linewidth,
+	addresource=media/steering.mp4,
+	transparent, %transparent player background
+	deactivate=onclick,
+	activate=onclick,
+	flashvars={source=media/steering.mp4
+		&hideBar=false
+		&autoplay=true
+		&loop=true % loop video
+		&controlBarMode=floating
+		&controlBarAutoHide=false
+		&scaleMode=letterbox % preserve aspect ratio while scaling the video
+	}
+	]{}{VPlayer.swf}
+	\caption{Steering angle while driving.}
+	\label{vid:autodrive}
+\end{video}
 
 \section{Donkeycar Autopilot}
 
@@ -181,7 +225,7 @@ Dense-ReLU, 50 outputs
 \item
 Dense-Linear, 1 output for steering and Dense-Linear, 1 output for throttle
 \end{enumerate}
-\item[IMU] takes an image and an IMU vector as input and has two scalar outputs for steering and throttle. The image is passed to a Linear network without layers 7 and 8, while the IMU vector is passed to a network with 3 Dense-ReLU layers with 14 outputs each. The outputs of both networks are concatenated and passed to a network with 2 Dense-ReLU layers with 50 outputs each and two separate Dense-Linear layers with 1 output for steering and throttle respectively.
+\item[IMU] takes an image and an inertial measurement unit vector as input and has two scalar outputs for steering and throttle. The image is passed to a Linear network without layers 7 and 8, while the IMU vector is passed to a network with 3 Dense-ReLU layers with 14 outputs each. The outputs of both networks are concatenated and passed to a network with 2 Dense-ReLU layers with 50 outputs each and two separate Dense-Linear layers with 1 output for steering and throttle respectively.
 \item[Latent] takes an image as input and has two scalar outputs and an image output. This experimental model type uses convolutional layers to learn a latent vector and transposed convolutional layers to reconstruct an image from the latent vector as well as dense layers to produce the steering and throttle outputs from the same latent vector.
 \item[RNN] takes a sequence of images as input and has one 2D output for steering and throttle. The images are passed to a Linear network whose last Conv-ReLU layer is replaced with a 2x2 MaxPooling layer and the Dense-ReLU layer with 50 outputs is removed entirely. To make use of the sequence of images, each layer is wrapped inside a TimeDistributed layer, which applies the wrapped layers to each input. Two Long Short-Term Memory layers with 128 outputs followed by four Dense-ReLU layers with 128, 64, 10, and 2 outputs respectively complete the network.
 \item[3D] takes a sequence of images as input and has one 2D output for steering and throttle. The input is passed to a network with the following layers:
@@ -213,6 +257,25 @@ Dense, 2 outputs
 \item[Localizer] takes an image as input and has two scalar outputs for steering and throttle and one categorical output for location. The image is passed to a Linear network which has an additional Dense-ReLU output layer for a location output with the number of outputs specified by the user.
 \end{description}
 
+\subsection{Results}
+
+We recorded 5 laps worth of footage on the track ``donkey-generated-track-v0'' and trained five models on the data. The model types used were: 3D, Categorical, Latent, Linear, and RNN. Behaviour, IMU, and Localizer couldn't be used due to technical constraints of the gym-environment. We let the model drive the car for 50 laps and measured the distance travelled by the model driver if the car veered off track before completing the 50 laps. The 3D model type was the only one incapable of following the track. Recommended models are Linear for a smooth driving experience and Categorical if speed is more important than smoothness.
+
+\begin{table}[!t]
+\renewcommand{\arraystretch}{1.3}
+\caption{Simulation Results}
+\centering
+\begin{tabular}{rll}
+type&laps&fastest lap\\
+\hline
+3D&-&-\\
+Categorical&50&24s\\
+Latent&50&31s\\
+Linear&50&29s\\
+RNN&50&32s\\
+\end{tabular}
+\label{tab:simresults}
+\end{table}
 
 \section{DAgger}
 
@@ -274,6 +337,51 @@ iteration&distance travelled\\
 
 \section{Conclusion}
 
+\section{Placeholder}
+
+move to best fitting (sub-)section
+
+\begin{video}[!t]
+	\includemedia[
+	width=0.9\linewidth,
+	height=0.5\linewidth,
+	addresource=media/dataset_ctrl.mp4,
+	transparent, %transparent player background
+	deactivate=onclick,
+	activate=onclick,
+	flashvars={source=media/dataset_ctrl.mp4
+		&hideBar=false
+		&autoplay=true
+		&loop=true % loop video
+		&controlBarMode=floating
+		&controlBarAutoHide=false
+		&scaleMode=letterbox % preserve aspect ratio while scaling the video
+	}
+	]{}{VPlayer.swf}
+	\caption{Dataset with control values.}
+	\label{vid:datacrtl}
+\end{video}
+
+\begin{video}[!t]
+	\includemedia[
+	width=0.9\linewidth,
+	height=0.5\linewidth,
+	addresource=media/dataset.mp4,
+	transparent, %transparent player background
+	deactivate=onclick,
+	activate=onclick,
+	flashvars={source=media/dataset.mp4
+		&hideBar=false
+		&autoplay=true
+		&loop=true % loop video
+		&controlBarMode=floating
+		&controlBarAutoHide=false
+		&scaleMode=letterbox % preserve aspect ratio while scaling the video
+	}
+	]{}{VPlayer.swf}
+	\caption{Dataset.}
+	\label{vid:dataset}
+\end{video}
 \section*{References}
 
 \begin{thebibliography}{00}
