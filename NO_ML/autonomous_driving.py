@@ -127,6 +127,7 @@ def main():
             # model call
             steeringangle, _ = model(frame)
             steeringangle = steeringangle.squeeze().item()
+            steering(steeringangle, pwm)
 
             cv2.line(frame_direction, (x1, y1), (x2, y2), (0, 255, 255), 3)
             cv2.putText(frame_direction, f"steeringangle: {steeringangle}", (20, 20),
