@@ -1,4 +1,4 @@
-from drive_dataset import DriveDataset
+from drive_dataset_2 import DriveDataset
 
 from drive_model import DriveModel
 
@@ -21,7 +21,7 @@ from torch.utils.data.sampler import SubsetRandomSampler
 from torchvision import transforms
 
 class ManualTrain:
-    def __init__(self, width, height, channels, model_path = 'models/m_dagger.h5', data_path = 'data', validation_split = .2, batch_size = 1, num_workers = 1, epochs = 10):
+    def __init__(self, width, height, channels, model_path = 'm_dagger.h5', data_path = 'data', validation_split = .2, batch_size = 1, num_workers = 1, epochs = 10):
         self.has_cuda = torch.cuda.is_available()
 
         self.model_path = Path(model_path)
@@ -53,7 +53,7 @@ class ManualTrain:
         for epoch in range(self.epochs):
             self.model.train()
             start = time.process_time()
-            for image, (steering, throttle), _, _ in train_loader:
+            for image, (steering, throttle) in train_loader:
                 if self.has_cuda:
                     image, steering, throttle = image.cuda(), steering.cuda(), throttle.cuda()
 
@@ -70,7 +70,7 @@ class ManualTrain:
             with torch.no_grad():
                 self.model.eval()
                 val_loss = torch.tensor(0.0)
-                for image, (steering, throttle), _, _ in val_loader:
+                for image, (steering, throttle) in val_loader:
                     if self.has_cuda:
                         image, steering, throttle = image.cuda(), steering.cuda(), throttle.cuda()
 
