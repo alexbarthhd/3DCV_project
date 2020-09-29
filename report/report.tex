@@ -63,7 +63,7 @@ The goal of this approach is to let the car drive autonomously on the track with
 Therefore the approach can be roughly divided into two subtasks, the image processing with OpenCV and the driving.
 OpenCV is an open library for computer vision and machine learning of which the first part is used.
 
-\subsection{Driving}
+\subsection{Driving}\label{subsec:driving}
 
 Once again the driving task can be divided into the following two subtasks, steering and throttle.
 The Raspberry is mounted on the vehicle together with a servo and an Arduino PCA9685 controller.
@@ -125,7 +125,7 @@ flashvars={source=steering.mp4
 
 \section{Donkeycar Autopilot}
 
-Although we decided against using the donkeycar library \textbf{•TODO:} (forgot why), we did experiment with it in an OpenAI gym environment called gym-donkeycar, which simulates a car that a donkeycar application can run on.
+Although we decided against using the donkeycar library in its entirety for the reasons stated in subsection \ref{subsec:driving}, we did experiment with it in an OpenAI gym environment called gym-donkeycar, which simulates a car that a donkeycar application can run on.
 
 Donkeycar 2.5.8 comes with the ability to collect data and train a neural network built-in.
 
