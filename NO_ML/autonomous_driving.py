@@ -109,8 +109,8 @@ def main():
             frame, frame_lines, roi_frame, left_lane, right_lane = video.get_frame()
             direction = get_desired_direction(left_lane, right_lane, 352, 288)
 
-            #steeringangle = get_steeringangle(direction)
-            #steeringangle = stabilize_steeringangle(steeringangle,
+            steeringangle = get_steeringangle(direction)
+            steeringangle = stabilize_steeringangle(steeringangle,
             #                                        last_steeringangle, 5)
             #steering(steeringangle, pwm)
             #last_steeringangle = steeringangle
@@ -125,9 +125,9 @@ def main():
             frame_direction = np.copy(frame)
 
             # model call
-            steeringangle, _ = model(frame)
-            steeringangle = steeringangle.squeeze().item()
-            steering(steeringangle, pwm)
+            model_steeringangle, _ = model(frame)
+            model_steeringangle = model_steeringangle.squeeze().item()
+            steering(model_steeringangle, pwm)
 
             cv2.line(frame_direction, (x1, y1), (x2, y2), (0, 255, 255), 3)
             cv2.putText(frame_direction, f"steeringangle: {steeringangle}", (20, 20),
