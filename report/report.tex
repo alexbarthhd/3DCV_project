@@ -78,7 +78,7 @@ Every time the calibrate function is executed a new donkeycar instance is initia
 Therefore our driving function writes directly to the controller without the donkeycar instance.
 Nevertheless the donkeycar calibrate function is helpful for getting the PWM values at which the steering is full left, straight and full right.
 Using the other channel the same procedure can be used to get the PWM values for full throttle, zero and full throttle backwards.
-\ref{tab:pwmval} shows the different PWM values observed while using the calibrate function.
+Table \ref{tab:pwmval} shows the different PWM values observed while using the calibrate function.
 
 \begin{table}[!t]
 	\renewcommand{\arraystretch}{1.3}
@@ -98,7 +98,7 @@ Using the other channel the same procedure can be used to get the PWM values for
 \end{table}
 
 By using the boundary values each with the null value a respective linear equation can be set up.
-\begin{description}[\IEEEsetlabelwidth{Full throttle}]
+\begin{description}[\IEEEsetlabelwidth{Backwards}]
 \setlength\itemsep{.25em}
 \item[Left] $ pulse\_length = -4.4 * angle + 380 $
 \item[Right] $ pulse\_length = -3.6 * angle + 380 $
@@ -115,38 +115,73 @@ Input values to the motor control function are percentages of the acceleration r
 \subsection{Lane Detection}
 
 Second subtask for driving autonomously is to detect the track lanes.
+The result is shown in Figure \ref{fig:lanedet}.
+Figure \ref{sub:frame} shows the input frame which is processed by the python script.
+A ROI (region of interest) is extracted from the input frame.
+The stencil is the filled version of the ROI frame.
+In Figure \ref{sub:frame} the colors are used as follows:
+\begin{description}[\IEEEsetlabelwidth{Yellow}]
+	\setlength\itemsep{.25em}
+	\item[Green] Left lane arrays.
+	\item[Red] Mean value of the left lane arrays.
+	\item[Blue] Right lane arrays.
+	\item[Pink] Mean value of the right lane arrays.
+	\item[Yellow] Direction where to go. The lower point is located at the center of the image edge. The upper point is the center between the distant points of both lanes. This is only the case while both lanes are detected. Is only one lane detected the upper point of the yellow line is at the endpoint of the edge moved by a quarter of the picture width. This is estimated the half of the track width
+\end{description}
 
-\begin{figure*}
+\begin{figure*}[t]
 	\centering
 	\begin{subfigure}[c]{0.24\textwidth}
-		
 		\centerline{\includegraphics[height=3cm]{media/lane_frame}}
 		\subcaption{Lane frame.}
-		
-	\end{subfigure}
-	\begin{subfigure}[c]{0.24\textwidth}
-		
-		\centerline{\includegraphics[height=3cm]{media/stencil}}
-		\subcaption{Stencil.}
-		
+		\label{sub:lane}
 	\end{subfigure}
 	\begin{subfigure}[c]{0.24\textwidth}
 		\centerline{\includegraphics[height=3cm]{media/roi_frame}}
 		\subcaption{ROI frame.}
+		\label{sub:roi}
+	\end{subfigure}
+	\begin{subfigure}[c]{0.24\textwidth}
+		\centerline{\includegraphics[height=3cm]{media/stencil}}
+		\subcaption{Stencil.}
+		\label{sub:stencil}
 	\end{subfigure}
 	\begin{subfigure}[c]{0.24\textwidth}
 		\centerline{\includegraphics[height=3cm]{media/frame}}
 		\subcaption{Frame.}
+		\label{sub:frame}
 	\end{subfigure}
 	\caption{Lane detection.}
 	\label{fig:lanedet}
 \end{figure*}
 
+This is done by using the Hough line transformation \cite{Hough1962}.
+Normally edge detection is part of the algorithm.
+In other words the edge image is crucial as input.
+In our case an edge detection algorithm like Canny is redundant.
+This is first because of the simplicity of our input frames.
+Second the ROI frame which is inputted into the Hough line transformation is inverted because the ROI frame is black on white while most edge detection outputs are white on black.
+By inverting it the resulting input to the transformation is close to edge images.
+The other input parameters for the python HoughLinesP function are theta, threshold, minLineLength and maxLaneGap.
+\begin{description}[\IEEEsetlabelwidth{minLineLength}]
+	\setlength\itemsep{.25em}
+	\item[minLineLength] The minimum line length is needed so that only the track edges are detected and processed as lanes. If the value is too low the edge of the right front wheel is detected which can be clearly seen in Figure \ref{sub:lane} and \ref{sub:roi}. 
+	\item[maxLineGap] This describes the distance between the endpoints of both lanes at the picture center and is estimated.
+\end{description}
+
+Descripe HL
+
+HL works column-rise, lt to rb -> splitted
+
+Decorator, Dataclass, sugaring
+
 \subsection{Autonomous Driving}
 
 Both subtasks merged together result in autonomous driving.
+Video \ref{vid:autodrive} shows a short extract from driving.
+The video also contains the steering angle values which are also indicated by the yellow direction line as shown in Figure \ref{sub:frame}.
 
-\begin{video}[!t]
+\begin{video}[t]
 	\includemedia[
 	width=0.9\linewidth,
 	height=0.5\linewidth,
@@ -166,6 +201,14 @@ Both subtasks merged together result in autonomous driving.
 	\caption{Steering angle while driving.}
 	\label{vid:autodrive}
 \end{video}
+
+\subsection{Benefit}
+
+It may be unclear what the benefit from an approach without machine learning might be.
+Therefore this will now be clarified.
+The approach is completely detached from donkeycar.
+Steering and motor are controlled directly through the Arduino PCA controller.
+Also the code is from scratch in latest versions 
 
 \section{Donkeycar Autopilot}
 
@@ -259,7 +302,7 @@ Dense, 2 outputs
 
 \subsection{Results}
 
-We recorded 5 laps worth of footage on the track ``donkey-generated-track-v0'' and trained five models on the data. The model types used were: 3D, Categorical, Latent, Linear, and RNN. Behaviour, IMU, and Localizer couldn't be used due to technical constraints of the gym-environment. We let the model drive the car for 50 laps and measured the distance travelled by the model driver if the car veered off track before completing the 50 laps. The 3D model type was the only one incapable of following the track. Recommended models are Linear for a smooth driving experience and Categorical if speed is more important than smoothness.
+We recorded five laps worth of footage, i.e., images and associated steering angles and throttle values, on the track ``donkey-generated-track-v0'' and trained five models on the data. The model types used were: 3D, Categorical, Latent, Linear, and RNN. Behaviour, IMU, and Localizer couldn't be used due to technical constraints of the gym-environment. We let the model drive the car for 50 laps and measured the distance travelled by the model driver if the car veered off track before completing the 50 laps. The 3D model type was the only one incapable of following the track. Recommended models are Linear for a smooth driving experience and Categorical if speed is more important than smoothness.
 
 \begin{table}[!t]
 \renewcommand{\arraystretch}{1.3}
@@ -382,11 +425,33 @@ move to best fitting (sub-)section
 	\caption{Dataset.}
 	\label{vid:dataset}
 \end{video}
-\section*{References}
+
+\begin{video}[!t]
+	\includemedia[
+	width=0.9\linewidth,
+	height=0.5\linewidth,
+	addresource=media/model.mp4,
+	transparent, %transparent player background
+	deactivate=onclick,
+	activate=onclick,
+	flashvars={source=media/model.mp4
+		&hideBar=false
+		&autoplay=true
+		&loop=true % loop video
+		&controlBarMode=floating
+		&controlBarAutoHide=false
+		&scaleMode=letterbox % preserve aspect ratio while scaling the video
+	}
+	]{}{VPlayer.swf}
+	\caption{Model driving in simulation.}
+	\label{vid:model}
+\end{video}
 
 \begin{thebibliography}{00}
 	
 \bibitem{Abadi2016} M. Abadi et al. ``Tensorflow: Large-scale machine learning on heterogeneous distributed systems,'' arXiv preprint, 2016.
+\bibitem{Hough1962} P. Hough. ``Method and means for recognizing complex patterns'', United States Patent Office, 3069654, 1962
+\bibitem{Leavers1992} V. Leavers. ``Shape Detection in Computer Vision Using Hough Transform'', Springer, London, UK, 1992
 \bibitem{Ross2011} S. Ross et al. ``A Reduction of Imitation Learning and Structured Prediction to No-Regret Online Learning'', Proceedings of the Fourteenth International Conference on Artificial Intelligence and Statistics, {AISTATS} 2011, Fort Lauderdale, USA, April 11-13, 2011
 \end{thebibliography}
 
