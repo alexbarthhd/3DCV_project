@@ -21,7 +21,7 @@ from torch.utils.data.sampler import SubsetRandomSampler
 from torchvision import transforms
 
 class ManualTrain:
-    def __init__(self, width, height, channels, model_path = 'm_dagger.h5', data_path = 'data', validation_split = .2, batch_size = 1, num_workers = 1, epochs = 10):
+    def __init__(self, width, height, channels, model_path = 'm_dagger.h5', data_path = 'data', validation_split = .2, batch_size = 1, num_workers = 1, epochs = 100):
         self.has_cuda = torch.cuda.is_available()
 
         self.model_path = Path(model_path)
@@ -111,5 +111,5 @@ class ManualTrain:
         torch.save(self.model.state_dict(), str(self.model_path))
 
 if __name__ == '__main__':
-    mt = ManualTrain(50, 160, 3)
+    mt = ManualTrain(288, 352, 3)
     mt.train_model()

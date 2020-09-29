@@ -7,7 +7,7 @@ class DriveDataset(Dataset):
     def __init__(self, root_dir, transform=None):
         self.records = []
         for tub in root_dir.glob('tub*'):
-            self.records += list((root_dir/tub).iterdir())
+            self.records += list(tub.iterdir())
         self.transform = transform
     
     def __len__(self):
@@ -27,4 +27,3 @@ class DriveDataset(Dataset):
 
         throttle = torch.tensor(18.5).unsqueeze(-1)
         return img, (steering, throttle)
-
