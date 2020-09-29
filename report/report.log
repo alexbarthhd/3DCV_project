@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.7) (preloaded format=pdflatex 2020.9.28)  29 SEP 2020 12:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.7) (preloaded format=pdflatex 2020.9.28)  29 SEP 2020 16:54
 entering extended mode
 **./report.tex
 (report.tex
@@ -728,39 +728,38 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 <media/lane_frame.jpg, id=4, 192.72pt x 157.7895pt>
 File: media/lane_frame.jpg Graphic file (type jpg)
 <use media/lane_frame.jpg>
-Package pdftex.def Info: media/lane_frame.jpg  used on input line 123.
+Package pdftex.def Info: media/lane_frame.jpg  used on input line 126.
 (pdftex.def)             Requested size: 104.2525pt x 85.35826pt.
-<media/stencil.png, id=5, 353.32pt x 289.08pt>
-File: media/stencil.png Graphic file (type png)
-<use media/stencil.png>
-Package pdftex.def Info: media/stencil.png  used on input line 129.
-(pdftex.def)             Requested size: 104.32553pt x 85.35826pt.
-<media/roi_frame.png, id=6, 353.32pt x 289.08pt>
+<media/roi_frame.png, id=5, 353.32pt x 289.08pt>
 File: media/roi_frame.png Graphic file (type png)
 <use media/roi_frame.png>
-Package pdftex.def Info: media/roi_frame.png  used on input line 134.
+Package pdftex.def Info: media/roi_frame.png  used on input line 131.
+(pdftex.def)             Requested size: 104.32553pt x 85.35826pt.
+<media/stencil.png, id=6, 353.32pt x 289.08pt>
+File: media/stencil.png Graphic file (type png)
+<use media/stencil.png>
+Package pdftex.def Info: media/stencil.png  used on input line 136.
 (pdftex.def)             Requested size: 104.32553pt x 85.35826pt.
 <media/frame.png, id=7, 353.32pt x 289.08pt>
 File: media/frame.png Graphic file (type png)
 <use media/frame.png>
-Package pdftex.def Info: media/frame.png  used on input line 138.
+Package pdftex.def Info: media/frame.png  used on input line 141.
 (pdftex.def)             Requested size: 104.32553pt x 85.35826pt.
-<<VPlayer.swf>><<media/steering.mp4>> [1{C:/Users/alexb/AppData/Local/MiKTeX/pd
-ftex/config/pdftex.map}
+ [1{C:/Users/alexb/AppData/Local/MiKTeX/pdftex/config/pdftex.map}
 
 
-]
+]<<VPlayer.swf>><<media/steering.mp4>>
 LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
-75.
+91.
 
 (C:\Users\alexb\AppData\Roaming\MiKTeX\tex/latex/psnfss\ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-)
+) [2]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [2 <./media/lane_frame.jpg> <./media/stencil.png (PNG copy)> <./media/roi_fram
-e.png (PNG copy)> <./media/frame.png (PNG copy)>]<<media/dataset_ctrl.mp4>> [3]
-<<media/dataset.mp4>>
+ [3 <./media/lane_frame.jpg> <./media/roi_frame.png (PNG copy)> <./media/stenci
+l.png (PNG copy)> <./media/frame.png (PNG copy)>]<<media/dataset_ctrl.mp4>><<me
+dia/dataset.mp4>><<media/model.mp4>>
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -772,30 +771,28 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[4
-
-] (report.aux) ) 
+[4] (report.aux) ) 
 Here is how much of TeX's memory you used:
- 19155 strings out of 481171
- 403819 string characters out of 2914264
- 609008 words of memory out of 3000000
- 34447 multiletter control sequences out of 15000+200000
+ 19170 strings out of 481171
+ 404070 string characters out of 2914264
+ 607705 words of memory out of 3000000
+ 34462 multiletter control sequences out of 15000+200000
  574095 words of font info for 110 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  61i,9n,60p,590b,671s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Program Files/MiKTeX/fonts/enc/dvips/base/8r.enc}<C:/Progra
-m Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKT
-eX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX/fonts/typ
-e1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX/fonts/type1/public/ams
-fonts/cm/cmr10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7
-.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Pro
-gram Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files/Mi
-KTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/
-times/utmbi8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:
-/Program Files/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (4 pages, 1909615 bytes).
+{C:/Program Files/MiKTeX/fonts/enc/dvips/base/8r.enc}<C:/Prog
+ram Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/Mi
+KTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX/fonts/t
+ype1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX/fonts/type1/public/a
+msfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cm
+r7.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/P
+rogram Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files/
+MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/ur
+w/times/utmbi8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><
+C:/Program Files/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
+Output written on report.pdf (4 pages, 9898572 bytes).
 PDF statistics:
- 118 PDF objects out of 1000 (max. 8388607)
+ 130 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 191 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 231 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -78,7 +78,7 @@ Every time the calibrate function is executed a new donkeycar instance is initia
 Therefore our driving function writes directly to the controller without the donkeycar instance.
 Nevertheless the donkeycar calibrate function is helpful for getting the PWM values at which the steering is full left, straight and full right.
 Using the other channel the same procedure can be used to get the PWM values for full throttle, zero and full throttle backwards.
-\ref{tab:pwmval} shows the different PWM values observed while using the calibrate function.
+Table \ref{tab:pwmval} shows the different PWM values observed while using the calibrate function.
 
 \begin{table}[!t]
 	\renewcommand{\arraystretch}{1.3}
@@ -115,38 +115,54 @@ Input values to the motor control function are percentages of the acceleration r
 \subsection{Lane Detection}
 
 Second subtask for driving autonomously is to detect the track lanes.
+The result is shown in Figure \ref{fig:lanedet}.
+Figure \ref{sub:frame} shows the input frame which is processed by the python script.
+A ROI (region of interest) is extracted from the input frame.
+The stencil is the filled version of the ROI frame.
 
-\begin{figure*}
+\begin{figure*}[t]
 	\centering
 	\begin{subfigure}[c]{0.24\textwidth}
-		
 		\centerline{\includegraphics[height=3cm]{media/lane_frame}}
 		\subcaption{Lane frame.}
-		
-	\end{subfigure}
-	\begin{subfigure}[c]{0.24\textwidth}
-		
-		\centerline{\includegraphics[height=3cm]{media/stencil}}
-		\subcaption{Stencil.}
-		
+		\label{sub:lane}
 	\end{subfigure}
 	\begin{subfigure}[c]{0.24\textwidth}
 		\centerline{\includegraphics[height=3cm]{media/roi_frame}}
 		\subcaption{ROI frame.}
+		\label{sub:roi}
+	\end{subfigure}
+	\begin{subfigure}[c]{0.24\textwidth}
+		\centerline{\includegraphics[height=3cm]{media/stencil}}
+		\subcaption{Stencil.}
+		\label{sub:stencil}
 	\end{subfigure}
 	\begin{subfigure}[c]{0.24\textwidth}
 		\centerline{\includegraphics[height=3cm]{media/frame}}
 		\subcaption{Frame.}
+		\label{sub:frame}
 	\end{subfigure}
 	\caption{Lane detection.}
 	\label{fig:lanedet}
 \end{figure*}
 
+This is done by using the Hough line transformation \cite{Hough1962}.
+
+Edge detection Canny
+modify roi
+HLP Parameter, threshold, maxLineGap: Abstand zwischen Endpunkten Fahrbahn Bildmitte, minLL: hoch genug, um Rad (RU) nicht als Kante zu erkennen
+HL works column-rise, lt to rb -> splitted
+
+rot, pink: Mittelwerte, grün, blau: alle Arrays
+gelb: direction (where to go), lower: mid, upper: mitte der strecke beider Endpunkte, wenn 1 Linie: Endpunkt der Kante + 1/4 Bildbreite (da ~ 1/2 Streckenbreite)
+
+Dekorator, Dataclass, sugaring
+
 \subsection{Autonomous Driving}
 
 Both subtasks merged together result in autonomous driving.
 
-\begin{video}[!t]
+\begin{video}[t]
 	\includemedia[
 	width=0.9\linewidth,
 	height=0.5\linewidth,
@@ -366,11 +382,33 @@ move to best fitting (sub-)section
 	\caption{Dataset.}
 	\label{vid:dataset}
 \end{video}
-\section*{References}
+
+\begin{video}[!t]
+	\includemedia[
+	width=0.9\linewidth,
+	height=0.5\linewidth,
+	addresource=media/model.mp4,
+	transparent, %transparent player background
+	deactivate=onclick,
+	activate=onclick,
+	flashvars={source=media/model.mp4
+		&hideBar=false
+		&autoplay=true
+		&loop=true % loop video
+		&controlBarMode=floating
+		&controlBarAutoHide=false
+		&scaleMode=letterbox % preserve aspect ratio while scaling the video
+	}
+	]{}{VPlayer.swf}
+	\caption{Model driving in simulation.}
+	\label{vid:model}
+\end{video}
 
 \begin{thebibliography}{00}
 	
 \bibitem{Abadi2016} M. Abadi et al. ``Tensorflow: Large-scale machine learning on heterogeneous distributed systems,'' arXiv preprint, 2016.
+\bibitem{Hough1962} P. Hough. ``Method and means for recognizing complex patterns'', United States Patent Office, 3069654, 1962
+\bibitem{Leavers1992} V. Leavers. ``Shape Detection in Computer Vision Using Hough Transform'', Springer, London, UK, 1992
 \bibitem{Ross2011} S. Ross et al. ``A Reduction of Imitation Learning and Structured Prediction to No-Regret Online Learning'', Proceedings of the Fourteenth International Conference on Artificial Intelligence and Statistics, {AISTATS} 2011, Fort Lauderdale, USA, April 11-13, 2011
 \end{thebibliography}
 
