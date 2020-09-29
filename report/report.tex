@@ -98,7 +98,7 @@ Table \ref{tab:pwmval} shows the different PWM values observed while using the c
 \end{table}
 
 By using the boundary values each with the null value a respective linear equation can be set up.
-\begin{description}[\IEEEsetlabelwidth{Full throttle}]
+\begin{description}[\IEEEsetlabelwidth{Backwards}]
 \setlength\itemsep{.25em}
 \item[Left] $ pulse\_length = -4.4 * angle + 380 $
 \item[Right] $ pulse\_length = -3.6 * angle + 380 $
@@ -119,6 +119,15 @@ The result is shown in Figure \ref{fig:lanedet}.
 Figure \ref{sub:frame} shows the input frame which is processed by the python script.
 A ROI (region of interest) is extracted from the input frame.
 The stencil is the filled version of the ROI frame.
+In Figure \ref{sub:frame} the colors are used as follows:
+\begin{description}[\IEEEsetlabelwidth{Yellow}]
+	\setlength\itemsep{.25em}
+	\item[Green] Left lane arrays.
+	\item[Red] Mean value of the left lane arrays.
+	\item[Blue] Right lane arrays.
+	\item[Pink] Mean value of the right lane arrays.
+	\item[Yellow] Direction where to go. The lower point is located at the center of the image edge. The upper point is the center between the distant points of both lanes. This is only the case while both lanes are detected. Is only one lane detected the upper point of the yellow line is at the endpoint of the edge moved by a quarter of the picture width. This is estimated the half of the track width
+\end{description}
 
 \begin{figure*}[t]
 	\centering
@@ -147,20 +156,30 @@ The stencil is the filled version of the ROI frame.
 \end{figure*}
 
 This is done by using the Hough line transformation \cite{Hough1962}.
+Normally edge detection is part of the algorithm.
+In other words the edge image is crucial as input.
+In our case an edge detection algorithm like Canny is redundant.
+This is first because of the simplicity of our input frames.
+Second the ROI frame which is inputted into the Hough line transformation is inverted because the ROI frame is black on white while most edge detection outputs are white on black.
+By inverting it the resulting input to the transformation is close to edge images.
+The other input parameters for the python HoughLinesP function are theta, threshold, minLineLength and maxLaneGap.
+\begin{description}[\IEEEsetlabelwidth{minLineLength}]
+	\setlength\itemsep{.25em}
+	\item[minLineLength] The minimum line length is needed so that only the track edges are detected and processed as lanes. If the value is too low the edge of the right front wheel is detected which can be clearly seen in Figure \ref{sub:lane} and \ref{sub:roi}. 
+	\item[maxLineGap] This describes the distance between the endpoints of both lanes at the picture center and is estimated.
+\end{description}
 
-Edge detection Canny
-modify roi
-HLP Parameter, threshold, maxLineGap: Abstand zwischen Endpunkten Fahrbahn Bildmitte, minLL: hoch genug, um Rad (RU) nicht als Kante zu erkennen
+Descripe HL
+
 HL works column-rise, lt to rb -> splitted
 
-rot, pink: Mittelwerte, grün, blau: alle Arrays
-gelb: direction (where to go), lower: mid, upper: mitte der strecke beider Endpunkte, wenn 1 Linie: Endpunkt der Kante + 1/4 Bildbreite (da ~ 1/2 Streckenbreite)
-
-Dekorator, Dataclass, sugaring
+Decorator, Dataclass, sugaring
 
 \subsection{Autonomous Driving}
 
 Both subtasks merged together result in autonomous driving.
+Video \ref{vid:autodrive} shows a short extract from driving.
+The video also contains the steering angle values which are also indicated by the yellow direction line as shown in Figure \ref{sub:frame}.
 
 \begin{video}[t]
 	\includemedia[
@@ -183,8 +202,13 @@ Both subtasks merged together result in autonomous driving.
 	\label{vid:autodrive}
 \end{video}
 
+\subsection{Benefit}
 
-
+It may be unclear what the benefit from an approach without machine learning might be.
+Therefore this will now be clarified.
+The approach is completely detached from donkeycar.
+Steering and motor are controlled directly through the Arduino PCA controller.
+Also the code is from scratch in latest versions 
 
 \section{Donkeycar Autopilot}
 

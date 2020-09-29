@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.7) (preloaded format=pdflatex 2020.9.28)  29 SEP 2020 16:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.7) (preloaded format=pdflatex 2020.9.28)  29 SEP 2020 17:57
 entering extended mode
 **./report.tex
 (report.tex
@@ -724,38 +724,38 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 18.
 
 ("C:\Program Files\MiKTeX\tex/latex/amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-<media/lane_frame.jpg, id=4, 192.72pt x 157.7895pt>
+) [1{C:/Users/alexb/AppData/Local/MiKTeX/pdftex/config/pdftex.map}
+
+
+]
+<media/lane_frame.jpg, id=16, 192.72pt x 157.7895pt>
 File: media/lane_frame.jpg Graphic file (type jpg)
 <use media/lane_frame.jpg>
-Package pdftex.def Info: media/lane_frame.jpg  used on input line 126.
+Package pdftex.def Info: media/lane_frame.jpg  used on input line 135.
 (pdftex.def)             Requested size: 104.2525pt x 85.35826pt.
-<media/roi_frame.png, id=5, 353.32pt x 289.08pt>
+<media/roi_frame.png, id=17, 353.32pt x 289.08pt>
 File: media/roi_frame.png Graphic file (type png)
 <use media/roi_frame.png>
-Package pdftex.def Info: media/roi_frame.png  used on input line 131.
+Package pdftex.def Info: media/roi_frame.png  used on input line 140.
 (pdftex.def)             Requested size: 104.32553pt x 85.35826pt.
-<media/stencil.png, id=6, 353.32pt x 289.08pt>
+<media/stencil.png, id=18, 353.32pt x 289.08pt>
 File: media/stencil.png Graphic file (type png)
 <use media/stencil.png>
-Package pdftex.def Info: media/stencil.png  used on input line 136.
+Package pdftex.def Info: media/stencil.png  used on input line 145.
 (pdftex.def)             Requested size: 104.32553pt x 85.35826pt.
-<media/frame.png, id=7, 353.32pt x 289.08pt>
+<media/frame.png, id=19, 353.32pt x 289.08pt>
 File: media/frame.png Graphic file (type png)
 <use media/frame.png>
-Package pdftex.def Info: media/frame.png  used on input line 141.
+Package pdftex.def Info: media/frame.png  used on input line 150.
 (pdftex.def)             Requested size: 104.32553pt x 85.35826pt.
- [1{C:/Users/alexb/AppData/Local/MiKTeX/pdftex/config/pdftex.map}
-
-
-]<<VPlayer.swf>><<media/steering.mp4>>
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
-91.
+<<VPlayer.swf>><<media/steering.mp4>>
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 2
+15.
 
 (C:\Users\alexb\AppData\Roaming\MiKTeX\tex/latex/psnfss\ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 ) [2]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 1454) has occurred while \output is active []
 
  [3 <./media/lane_frame.jpg> <./media/roi_frame.png (PNG copy)> <./media/stenci
 l.png (PNG copy)> <./media/frame.png (PNG copy)>]<<media/dataset_ctrl.mp4>><<me
@@ -775,7 +775,7 @@ Before submitting the final camera ready copy, remember to:
 Here is how much of TeX's memory you used:
  19170 strings out of 481171
  404070 string characters out of 2914264
- 607705 words of memory out of 3000000
+ 610775 words of memory out of 3000000
  34462 multiletter control sequences out of 15000+200000
  574095 words of font info for 110 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -790,7 +790,7 @@ rogram Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files/
 MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/ur
 w/times/utmbi8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><
 C:/Program Files/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (4 pages, 9898572 bytes).
+Output written on report.pdf (4 pages, 9900376 bytes).
 PDF statistics:
  130 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
