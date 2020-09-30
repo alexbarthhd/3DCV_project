@@ -1,0 +1,19 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{turtle\PYGZus{}mode}\PYG{p}{():}
+ \PYG{k}{try}\PYG{p}{:}
+  \PYG{n}{pwm} \PYG{o}{=} \PYG{n}{config\PYGZus{}pwm}\PYG{p}{(}\PYG{n}{hz}\PYG{o}{=}\PYG{l+m+mi}{60}\PYG{p}{)}
+  \PYG{n}{lane\PYGZus{}detection\PYGZus{}proc} \PYG{o}{=} \PYG{n}{multiprocessing}\PYG{o}{.}\PYG{n}{Process}\PYG{p}{(}\PYG{n}{target}\PYG{o}{=}\PYG{n}{main}\PYG{p}{,} \PYG{n}{args}\PYG{o}{=}\PYG{p}{())}
+  \PYG{n}{lane\PYGZus{}detection\PYGZus{}proc}\PYG{o}{.}\PYG{n}{start}\PYG{p}{()}
+  \PYG{n}{time}\PYG{o}{.}\PYG{n}{sleep}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{)}
+  \PYG{n}{motor\PYGZus{}proc} \PYG{o}{=} \PYG{n}{multiprocessing}\PYG{o}{.}\PYG{n}{Process}\PYG{p}{(}\PYG{n}{target}\PYG{o}{=}\PYG{n}{go\PYGZus{}slow\PYGZus{}multistep}\PYG{p}{,} \PYG{n}{args}\PYG{o}{=}\PYG{p}{(}\PYG{n}{pwm}\PYG{p}{,} \PYG{l+m+mi}{22}\PYG{p}{,} \PYG{l+m+mf}{0.15}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,))}
+  \PYG{n}{motor\PYGZus{}proc}\PYG{o}{.}\PYG{n}{start}\PYG{p}{()}
+ \PYG{k}{except} \PYG{n+ne}{KeyboardInterrupt}\PYG{p}{:}
+  \PYG{n}{lane\PYGZus{}detection\PYGZus{}proc}\PYG{o}{.}\PYG{n}{terminate}\PYG{p}{()}
+  \PYG{n}{lane\PYGZus{}detection\PYGZus{}proc}\PYG{o}{.}\PYG{n}{join}\PYG{p}{()}
+
+  \PYG{n}{motor\PYGZus{}proc}\PYG{o}{.}\PYG{n}{terminate}\PYG{p}{()}
+  \PYG{n}{motor\PYGZus{}proc}\PYG{o}{.}\PYG{n}{join}\PYG{p}{()}
+
+  \PYG{n}{motor\PYGZus{}ctrl}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{pwm}\PYG{p}{)}
+  \PYG{n}{steering}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{pwm}\PYG{p}{)}
+\end{Verbatim}

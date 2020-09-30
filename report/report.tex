@@ -11,10 +11,14 @@
 \usepackage{float}
 \usepackage{media9}
 \usepackage{subcaption}
+\usepackage{minted}
 \newfloat{video}{!t}{ext}
 \floatname{video}{Video}
+\newfloat{mylist}{!t}{ext}
+\floatname{mylist}{Listing}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
 \begin{document}
 
 \title{Self driving toy car\\
@@ -204,6 +208,7 @@ Video \ref{vid:autodrive} shows a short extract from driving.
 	]{}{VPlayer.swf}
 	\caption{Direction and steering angle while driving.}
 	\label{vid:autodrive}
+	\centering
 \end{video}
 
 The video also contains the steering angle values which are also indicated by the yellow direction line as shown in Figure \ref{sub:frame}.
@@ -234,6 +239,7 @@ While steering left the direction aims a few times to the right lane because as 
 	]{}{VPlayer.swf}
 	\caption{Dataset with control values.}
 	\label{vid:datacrtl}
+	\centering
 \end{video}
 
 Video \ref{vid:uturn} shows the car driving a turn from external view.
@@ -257,9 +263,41 @@ Video \ref{vid:uturn} shows the car driving a turn from external view.
 	]{}{VPlayer.swf}
 	\caption{Driving a turn from external view.}
 	\label{vid:uturn}
+	\centering
 \end{video}
 
-\textbf{•TODO:} {discuss}
+The overall benefit from this approach will be discussed in the next subsection.
+As seen in the videos own tracks were used for testing which is a result of the pandemic situation and the distribution of all team members.
+Some other problems result from the hardware built into the car.
+The occasionally has a red color cast which sometimes disappears.
+Controlling the throttle through the Arduino controller did not always affect the output to the wheels.
+The wheel speed was very high and did not correlate to the linear equations put into the driving functions script.
+Below 18\% the vehicle did not drive at all, above the speed was too high.
+Therefore a turtle driving mode was created and is shown in Listing \ref{lst:turtle}.
+
+\begin{mylist}[h]
+\begin{minted}[breaklines,linenos,fontsize=\footnotesize,breaksymbolindent=0pt]{python}
+def turtle_mode():
+ try:
+  pwm = config_pwm(hz=60)
+  lane_detection_proc = multiprocessing.Process(target=main, args=())
+  lane_detection_proc.start()
+  time.sleep(1)
+  motor_proc = multiprocessing.Process(target=go_slow_multistep, args=(pwm, 22, 0.15, 2,))
+  motor_proc.start()
+ except KeyboardInterrupt:
+  lane_detection_proc.terminate()
+  lane_detection_proc.join()
+
+  motor_proc.terminate()
+  motor_proc.join()
+
+  motor_ctrl(0, pwm)
+  steering(0, pwm)
+\end{minted}
+\caption{Turtle mode function for driving.}
+\label{lst:turtle}
+\end{mylist}
 
 \subsection{Benefit}
 
