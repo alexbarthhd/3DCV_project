@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 
+from functools import wraps
 from dataclasses import dataclass, field
 
 
@@ -29,54 +30,65 @@ def get_laneangle(lane):
     return np.degrees(angle)
 
 
-def lane_detection(func):
+def lane_detection(roi_shape="square"):
     ''' decorator to detect lanes in video frame '''
-    def func_wrapper(*args, **kwargs):
-        frame = func(*args, **kwargs)
-        lines, left_lane, right_lane = np.array([]), np.array([]), np.array([])
+    def inner_decorator(func):
+        @wraps(func)
+        def func_wrapper(*args, **kwargs):
+            frame = func(*args, **kwargs)
+            left_lane, right_lane = np.array([]), np.array([])
 
-        # TODO: detect ROI
-        white = np.ones((288, 352, 1), dtype=np.uint8) * 255
-        roi = np.array([[0, 288], [0, 230], [88, 130], [264, 130], [352, 230],
-                        [352, 288]])
+            # TODO: detect ROI
+            white = np.ones((288, 352, 1), dtype=np.uint8) * 255
 
-        stencil = cv2.fillConvexPoly(white, roi, 0)
+            if roi_shape == "square":
+                roi = np.array([[0, frame.shape[0]//2], [frame.shape[1],
+                                frame.shape[0]//2], [frame.shape[1],
+                                frame.shape[0]], [0, frame.shape[0]]])
+            else:
+                roi = np.array([[0, 288], [0, 230], [88, 130], [264, 130],
+                                [352, 230], [352, 288]])
 
-        # TODO: to grayscale and tresholding
-        frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        frame_binary = cv2.threshold(frame_gray, 80, 255, cv2.THRESH_BINARY)[1]
-        roi_frame = cv2.add(frame_binary, stencil)
+            stencil = cv2.fillConvexPoly(white, roi, 0)
 
-        # TODO: Hough line transformation
-        lines = cv2.HoughLinesP(cv2.bitwise_not(roi_frame), 1, np.pi/180, 30,
-                                minLineLength=80, maxLineGap=50)
+            # TODO: to grayscale and tresholding
+            frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            frame_binary = cv2.threshold(frame_gray, 80, 255, cv2.THRESH_BINARY)[1]
+            roi_frame = cv2.add(frame_binary, stencil)
 
-        # get lanes
-        if lines.size != 0:
-            left_lines, right_lines = split_left_right(lines, 352, 288)
-            frame_lines = np.copy(frame)
+            # TODO: Hough line transformation
+            lines = cv2.HoughLinesP(cv2.bitwise_not(roi_frame), 1, theta=np.pi/180,
+                                    threshold=30, minLineLength=80, maxLineGap=50)
 
-            if left_lines.size != 0:
-                for line in left_lines:
-                    x1, y1, x2, y2 = line[0]
-                    cv2.line(frame_lines, (x1, y1), (x2, y2), (0, 255, 0), 3)
+            # get lanes
+            # if-clause b/c cv2.HoughLineP(...) returns None if nothing is detected
+            if str(type(lines)) == "<class 'numpy.ndarray'>":
+                left_lines, right_lines = split_left_right(lines, 352, 288)
+                frame_lines = np.copy(frame)
 
-                left_lane = np.mean(left_lines, axis=0, dtype=np.int32)
-                x1, y1, x2, y2 = left_lane[0]
-                cv2.line(frame_lines, (x1, y1), (x2, y2), (0, 0, 255), 6)
+                if left_lines.size != 0:
+                    for line in left_lines:
+                        x1, y1, x2, y2 = line[0]
+                        cv2.line(frame_lines, (x1, y1), (x2, y2), (0, 255, 0), 3)
 
-            if right_lines.size != 0:
-                for line in right_lines:
-                    x1, y1, x2, y2 = line[0]
-                    cv2.line(frame_lines, (x1, y1), (x2, y2), (255, 0, 0), 3)
+                    left_lane = np.mean(left_lines, axis=0, dtype=np.int32)
+                    x1, y1, x2, y2 = left_lane[0]
+                    cv2.line(frame_lines, (x1, y1), (x2, y2), (0, 0, 255), 6)
 
-                right_lane = np.mean(right_lines, axis=0, dtype=np.int32)
-                x1, y1, x2, y2 = right_lane[0]
-                cv2.line(frame_lines, (x1, y1), (x2, y2), (0, 0, 255), 6)
+                if right_lines.size != 0:
+                    for line in right_lines:
+                        x1, y1, x2, y2 = line[0]
+                        cv2.line(frame_lines, (x1, y1), (x2, y2), (255, 0, 0), 3)
 
-        return frame, frame_lines, roi_frame, left_lane, right_lane
+                    right_lane = np.mean(right_lines, axis=0, dtype=np.int32)
+                    x1, y1, x2, y2 = right_lane[0]
+                    cv2.line(frame_lines, (x1, y1), (x2, y2), (0, 0, 255), 6)
 
-    return func_wrapper
+            return frame, frame_lines, roi_frame, left_lane, right_lane
+
+        return func_wrapper
+
+    return inner_decorator
 
 
 @dataclass
@@ -95,7 +107,7 @@ class Video:
         self.cap.set(3, self.width)
         self.cap.set(4, self.height)
 
-    @lane_detection
+    @lane_detection("square")
     def get_frame(self):
         ret, frame = self.cap.read()
         if ret:
