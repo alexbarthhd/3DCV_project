@@ -67,7 +67,7 @@ The goal of this approach is to let the car drive autonomously on the track with
 Therefore the approach can be roughly divided into two subtasks, the image processing with OpenCV and the driving.
 OpenCV is an open library for computer vision and machine learning of which the first part is used.
 
-\subsection{Driving}
+\subsection{Driving} \label{ssec:drive}
 
 Once again the driving task can be divided into the following two subtasks, steering and throttle.
 The Raspberry is mounted on the vehicle together with a servo and an Arduino PCA9685 controller.
@@ -112,7 +112,7 @@ Using steering angles is easier for the human because they do not need to be abs
 Similiar way is used for the motor control.
 Input values to the motor control function are percentages of the acceleration reaching from \numrange{-100}{100} which are again converted into PWM signals.
 
-\subsection{Lane Detection}
+\subsection{Lane Detection} \label{ssec:lanedet}
 
 Second subtask for driving autonomously is to detect the track lanes.
 The result is shown in Figure \ref{fig:lanedet}.
@@ -169,19 +169,22 @@ The other input parameters for the python HoughLinesP function are theta, thresh
 	\item[maxLineGap] This describes the distance between the endpoints of both lanes at the picture center and is estimated.
 \end{description}
 
-Descripe HL
+The P function ending indicates that the probabilistic Hough line transform is applied instead of the standard version.
+It is a more efficient implementation which has a different output, the extremes of the detected lines.
+Instead of only the function it is helpful to understand how the Hough line transform works.
 
-HL works column-rise, lt to rb -> splitted
+\textbf{•TODO:} {explain}
 
-Decorator, Dataclass, sugaring
+Also a helper function was used to distinguish lines marking left and right lanes.
+Since the Hough line transformation algorithm walks column-wise through the image from the left top to the right bottom the helper function splits right and left.
+The left lane is completely detected and finished before the area of the image where the right lane is located is processed by the algorithm.
 
 \subsection{Autonomous Driving}
 
 Both subtasks merged together result in autonomous driving.
 Video \ref{vid:autodrive} shows a short extract from driving.
-The video also contains the steering angle values which are also indicated by the yellow direction line as shown in Figure \ref{sub:frame}.
 
-\begin{video}[t]
+\begin{video}[h]
 	\includemedia[
 	width=0.9\linewidth,
 	height=0.5\linewidth,
@@ -198,9 +201,40 @@ The video also contains the steering angle values which are also indicated by th
 		&scaleMode=letterbox % preserve aspect ratio while scaling the video
 	}
 	]{}{VPlayer.swf}
-	\caption{Steering angle while driving.}
+	\caption{Direction and steering angle while driving.}
 	\label{vid:autodrive}
 \end{video}
+
+The video also contains the steering angle values which are also indicated by the yellow direction line as shown in Figure \ref{sub:frame}.
+The autonomous driving script contains the helper function to calculate the direction which was already explained in Section \ref{ssec:lanedet}.
+If no lane is detected the direction for steering is straight ahead.
+Another helper function calculates the steering angle from the desired direction which can be used afterwards as the input for the steering command described in Section \ref{ssec:drive}.
+To minimize the error rate of the steering angle a helper function stabilizes the angle by comparing it to the previous calculated values.
+This is useful since the direction differs a lot if only one lane is detected correctly.
+Video \ref{vid:datacrtl} contains some of these errors.
+While steering left the direction aims a few times to the right lane because as explained before the direction is pointing towards the endpoint of the edge moved by a quarter of the picture width while the left lane is not detected correctly.
+
+\begin{video}[h]
+	\includemedia[
+	width=0.9\linewidth,
+	height=0.5\linewidth,
+	addresource=media/dataset_ctrl.mp4,
+	transparent, %transparent player background
+	deactivate=onclick,
+	activate=onclick,
+	flashvars={source=media/dataset_ctrl.mp4
+		&hideBar=false
+		&autoplay=true
+		&loop=true % loop video
+		&controlBarMode=floating
+		&controlBarAutoHide=false
+		&scaleMode=letterbox % preserve aspect ratio while scaling the video
+	}
+	]{}{VPlayer.swf}
+	\caption{Dataset with control values.}
+	\label{vid:datacrtl}
+\end{video}
+
 
 \subsection{Benefit}
 
@@ -208,7 +242,13 @@ It may be unclear what the benefit from an approach without machine learning mig
 Therefore this will now be clarified.
 The approach is completely detached from donkeycar.
 Steering and motor are controlled directly through the Arduino PCA controller.
-Also the code is from scratch in latest versions 
+Also the code is from scratch in latest versions.
+This is a great benefit for future work with the car in a teaching environment.
+Process thinking regarding driving is detached from donkeycar and also machine learning approaches in future work can be done completely without it what marks a difference to our machine learning approaches.
+Also it clarifies which components are built in the car.
+This might be unclear since receiving an already built car pushes to box thinking without being aware of the connection between parts or the presence and function of the Arduino controller.
+
+\textbf{•TODO:} (Decorator, Dataclass, "`sugaring"')
 
 \section{Donkeycar Autopilot}
 
@@ -364,27 +404,6 @@ iteration&distance travelled\\
 \section{Placeholder}
 
 move to best fitting (sub-)section
-
-\begin{video}[!t]
-	\includemedia[
-	width=0.9\linewidth,
-	height=0.5\linewidth,
-	addresource=media/dataset_ctrl.mp4,
-	transparent, %transparent player background
-	deactivate=onclick,
-	activate=onclick,
-	flashvars={source=media/dataset_ctrl.mp4
-		&hideBar=false
-		&autoplay=true
-		&loop=true % loop video
-		&controlBarMode=floating
-		&controlBarAutoHide=false
-		&scaleMode=letterbox % preserve aspect ratio while scaling the video
-	}
-	]{}{VPlayer.swf}
-	\caption{Dataset with control values.}
-	\label{vid:datacrtl}
-\end{video}
 
 \begin{video}[!t]
 	\includemedia[
