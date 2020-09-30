@@ -7,7 +7,7 @@ from driving_functions import config_pwm, steering, motor_ctrl, go_slow_multiste
 from lane_detection import Video, get_laneangle
 
 from data_writer import DataWriter
-from drive_model import DriveModel
+from dagger.drive_model import DriveModel
 
 import torch
 
