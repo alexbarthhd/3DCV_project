@@ -92,7 +92,7 @@ def stabilize_steeringangle(steeringangle, last_steeringangle, max_deviation):
     return steeringangle
 
 
-def main(generate_dataset=False, stabilize=False):
+def main(gen_dataset=False, stabilize=False):
     pwm = config_pwm(hz=60)
     video = Video(0, 352, 288)
     last_steeringangle = 0
@@ -115,7 +115,7 @@ def main(generate_dataset=False, stabilize=False):
 
             steering(steeringangle, pwm)
 
-            if generate_dataset:
+            if gen_dataset:
                 white = np.ones((288, 352, 1), dtype=np.uint8) * 255
                 roi = np.array([[0, 288], [0, 230], [88, 130], [264, 130],
                                 [352, 230], [352, 288]])
@@ -146,30 +146,6 @@ def main(generate_dataset=False, stabilize=False):
     finally:
         motor_ctrl(0, pwm)
         steering(0, pwm)
-
-
-def turtle_mode_old():
-    pwm = config_pwm(hz=60)
-
-    try:
-        lane_detection_proc = multiprocessing.Process(target=main, args=())
-        lane_detection_proc.start()
-        time.sleep(1)
-        motor_proc = multiprocessing.Process(target=go_slow_multistep,
-                                             args=(pwm, 22, 0.15, 2,))
-        motor_proc.start()
-    except KeyboardInterrupt:
-        lane_detection_proc.terminate()
-        lane_detection_proc.join()
-
-        motor_proc.terminate()
-        motor_proc.join()
-
-        motor_ctrl(0, pwm)
-        steering(0, pwm)
-
-    motor_ctrl(0, pwm)
-    steering(0, pwm)
 
 
 def turtle_wrapper(func, max_acc=22, steps=2, stabilize=False, gen_dataset=False):
