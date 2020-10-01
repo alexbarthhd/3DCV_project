@@ -190,7 +190,7 @@ def turtle_wrapper(func, max_acc=22, steps=2, stabilize=False, gen_dataset=False
     return func_wrapper
 
 
-turtle_mode = turtle_wrapper(main)
+turtle_mode = turtle_wrapper(main, max_acc=26)
 
 
 if __name__ == "__main__":
