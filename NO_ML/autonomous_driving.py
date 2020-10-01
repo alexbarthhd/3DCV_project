@@ -172,7 +172,7 @@ def turtle_mode_old():
     steering(0, pwm)
 
 
-def turtle_wrapper(func, max_acc=22, steps=2, stabilze=False, gen_dataset=False):
+def turtle_wrapper(func, max_acc=22, steps=2, stabilize=False, gen_dataset=False):
     ''' wrapper for main() which slows down the car by switching the motor on
         and off in a seperate daemon-thread '''
     def func_wrapper(*args, **kwargs):
