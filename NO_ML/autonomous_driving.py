@@ -155,7 +155,7 @@ def turtle_mode(max_acc=22, steps=2, generate_dataset=False, stabilize=False):
     pwm = config_pwm(hz=60)
 
     try:
-        lane_detection_proc = multiprocessing.Process(target=main, 
+        lane_detection_proc = multiprocessing.Process(target=main,
                                                       args=(generate_dataset,
                                                             stabilize,))
         lane_detection_proc.start()
@@ -163,9 +163,28 @@ def turtle_mode(max_acc=22, steps=2, generate_dataset=False, stabilize=False):
         motor_proc = multiprocessing.Process(target=go_slow_multistep,
                                              args=(pwm, max_acc, 0.15, steps,))
         motor_proc.start()
-    except Exception as e:
-        print(e)
+    except KeyboardInterrupt:
+        print("Stop turtle_mode!")
     finally:
+        lane_detection_proc.terminate()
+        lane_detection_proc.join()
+
+        motor_proc.terminate()
+        motor_proc.join()
+
+        motor_ctrl(0, pwm)
+        steering(0, pwm)
+
+
+def turtle_mode_old():
+    try:
+        lane_detection_proc = multiprocessing.Process(target=main, args=())
+        lane_detection_proc.start()
+        time.sleep(1)
+        motor_proc = multiprocessing.Process(target=go_slow_multistep,
+                                             args=(pwm, 22, 0.15, 2,))
+        motor_proc.start()
+    except KeyboardInterrupt:
         lane_detection_proc.terminate()
         lane_detection_proc.join()
 
