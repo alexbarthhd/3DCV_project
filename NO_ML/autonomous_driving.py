@@ -190,10 +190,10 @@ def turtle_wrapper(func, max_acc=22, steps=2, stabilize=False, gen_dataset=False
     return func_wrapper
 
 
-turtle_mode = turtle_wrapper(main, max_acc=26)
+turtle_mode = turtle_wrapper(main, max_acc=30)
 
 
 if __name__ == "__main__":
     steering_warmup()
-    #main()
+    main()
     turtle_mode()
