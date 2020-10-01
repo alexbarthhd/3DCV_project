@@ -1,6 +1,7 @@
 import cv2
 import time
 import numpy as np
+import threading
 import multiprocessing
 
 from driving_functions import config_pwm, steering, motor_ctrl, go_slow_multistep
@@ -91,14 +92,12 @@ def stabilize_steeringangle(steeringangle, last_steeringangle, max_deviation):
     return steeringangle
 
 
-def main(generate_dataset=False, stabilize=True):
+def main(generate_dataset=False, stabilize=False):
     pwm = config_pwm(hz=60)
     video = Video(0, 352, 288)
     last_steeringangle = 0
 
-    # init motor
-    motor_ctrl(0, pwm)
-    time.sleep(1)
+    # start motor
     motor_ctrl(18.5, pwm)
 
     try:
@@ -149,32 +148,6 @@ def main(generate_dataset=False, stabilize=True):
         steering(0, pwm)
 
 
-def turtle_mode(max_acc=22, steps=2, generate_dataset=False, stabilize=False):
-    ''' wrapper for main() which slows down the car by switching the motor on
-        and off in a seperate process '''
-    pwm = config_pwm(hz=60)
-
-    try:
-        lane_detection_proc = multiprocessing.Process(target=main,
-                                                      args=(generate_dataset,
-                                                            stabilize,))
-        lane_detection_proc.start()
-        time.sleep(1)
-        motor_proc = multiprocessing.Process(target=go_slow_multistep,
-                                             args=(pwm, max_acc, 0.15, steps,))
-        motor_proc.start()
-    except KeyboardInterrupt:
-        print("Stop turtle_mode!")
-        lane_detection_proc.terminate()
-        lane_detection_proc.join()
-
-        motor_proc.terminate()
-        motor_proc.join()
-
-        motor_ctrl(0, pwm)
-        steering(0, pwm)
-
-
 def turtle_mode_old():
     pwm = config_pwm(hz=60)
 
@@ -199,6 +172,28 @@ def turtle_mode_old():
     steering(0, pwm)
 
 
+def turtle_wrapper(func, max_acc=22, steps=2, stabilze=False, gen_dataset=False):
+    ''' wrapper for main() which slows down the car by switching the motor on
+        and off in a seperate daemon-thread '''
+    def func_wrapper(*args, **kwargs):
+        pwm = config_pwm(hz=60)
+        motor_thread = threading.Thread(target=go_slow_multistep,
+                                        args=(pwm, max_acc, 0.15, steps,),
+                                        daemon=True)
+        motor_thread.start()
+        base_func = func(gen_dataset, stabilize)
+
+        # restore base-config
+        motor_ctrl(0, pwm)
+        steering(0, pwm)
+
+    return func_wrapper
+
+
+turtle_mode = turtle_wrapper(main)
+
+
 if __name__ == "__main__":
     steering_warmup()
-    main()
+    #main()
+    turtle_mode()
