@@ -91,7 +91,7 @@ def stabilize_steeringangle(steeringangle, last_steeringangle, max_deviation):
     return steeringangle
 
 
-def main(generate_dataset=False, stabilize=False):
+def main(generate_dataset=False, stabilize=True):
     pwm = config_pwm(hz=60)
     video = Video(0, 352, 288)
     last_steeringangle = 0
