@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.7) (preloaded format=pdflatex 2020.9.30)  30 SEP 2020 23:17
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.7) (preloaded format=pdflatex 2020.9.30)  1 OCT 2020 21:59
 entering extended mode
 **./report.tex
 (report.tex
@@ -885,18 +885,15 @@ File: media/frame.png Graphic file (type png)
 <use media/frame.png>
 Package pdftex.def Info: media/frame.png  used on input line 155.
 (pdftex.def)             Requested size: 104.32553pt x 85.35826pt.
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
-81.
-
-(C:\Users\alexb\AppData\Roaming\MiKTeX\tex/latex/psnfss\ts1ptm.fd
-File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-)<<VPlayer.swf>><<media/steering.mp4>>
+<<VPlayer.swf>><<media/steering.mp4>>
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<<media/dataset_ctrl.mp4>><<media/uturn.mp4>> [2]
-\openout3 = `report.pyg'.
+<<media/dataset_ctrl.mp4>><<media/uturn.mp4>>
 
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+\openout3 = `report.pyg'.
 
 (_minted-report/default-pyg-prefix.pygstyle) (_minted-report/default.pygstyle)
 (_minted-report/5A03114A67A08F30DBBB1371A411A4F27C2E7F49E087B8E8E8DF5244CE287E3
@@ -906,9 +903,16 @@ LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 1
  (C:\Users\alexb\AppData\Roaming\MiKTeX\tex/latex/psnfss\ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 ))
-[3 <./media/lane_frame.jpg> <./media/roi_frame.png (PNG copy)> <./media/stencil
-.png (PNG copy)> <./media/frame.png (PNG copy)>] [4]<<media/dataset.mp4>><<medi
-a/model.mp4>>
+[2]
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 3
+17.
+ (C:\Users\alexb\AppData\Roaming\MiKTeX\tex/latex/psnfss\ts1ptm.fd
+File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+) [3 <./media/lane_frame.jpg> <./media/roi_frame.png (PNG copy)> <./media/stenc
+il.png (PNG copy)> <./media/frame.png (PNG copy)>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [4]<<media/dataset.mp4>><<media/model.mp4>>
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -925,10 +929,10 @@ runsystem(del report.pyg)...executed.
 
  ) 
 Here is how much of TeX's memory you used:
- 22543 strings out of 481171
- 472363 string characters out of 2914264
- 725399 words of memory out of 3000000
- 37743 multiletter control sequences out of 15000+200000
+ 22544 strings out of 481171
+ 472374 string characters out of 2914264
+ 728608 words of memory out of 3000000
+ 37744 multiletter control sequences out of 15000+200000
  576419 words of font info for 116 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  61i,11n,60p,848b,677s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -945,7 +949,7 @@ fonts/cm/cmsy7.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/courier/ucrb8a.pfb>
 iKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw
 /times/utmbi8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C
 :/Program Files/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (5 pages, 22111870 bytes).
+Output written on report.pdf (5 pages, 22116239 bytes).
 PDF statistics:
  162 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
