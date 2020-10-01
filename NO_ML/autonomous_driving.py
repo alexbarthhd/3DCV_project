@@ -86,7 +86,7 @@ def stabilize_steeringangle(steeringangle, last_steeringangle, max_deviation):
 
 
 def main(gen_dataset=False, stabilize=False, acc=18.5):
-    ''' drives the car with contant speed ~ acc, can be used to generate dataset
+    ''' drives the car with contant speed ~ acc, can be used to generate datasets
         labels are steeringangles and stored as last part of the img-names '''
     pwm = config_pwm(hz=60)
     video = Video(0, 352, 288)
