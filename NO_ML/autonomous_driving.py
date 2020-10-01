@@ -2,27 +2,20 @@ import cv2
 import time
 import numpy as np
 import threading
-import multiprocessing
 
 from driving_functions import config_pwm, steering, motor_ctrl, go_slow_multistep
 from lane_detection import Video, get_laneangle
 
 
 def steering_warmup():
+    ''' turn right-left-center '''
     pwm = config_pwm(hz=60)
-    # max right:
+
     steering(25, pwm)
-    time.sleep(3)
+    time.sleep(2)
+    steering(-25, pwm)
+    time.sleep(2)
     steering(0, pwm)
-
-
-def motor_test():
-    pwm = config_pwm(hz=60)
-
-    motor_ctrl(10, pwm)
-    time.sleep(3)
-
-    pass
 
 
 def get_desired_direction(left_lane, right_lane, frame_width, frame_height):
@@ -149,7 +142,7 @@ def main(gen_dataset=False, stabilize=False):
 
 
 def turtle_wrapper(func, max_acc=22, steps=2, stabilize=False, gen_dataset=False):
-    ''' wrapper for main() which slows down the car by switching the motor on
+    ''' wrapper for main() that slows down the car by switching the motor on
         and off in a seperate daemon-thread '''
     def func_wrapper(*args, **kwargs):
         pwm = config_pwm(hz=60)
