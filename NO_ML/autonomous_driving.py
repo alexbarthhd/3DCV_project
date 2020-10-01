@@ -165,7 +165,6 @@ def turtle_mode(max_acc=22, steps=2, generate_dataset=False, stabilize=False):
         motor_proc.start()
     except KeyboardInterrupt:
         print("Stop turtle_mode!")
-    finally:
         lane_detection_proc.terminate()
         lane_detection_proc.join()
 
@@ -195,9 +194,9 @@ def turtle_mode_old():
 
         motor_ctrl(0, pwm)
         steering(0, pwm)
-    finally:
-        motor_ctrl(0, pwm)
-        steering(0, pwm)
+
+    motor_ctrl(0, pwm)
+    steering(0, pwm)
 
 
 if __name__ == "__main__":
