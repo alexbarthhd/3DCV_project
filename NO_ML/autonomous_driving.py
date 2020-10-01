@@ -149,16 +149,21 @@ def main(generate_dataset=False, stabilize=False):
         steering(0, pwm)
 
 
-def turtle_mode():
+def turtle_mode(max_acc=22, steps=2):
+    ''' wrapper for main() which slows down the car by switching the motor on
+        and off in a seperate process '''
+    pwm = config_pwm(hz=60)
+
     try:
-        pwm = config_pwm(hz=60)
         lane_detection_proc = multiprocessing.Process(target=main, args=())
         lane_detection_proc.start()
         time.sleep(1)
         motor_proc = multiprocessing.Process(target=go_slow_multistep,
-                                             args=(pwm, 22, 0.15, 2,))
+                                             args=(pwm, max_acc, 0.15, steps,))
         motor_proc.start()
-    except KeyboardInterrupt:
+    except Exception as e:
+        print(e)
+    finally:
         lane_detection_proc.terminate()
         lane_detection_proc.join()
 
