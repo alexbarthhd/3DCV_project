@@ -195,6 +195,9 @@ def turtle_mode_old():
 
         motor_ctrl(0, pwm)
         steering(0, pwm)
+    finally:
+        motor_ctrl(0, pwm)
+        steering(0, pwm)
 
 
 if __name__ == "__main__":
