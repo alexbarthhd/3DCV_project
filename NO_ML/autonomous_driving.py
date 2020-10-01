@@ -177,6 +177,8 @@ def turtle_mode(max_acc=22, steps=2, generate_dataset=False, stabilize=False):
 
 
 def turtle_mode_old():
+    pwm = config_pwm(hz=60)
+
     try:
         lane_detection_proc = multiprocessing.Process(target=main, args=())
         lane_detection_proc.start()
