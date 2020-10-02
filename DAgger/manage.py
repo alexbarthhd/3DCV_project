@@ -27,7 +27,7 @@ import donkeycar as dk
 #import parts
 from donkeycar.parts.transform import Lambda, TriggeredCallback, DelayedTrigger
 from donkeycar.parts.datastore import TubHandler
-from custom_controller import LocalWebController, \
+from custom.controller import LocalWebController, \
     JoystickController, WebFpv
 from donkeycar.parts.throttle_filter import ThrottleFilter
 from donkeycar.parts.behavior import BehaviorPart
@@ -35,10 +35,6 @@ from donkeycar.parts.file_watcher import FileWatcher
 from donkeycar.parts.launch import AiLaunch
 from donkeycar.utils import *
 
-# MODIFIED: imports for my code
-from custom_model import TubDataset, CustomModelWrapper, CustomModel, load_model, train
-from torch.utils.data import DataLoader
-from torchvision import transforms
 
 def drive(cfg, model_path=None, use_joystick=False, model_type=None, camera_type='single', meta=[]):
     '''
@@ -112,7 +108,7 @@ def drive(cfg, model_path=None, use_joystick=False, model_type=None, camera_type
         threaded = True
         if cfg.DONKEY_GYM:
             # MODIFIED: use custom simulator cam instead of provided simulator cam
-            from custom_camera import CustomDonkeyGymEnv 
+            from custom.camera import CustomDonkeyGymEnv 
             cam = CustomDonkeyGymEnv(cfg.DONKEY_SIM_PATH, host=cfg.SIM_HOST, env_name=cfg.DONKEY_GYM_ENV_NAME, conf=cfg.GYM_CONF, delay=cfg.SIM_ARTIFICIAL_LATENCY)
             threaded = True
             inputs = ['angle', 'throttle']
@@ -377,25 +373,6 @@ def drive(cfg, model_path=None, use_joystick=False, model_type=None, camera_type
         except Exception as e:
             print(e)
             print("ERR>> problems loading model json", json_fnm)
-
-    if model_path and False:
-        # MODIFIED: use custom model for the drive loop
-        kl = CustomModelWrapper()
-        kl.load(model_path)
-
-        model_reload_cb = None
-
-        V.add(DelayedTrigger(100), inputs=['modelfile/dirty'], outputs=['modelfile/reload'], run_condition="ai_running")
-        V.add(TriggeredCallback(model_path, model_reload_cb), inputs=["modelfile/reload"], run_condition="ai_running")
-
-        outputs=['pilot/angle', 'pilot/throttle']
-
-        if cfg.TRAIN_LOCALIZER:
-            outputs.append("pilot/loc")
-
-        V.add(kl, inputs=inputs,
-            outputs=outputs,
-            run_condition='run_pilot')
     
     if cfg.STOP_SIGN_DETECTOR:
         from donkeycar.parts.object_detector.stop_sign_detector import StopSignDetector

@@ -18,4 +18,4 @@ class CustomDonkeyGymEnv(DonkeyGymEnv):
     def update(self):        
         while self.running:
             self.frame, _, _, self.info = self.env.step(self.action)
-            self.frame = self.frame[50:,:,:]
+            #self.frame = self.frame[50:,:,:]

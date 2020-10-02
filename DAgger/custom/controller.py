@@ -10,8 +10,8 @@ import logging
 from prettytable import PrettyTable
 
 #import for syntactical ease
-from custom_web import LocalWebController
-from custom_web import WebFpv
+from custom.web import LocalWebController
+from custom.web import WebFpv
 
 class Joystick(object):
     '''

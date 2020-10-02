@@ -39,6 +39,12 @@ def load_model(model_name, model, inferrence = False):
     saved_model = [m for m in all_models if model_name in str(m)]
     if len(saved_model) == 0: # no saved models
         return 0
+    elif model_name == 'dagger':
+        if inferrence:
+            model.load_state_dict(torch.load(f'models/{model_name}.h5', map_location=torch.device('cpu')))
+        else:
+            model.load_state_dict(torch.load(f'models/{model_name}.h5'))
+        return 0
     else:
         under_split = str(saved_model[0].stem).split('_')
         dot_split = under_split[-1].split('.')
@@ -85,7 +91,7 @@ class CustomModel(nn.Module):
             nn.BatchNorm2d(64),
             nn.ReLU(inplace=True),
             nn.Flatten(),
-            nn.Linear(1664, 100),
+            nn.Linear(6656, 100),
             nn.ReLU(inplace=True),
             nn.Linear(100, 50),
             nn.ReLU(inplace=True),
