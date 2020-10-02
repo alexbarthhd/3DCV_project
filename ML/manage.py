@@ -110,9 +110,8 @@ def drive(cfg, model_path=None, use_joystick=False, model_type=None, camera_type
         inputs = []
         threaded = True
         if cfg.DONKEY_GYM:
-            # MODIFIED: use custom simulator cam instead of provided simulator cam
-            from custom_camera import CustomDonkeyGymEnv 
-            cam = CustomDonkeyGymEnv(cfg.DONKEY_SIM_PATH, host=cfg.SIM_HOST, env_name=cfg.DONKEY_GYM_ENV_NAME, conf=cfg.GYM_CONF, delay=cfg.SIM_ARTIFICIAL_LATENCY)
+            from donkeycar.parts.dgym import DonkeyGymEnv 
+            cam = DonkeyGymEnv(cfg.DONKEY_SIM_PATH, host=cfg.SIM_HOST, env_name=cfg.DONKEY_GYM_ENV_NAME, conf=cfg.GYM_CONF, delay=cfg.SIM_ARTIFICIAL_LATENCY)
             threaded = True
             inputs = ['angle', 'throttle']
         elif cfg.CAMERA_TYPE == "PICAM":

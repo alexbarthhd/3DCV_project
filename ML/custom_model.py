@@ -33,28 +33,6 @@ class TubDataset(Dataset):
         return img, (steering, throttle)
 
 
-def load_model(model_name, model, inferrence = False):
-    model_path = Path('models')
-    all_models = list(model_path.iterdir())
-    saved_model = [m for m in all_models if model_name in str(m)]
-    if len(saved_model) == 0: # no saved models
-        return 0
-    elif model_name == 'dagger':
-        if inferrence:
-            model.load_state_dict(torch.load(f'models/{model_name}.h5', map_location=torch.device('cpu')))
-        else:
-            model.load_state_dict(torch.load(f'models/{model_name}.h5'))
-        return 0
-    else:
-        under_split = str(saved_model[0].stem).split('_')
-        dot_split = under_split[-1].split('.')
-        epoch = int(dot_split[0])
-        if inferrence:
-            model.load_state_dict(torch.load(f'models/{model_name}_{epoch}.h5', map_location=torch.device('cpu')))
-        else:
-            model.load_state_dict(torch.load(f'models/{model_name}_{epoch}.h5'))
-        return epoch + 1
-
 class CustomModelWrapper: # class that conforms to the donkeycar drive loop
     def __init__(self):
         self.model = CustomModel()
@@ -103,6 +81,29 @@ class CustomModel(nn.Module):
     def forward(self, x):
         x  = self.model(x)
         return self.steering(x), self.throttle(x)
+
+
+def load_model(model_name, model, inferrence = False):
+    model_path = Path('models')
+    all_models = list(model_path.iterdir())
+    saved_model = [m for m in all_models if model_name in str(m)]
+    if len(saved_model) == 0: # no saved models
+        return 0
+    elif model_name == 'dagger':
+        if inferrence:
+            model.load_state_dict(torch.load(f'models/{model_name}.h5', map_location=torch.device('cpu')))
+        else:
+            model.load_state_dict(torch.load(f'models/{model_name}.h5'))
+        return 0
+    else:
+        under_split = str(saved_model[0].stem).split('_')
+        dot_split = under_split[-1].split('.')
+        epoch = int(dot_split[0])
+        if inferrence:
+            model.load_state_dict(torch.load(f'models/{model_name}_{epoch}.h5', map_location=torch.device('cpu')))
+        else:
+            model.load_state_dict(torch.load(f'models/{model_name}_{epoch}.h5'))
+        return epoch + 1
 
 def train(model_name, dataloader, epochs = 200):
     f = CustomModel()
