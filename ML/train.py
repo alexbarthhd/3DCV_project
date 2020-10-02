@@ -167,11 +167,11 @@ def collate_records(records, gen_records, opts):
 
 def save_json_and_weights(model, filename):
     '''
-    given a keras model and a .h5 filename, save the model file
-    in the json format and the weights file in the h5 format
+    given a keras model and a .pt filename, save the model file
+    in the json format and the weights file in the pt format
     '''
-    if not '.h5' == filename[-3:]:
-        raise Exception("Model filename should end with .h5")
+    if not '.pt' == filename[-3:]:
+        raise Exception("Model filename should end with .pt")
 
     arch = model.to_json()
     json_fnm = filename[:-2] + "json"
@@ -289,22 +289,22 @@ def train(cfg, tub_names, model_name, transfer_model, model_type, continuous, au
         model_type = cfg.DEFAULT_MODEL_TYPE
 
     if "tflite" in model_type:
-        #even though we are passed the .tflite output file, we train with an intermediate .h5
+        #even though we are passed the .tflite output file, we train with an intermediate .pt
         #output and then convert to final .tflite at the end.
         assert(".tflite" in model_name)
         #we only support the linear model type right now for tflite
         assert("linear" in model_type)
-        model_name = model_name.replace(".tflite", ".h5")
+        model_name = model_name.replace(".tflite", ".pt")
     elif "tensorrt" in model_type:
-        #even though we are passed the .uff output file, we train with an intermediate .h5
+        #even though we are passed the .uff output file, we train with an intermediate .pt
         #output and then convert to final .uff at the end.
         assert(".uff" in model_name)
         #we only support the linear model type right now for tensorrt
         assert("linear" in model_type)
-        model_name = model_name.replace(".uff", ".h5")
+        model_name = model_name.replace(".uff", ".pt")
 
-    if model_name and not '.h5' == model_name[-3:]:
-        raise Exception("Model filename should end with .h5")
+    if model_name and not '.pt' == model_name[-3:]:
+        raise Exception("Model filename should end with .pt")
     
     if continuous:
         print("continuous training")
@@ -630,7 +630,7 @@ def go_train(kl, cfg, train_gen, val_gen, gen_records, model_name, steps_per_epo
     #Save tflite, optionally in the int quant format for Coral TPU
     if "tflite" in cfg.model_type:
         print("\n\n--------- Saving TFLite Model ---------")
-        tflite_fnm = model_path.replace(".h5", ".tflite")
+        tflite_fnm = model_path.replace(".pt", ".tflite")
         assert(".tflite" in tflite_fnm)
 
         prepare_for_coral = "coral" in cfg.model_type
@@ -898,7 +898,7 @@ def prune(model, validation_generator, val_steps, cfg):
 
     model = prune_model(model, apoz_df, n_channels_delete)
 
-    name = '{}/model_pruned_{}_percent.h5'.format(cfg.MODELS_PATH, percent_pruning)
+    name = '{}/model_pruned_{}_percent.pt'.format(cfg.MODELS_PATH, percent_pruning)
 
     model.save(name)
 

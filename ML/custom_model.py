@@ -91,18 +91,18 @@ def load_model(model_name, model, inferrence = False):
         return 0
     elif model_name == 'dagger':
         if inferrence:
-            model.load_state_dict(torch.load(f'models/{model_name}.h5', map_location=torch.device('cpu')))
+            model.load_state_dict(torch.load(f'models/{model_name}.pt', map_location=torch.device('cpu')))
         else:
-            model.load_state_dict(torch.load(f'models/{model_name}.h5'))
+            model.load_state_dict(torch.load(f'models/{model_name}.pt'))
         return 0
     else:
         under_split = str(saved_model[0].stem).split('_')
         dot_split = under_split[-1].split('.')
         epoch = int(dot_split[0])
         if inferrence:
-            model.load_state_dict(torch.load(f'models/{model_name}_{epoch}.h5', map_location=torch.device('cpu')))
+            model.load_state_dict(torch.load(f'models/{model_name}_{epoch}.pt', map_location=torch.device('cpu')))
         else:
-            model.load_state_dict(torch.load(f'models/{model_name}_{epoch}.h5'))
+            model.load_state_dict(torch.load(f'models/{model_name}_{epoch}.pt'))
         return epoch + 1
 
 def train(model_name, dataloader, epochs = 200):
@@ -133,8 +133,8 @@ def train(model_name, dataloader, epochs = 200):
 
         scheduler.step()
         # save after each epoch
-        torch.save(f.state_dict(), f'models/{model_name}_{epoch}.h5')
-        p = Path(f'models/{model_name}_{epoch - 1}.h5')
+        torch.save(f.state_dict(), f'models/{model_name}_{epoch}.pt')
+        p = Path(f'models/{model_name}_{epoch - 1}.pt')
         if p.exists():
             p.unlink()
         print(f'ep{epoch} in {time.process_time() - start:.0f}s.')

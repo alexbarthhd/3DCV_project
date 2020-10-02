@@ -54,5 +54,5 @@ def train(model_name, train_loader, val_loader, epochs = 100):
                 break
 
         # save after each epoch
-        torch.save(f.state_dict(), f'models/{model_name}.h5')
+        torch.save(f.state_dict(), f'models/{model_name}.pt')
         print(f'ep{epoch} in {time.process_time() - start:.0f}s.')

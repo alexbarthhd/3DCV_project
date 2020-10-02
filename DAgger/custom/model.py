@@ -44,13 +44,13 @@ def load_model(model_name, model, inferrence = False):
         return 0
     elif model_name == 'dagger':
         if inferrence:
-            model.load_state_dict(torch.load(f'models/dagger.h5', map_location=torch.device('cpu')))
+            model.load_state_dict(torch.load(f'models/dagger.pt', map_location=torch.device('cpu')))
         else:
-            model.load_state_dict(torch.load(f'models/dagger.h5'))
+            model.load_state_dict(torch.load(f'models/dagger.pt'))
         return 0
     else:
         if inferrence:
-            model.load_state_dict(torch.load(f'models/{model_name}.h5', map_location=torch.device('cpu')))
+            model.load_state_dict(torch.load(f'models/{model_name}.pt', map_location=torch.device('cpu')))
         else:
-            model.load_state_dict(torch.load(f'models/{model_name}.h5'))
+            model.load_state_dict(torch.load(f'models/{model_name}.pt'))
         return 0
