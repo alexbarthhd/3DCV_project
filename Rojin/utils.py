@@ -495,10 +495,14 @@ def get_model_by_type(model_type, cfg):
     elif model_type == "fastai":
         from donkeycar.parts.fastai import FastAiPilot
         kl = FastAiPilot()
-    # Rojins part
-    elif model_type == "rojin":
-        from donkeycar.parts.rojin import RojinModel
-        kl = RojinModel(input_shape=input_shape,roi_crop=roi_crop)
+    # Nvidia's architecture
+    elif model_type == "Nvidia":
+        from donkeycar.parts.nvidia import NvidiaModel
+        kl = NvidiaModel(input_shape=input_shape,roi_crop=roi_crop)
+    # Nvidia improved
+    elif model_type == "NvidiaImproved":
+        from donkeycar.parts.nvidia import NvidiaImprovedModel
+        kl = NvidiaImprovedModel(input_shape=input_shape,roi_crop=roi_crop)
 
     else:
         raise Exception("unknown model type: %s" % model_type)

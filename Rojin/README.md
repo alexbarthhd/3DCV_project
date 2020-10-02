@@ -4,9 +4,9 @@
 1. Start Conda: ```conda activate donkey```
 2. Record Data: ```python manage.py drive```
 3.
-  - Settings: Move myconfig.py to /mysim/
-  - **ModellArchitektur**: Move rojin.py to donkeycar/donkeycar/parts/
-  - utils: Move utils.py to donkeycar/donkeycar/
+  - Move myconfig.py to /mysim/
+  - Move nvidia.py to donkeycar/donkeycar/parts/
+  - Move utils.py to donkeycar/donkeycar/
 
 4. Train a model: ```python /home/mg7/3DCV_project/mysim/manage.py train --tub ./data/slow_and_precise/ --model ./models/slow_and_precise_rojin.h5```
 
@@ -125,5 +125,5 @@ Training completed in 0:19:16.
 - --> sehr schlecht auf andere Strecken
 
 ## Summary:
-Sehr gut auf der lernstrecke funktioniert am besten. **Dense without Dropouts; 16 --> 16 --> MaxPool --> 32 --> 32 --> MaxPool --> 64 --> 64** (Durchlauf 7).
-Was aber sowohl solide Leistung auf der lernstrecke als auch auf andere Strecken ist: **Dense without Dropouts; 16 --> 16 --> MaxPool --> 32 ---> 32 --> MaxPool --> 64** (Durchlauf 6 und 16).
+Sehr gut auf der lernstrecke funktioniert am besten. **Dense without Dropouts; 16 --> 16 --> MaxPool --> 32 --> 32 --> MaxPool --> 64 --> 64** (Durchlauf 7 und 11).
+Was aber sowohl solide Leistung auf der lernstrecke als auch auf der andere Strecken ist: **Dense without Dropouts; 16 --> 16 --> MaxPool --> 32 ---> 32 --> MaxPool --> 64** (Durchlauf 6 und 16).
