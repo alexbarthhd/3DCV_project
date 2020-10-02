@@ -19,3 +19,5 @@ drive with
 ```
 python manage.py drive --model 'name of model'
 ```
+
+Sample models 'track' and 'dagger' are available for usage.
