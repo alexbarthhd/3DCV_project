@@ -4,7 +4,8 @@
 
 - slow_and_precise called our recorded dataset with that we trained our simulator.
 - Legende for our Datasets: *#run number: ModdelSettings | ModellArchitektur*
-
+- All models trained on the same dataset called slow_and_preciset
+- The dataset slow_and_precise and some h5 files were to big for uploaded in GitHub. So here a cloud link for it: https://www.dropbox.com/sh/poaxqblz7nh3ikg/AAB57o1XTzIzMHDo0KcTwBg7a?dl=0
 
 ## Start Donkeycar:
 1. Start Conda: ```conda activate donkey```
