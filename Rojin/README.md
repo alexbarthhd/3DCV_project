@@ -1,5 +1,7 @@
 # Donkey Simulator Notes:
 
+**Rojin.py is our test script with that we tried to find out the best configuration for our Nvidia improved model.**
+
 ## Start Donkeycar:
 1. Start Conda: ```conda activate donkey```
 2. Record Data: ```python manage.py drive```
